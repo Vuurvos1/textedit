@@ -1,5 +1,4 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { preview } from 'vite';
 
 /** @type {import('vite').UserConfig} */
 const config = {

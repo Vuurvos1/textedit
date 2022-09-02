@@ -1,6 +1,7 @@
 <script>
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
 
+	/** @type {import('./$types').PageData} */
 	export let data;
 	let { tags } = data;
 	$: ({ tags } = data); // so it stays in sync when `data` changes
