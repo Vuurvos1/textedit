@@ -4,6 +4,8 @@
 	// import { supabase, signOut, signIn } from '$lib/supabaseClient';
 	// import { user as userStore } from '$lib/stores';
 
+	import '../app.scss';
+
 	// export let data;
 	// export let response;
 

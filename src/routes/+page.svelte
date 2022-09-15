@@ -1,8 +1,9 @@
 <script>
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
+	import Auth from '$lib/Auth.svelte';
 
 	import { supabase, user } from '$lib/supabase';
-	import { onMount } from 'svelte';
+	// import { onMount } from 'svelte';
 
 	// import { goto, invalidate } from '$app/navigation';
 	// import { supabase, signIn, signOut } from '$lib/supabaseClient';
@@ -10,14 +11,6 @@
 
 	// export let data;
 	// export let response;
-
-	// $: ({ user } = data);
-
-	// $: console.log($user);
-
-	// console.log($page);
-
-	// console.log(supabase.auth.user());
 
 	// supabase.auth.onAuthStateChange(async (event, session) => {
 	// 	//console.log(event)
@@ -87,31 +80,27 @@
 	// 		checkUser();
 	// 	});
 	// });
+
+	user.set(supabase.auth.user());
+
+	supabase.auth.onAuthStateChange((event, session) => {
+		console.log('state change', event);
+		user.set(session.user);
+	});
 </script>
 
 <h1>Welcome to textedit</h1>
 
-<!-- <button
-	on:click={() => {
-		signin();
-	}}
->
-	Login
-</button>
+<!-- <textarea name="yee" id="" cols="30" rows="10" />
+<button on:click={postData}>Post data</button> -->
 
-<button
-	on:click={() => {
-		out();
-	}}
->
-	Logout
-</button>
+<Auth />
 
-{#if $user?.email}
-	<h2>Hello, {$user.email}</h2>
-{:else}
-	<h2>Please sign in</h2>
-{/if} -->
+{#if $user}
+	<pre>
+		{JSON.stringify($user, null, 2)}
+	</pre>
+{/if}
 
 <!-- 
 {#if user}
@@ -132,6 +121,9 @@
 		GH login
 	</button>
 {/if}
-
-<textarea name="yee" id="" cols="30" rows="10" />
-<button on:click={postData}>Post data</button> -->
+-->
+<style>
+	h1 {
+		font-family: sans-serif;
+	}
+</style>

@@ -1,12 +1,17 @@
-import { writable } from 'svelte/store';
 import { createClient } from '@supabase/supabase-js';
+import { writable } from 'svelte/store';
 
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+export const supabase = createClient(
+	import.meta.env.VITE_SUPABASE_URL,
+	import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const user = writable(supabase.auth.user());
+// export const session = writable({});
 
-export const user = writable(null);
+supabase.auth.onAuthStateChange((event, session) => {
+	user.set(session?.user ?? null);
+});
 
 export function signIn() {}
 export function singOut() {}

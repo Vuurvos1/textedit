@@ -9,7 +9,7 @@ console.log(process.env.IS_DESKTOP ? 'building static' : 'building Vercel');
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: preprocess(),
+	preprocess: preprocess({ postcss: true }),
 
 	kit: {
 		// Change adapter based on build enviroment

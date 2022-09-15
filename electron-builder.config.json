@@ -1,0 +1,18 @@
+{
+	"appId": "Open Notes",
+	"icon": "static/favicon.png",
+	"productName": "Open Notes",
+	"directories": {
+		"output": "release/${version}"
+	},
+	"files": ["dist"],
+	"win": {},
+	"linux": {},
+	"mac": {},
+	"nsis": {
+		"oneClick": false,
+		"perMachine": false,
+		"allowToChangeInstallationDirectory": true,
+		"deleteAppDataOnUninstall": false
+	}
+}
