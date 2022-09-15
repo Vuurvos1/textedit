@@ -1,10 +1,7 @@
 <script>
-	// import { page } from '$app/stores';
-	import Auth from '$lib/Auth.svelte';
-
 	import { supabase, user } from '$lib/supabase';
+	// import { page } from '$app/stores';
 	// import { onMount } from 'svelte';
-
 	// import { goto, invalidate } from '$app/navigation';
 	// import { supabase, signIn, signOut } from '$lib/supabaseClient';
 	// import { handleSession } from '$lib/session';
@@ -93,14 +90,6 @@
 
 <!-- <textarea name="yee" id="" cols="30" rows="10" />
 <button on:click={postData}>Post data</button> -->
-
-<Auth />
-
-{#if $user}
-	<pre>
-		{JSON.stringify($user, null, 2)}
-	</pre>
-{/if}
 
 <!-- 
 {#if user}

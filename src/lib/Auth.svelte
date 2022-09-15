@@ -29,12 +29,14 @@
 </script>
 
 {#if !$user}
-	<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+	<div class="">
 		<button
 			class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
 			on:click={handleLogin}>Login</button
 		>
 	</div>
 {:else}
-	<button on:click={updateRow}>Test</button>
+	<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" on:click={updateRow}
+		>Test</button
+	>
 {/if}

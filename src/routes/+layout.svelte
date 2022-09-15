@@ -1,10 +1,10 @@
 <script>
+	import Auth from '$lib/Auth.svelte';
+	import '../app.scss';
+
 	// import { goto, invalidate } from '$app/navigation';
 	// import { handleSession } from '$lib/session';
 	// import { supabase, signOut, signIn } from '$lib/supabaseClient';
-	// import { user as userStore } from '$lib/stores';
-
-	import '../app.scss';
 
 	// export let data;
 	// export let response;
@@ -50,11 +50,11 @@
 	// import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 </script>
 
-<nav>
+<!-- <nav>
 	<a href="/login">sign in</a>
 	<a href="/login">sign up</a>
 	<a href="/login">sign out</a>
-</nav>
+</nav> -->
 
 <slot />
 
@@ -79,7 +79,7 @@
 
 <!-- </nav> -->
 <style>
-	nav a {
+	/* nav a {
 		margin-right: 1rem;
-	}
+	} */
 </style>
