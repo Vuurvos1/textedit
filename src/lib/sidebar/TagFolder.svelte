@@ -1,4 +1,6 @@
 <script>
+	import ChevronDown from '$lib/icons/ChevronDown.svelte';
+	import Hash from '$lib/icons/Hash.svelte';
 	import Tag from './Tag.svelte';
 
 	export let expanded = true;
@@ -14,12 +16,22 @@
 	}
 </script>
 
-<span class:expanded on:click={toggle}># {name}</span>
+<span
+	class:expanded
+	class="flex flex-row items-center pl-4 font-bold cursor-pointer"
+	on:click={toggle}
+>
+	<span style={expanded ? 'transform:rotate(90deg)' : ''} class="origin-center"
+		><ChevronDown size="16" /></span
+	>
+	<span><Hash size="14" /></span>
+	<span>{name}</span>
+</span>
 
 {#if expanded}
-	<ul>
+	<ul class="ml-5 border-l border-solid border-slate-100">
 		{#each tags as tag}
-			<li>
+			<li class="py-0.5">
 				{#if tag.tags}
 					<svelte:self {...tag} />
 				{:else}
@@ -30,27 +42,5 @@
 	</ul>
 {/if}
 
-<style>
-	span {
-		padding: 0 0 0 1.5em;
-		/* background: url(/tutorial/icons/folder.svg) 0 0.1em no-repeat; */
-		background-size: 1em 1em;
-		font-weight: bold;
-		cursor: pointer;
-	}
-
-	/* .expanded {
-		// background-image: url(/tutorial/icons/folder-open.svg);
-	} */
-
-	ul {
-		padding: 0.2em 0 0 0.5em;
-		margin: 0 0 0 0.5em;
-		list-style: none;
-		border-left: 1px solid #eee;
-	}
-
-	li {
-		padding: 0.2em 0;
-	}
+<style lang="scss">
 </style>

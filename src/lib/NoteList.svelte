@@ -1,5 +1,4 @@
 <script>
-	// import { onMount } from 'svelte/types/runtime/internal/lifecycle';
 	import NoteItem from './NoteItem.svelte';
 	import { supabase, user } from './supabase';
 	import { note as noteStore, notes } from '$lib/stores';
@@ -17,10 +16,13 @@
 		// fetch users notes
 		const { data, error } = await supabase.from('notes').select();
 		notes.set(data);
+		if (data?.length > 0) {
+			$noteStore = data[0];
+		}
 	}
 </script>
 
-<div class="min-h-[85vh]">
+<div class="min-h-[85vh] h-full">
 	<div>
 		<h3>Notes</h3>
 		<button on:click={addNote}>Add note</button>
@@ -33,11 +35,10 @@
 		{#if $notes.length > 1}
 			<ul>
 				{#each $notes as note}
-					<li>
+					<li class:bg-indigo-700={$noteStore.id === note.id}>
 						<button
 							on:click={() => {
 								$noteStore = note;
-								console.log($noteStore);
 							}}
 						>
 							<NoteItem {note} />

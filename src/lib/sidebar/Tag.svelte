@@ -1,14 +1,18 @@
 <script>
+	import Hash from '$lib/icons/Hash.svelte';
+
 	/** @type {string} */
 	export let name;
+
+	// export let collapsible = false;
 </script>
 
-<span># {name}</span>
+<span class="flex flex-row items-center gap-1 pl-4 hover:bg-indigo-600">
+	<div>
+		<Hash size="14" />
+	</div>
+	<div>{name}</div>
+</span>
 
-<style>
-	span {
-		padding: 0 0 0 1.5em;
-		background: 0 0.1em no-repeat;
-		background-size: 1em 1em;
-	}
+<style lang="scss">
 </style>
