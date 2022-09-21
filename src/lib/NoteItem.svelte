@@ -9,7 +9,7 @@
 	}
 </script>
 
-<div class="text-left border-b border-solid">
+<div class="text-left">
 	<h5 class="font-medium">{note.title}</h5>
 
 	<p class="text-sm">

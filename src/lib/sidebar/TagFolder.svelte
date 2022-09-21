@@ -18,12 +18,12 @@
 
 <span
 	class:expanded
-	class="flex flex-row items-center pl-4 font-bold cursor-pointer"
+	class="flex flex-row items-center pl-4 font-bold cursor-pointer hover:bg-indigo-600"
 	on:click={toggle}
 >
-	<span style={expanded ? 'transform:rotate(90deg)' : ''} class="origin-center"
-		><ChevronDown size="16" /></span
-	>
+	<span style={expanded ? 'transform:rotate(90deg)' : ''} class="origin-center">
+		<ChevronDown size="16" />
+	</span>
 	<span><Hash size="14" /></span>
 	<span>{name}</span>
 </span>

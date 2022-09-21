@@ -24,11 +24,33 @@
 
 <div class="min-h-[85vh] h-full">
 	<div>
-		<h3>Notes</h3>
-		<button on:click={addNote}>Add note</button>
+		<div class="flex justify-between">
+			<h3>Notes</h3>
+			<button on:click={addNote}>Add note</button>
+		</div>
 		<button on:click={getNotes}>Get notes</button>
-		<label for="search">search</label>
-		<input id="search" type="text" />
+
+		<div class="flex border rounded-full">
+			<label for="search">
+				<!-- search -->
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<circle cx="11" cy="11" r="8" />
+					<line x1="21" y1="21" x2="16.65" y2="16.65" />
+				</svg>
+			</label>
+
+			<input id="search" type="text" placeholder="search" class="outline-none" />
+		</div>
 	</div>
 
 	<div>
@@ -37,6 +59,7 @@
 				{#each $notes as note}
 					<li class:bg-indigo-700={$noteStore.id === note.id}>
 						<button
+							class="w-full p-4 border-b border-solid"
 							on:click={() => {
 								$noteStore = note;
 							}}

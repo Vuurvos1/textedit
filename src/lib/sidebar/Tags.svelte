@@ -11,21 +11,30 @@
 	let addingTag = false;
 
 	let tag = '';
+	/** @type {HTMLInputElement} */
 	let tagInput;
 
-	async function addTag() {
-		if (tag === '') {
-			console.log('empty tag');
-			addingTag = false;
-			return;
+	/** @param {KeyboardEvent} ev */
+	function tagKeydown(ev) {
+		if (ev.key === 'Enter') {
+			addTag();
 		}
+	}
 
-		const { data, error } = await supabase.from('tags').insert({
-			user_id: $user?.id,
-			tag: tag
-		});
+	async function addTag() {
+		if (tag !== '') {
+			// submit tag
+			const { data, error } = await supabase.from('tags').insert({
+				user_id: $user?.id,
+				tag: tag
+			});
 
-		console.log(data, error);
+			if (error) {
+				console.error(error);
+			}
+
+			console.log(data);
+		}
 
 		addingTag = false;
 		tag = '';
@@ -47,19 +56,20 @@
 
 	<ul>
 		{#if addingTag}
-			<li class="flex flex-row items-center">
-				<Hash size={16} />
+			<li class="flex flex-row items-center gap-1 px-4">
+				<Hash size={14} />
 				<input
-					id="tag"
 					type="text"
+					name="tag"
+					class="w-full outline-none bg-transparent"
 					bind:this={tagInput}
 					bind:value={tag}
-					on:blur={() => {
-						console.log('blur');
+					on:keydown={tagKeydown}
+					on:focusout={() => {
 						addingTag = false;
 					}}
 				/>
-				<button on:click={addTag}>add +</button>
+				<button on:click={addTag}>+</button>
 			</li>
 		{/if}
 
