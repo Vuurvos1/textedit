@@ -18,6 +18,7 @@
 		<NoteList />
 	</div>
 	<div>
+		<!-- TODO if note is selected -->
 		<Note />
 	</div>
 </div>
