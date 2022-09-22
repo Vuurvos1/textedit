@@ -3,23 +3,16 @@
 	import { note } from '$lib/stores';
 	import { onMount } from 'svelte';
 
-	import 'quilljs-markdown/quilljs-markdown-common-style.scss'; // recommend import css, @option improve common style
-	import 'quill/dist/quill.snow.css'; // recommend import css, @option improve common style
-	import 'easymde/dist/easymde.min.css'; // recommend import css, @option improve common style
-	// import EasyMDE from 'easymde';
-	import { browser } from '$app/environment';
+	// TODO rewrite this stylesheet
+	// import 'easymde/dist/easymde.min.css'; // recommend import css, @option improve common style
+	import '$lib/easymde.css'; // recommend import css, @option improve common style
+
+	// import { browser } from '$app/environment';
 
 	// rename note.text to note.content?
 
-	// {
-	// 		modules: {
-	// 			toolbar: toolbarOptions
-	// 		},
-	// 		theme: 'snow',
-	// 		placeholder: 'Write your story...'
-	// 	}
 	async function saveNote() {
-		console.log($note);
+		$note.text = easymde.value();
 
 		const { data, error } = await supabase
 			.from('notes')
@@ -33,91 +26,32 @@
 		console.log(data, error);
 	}
 
-	// onMount(async () => {
-	// 	console.log(editor);
-
-	// 	// const easymde = new EasyMDE();
-
-	// 	console.log(Quill, QuillMarkdown);
-
-	// 	// easyMDE = new EasyMDE();
-	// 	let quill = new Quill(editor, options);
-
-	// 	const markdownOptions = {
-	// 		// 	/**
-	// 		//  ignoreTags: [ 'pre', 'strikethrough'], // @option - if you need to ignore some tags.
-	// 		//  tags: { // @option if you need to change for trigger pattern for some tags.
-	// 		//   blockquote: {
-	// 		//     pattern: /^(\|){1,6}\s/g,
-	// 		//   },
-	// 		//   bold: {
-	// 		//     pattern:  /^(\|){1,6}\s/g,
-	// 		//   },
-	// 		//   italic: {
-	// 		//     pattern: /(\_){1}(.+?)(?:\1){1}/g,
-	// 		//   },
-	// 		// },
-	// 		// */
-	// 	};
-
-	// 	// // markdown is enabled
-	// 	// const quillMarkdown = new QuillMarkdown(quill, markdownOptions);
-
-	// 	// markdown is now disabled
-	// 	// quillMarkdown.destroy()
-	// });
-
-	let quill = null;
 	/** @type {HTMLElement | undefined} */
 	let editor;
 
+	let easymde;
+
 	note.subscribe((value) => {
-		if (quill) {
-			quill.setText(value.text);
+		if (easymde && value.text) {
+			easymde.value(value.text);
 		}
 	});
 
 	onMount(async () => {
-		const { default: Quill } = await import('quill');
-
-		// quill = new Quill(editor, {
-		// 	modules: {
-		// 		toolbar: [
-		// 			[{ header: [1, 2, 3, false] }],
-		// 			['bold', 'italic', 'underline', 'strike'],
-		// 			['link', 'code-block']
-		// 		]
-		// 	},
-		// 	placeholder: 'Type something...',
-		// 	theme: 'snow' // or 'bubble'
-		// });
-
-		// if ($note?.text) {
-		// 	quill.setText($note.text);
-		// }
-
-		// const QuillMarkdown = await (await import('quilljs-markdown')).default;
-
-		// // markdown is enabled
-		// const quillMarkdown = new QuillMarkdown(quill, {});
-
 		let { default: EasyMDE } = await import('easymde');
-		console.log(EasyMDE);
-		let easymde = new EasyMDE({
+		easymde = new EasyMDE({
 			element: editor,
 			placeholder: 'Type here...',
 			toolbar: ['bold', 'italic', 'heading', '|', 'quote']
 		});
 
 		return () => {
-			// quillMarkdown.destroy();
-			// quill.enabled(false);
-			// quill = null;
+			easymde.cleanup();
 		};
 	});
 </script>
 
-<div class="h-full w-full bg-gray-100">
+<div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
 	<div class="flex flex-row gap-4 items-center">
 		<div>
 			<label for="title">Title</label>
@@ -129,18 +63,13 @@
 		</button>
 	</div>
 
-	<!-- <textarea
-		class="border-2 border-slate-500 border-solid border-r-4 "
-		name=""
-		id=""
-		cols="30"
-		rows="10"
-		bind:value={$note.text}
-	/> -->
-
-	<div>
+	<div class="h-full">
 		<textarea bind:this={editor} id="editor" />
 	</div>
 </div>
 
-<style></style>
+<style lang="scss">
+	// .note {
+	// :global() TODO import editor styles here
+	// }
+</style>
