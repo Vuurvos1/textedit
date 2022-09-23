@@ -1,7 +1,7 @@
 <script>
 	import NoteItem from './NoteItem.svelte';
 	import { supabase, user } from './supabase';
-	import { note as noteStore, notes } from '$lib/stores';
+	import { note as noteStore, notes, showNavigation, showNotes, showEditor } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	async function addNote() {
@@ -22,19 +22,30 @@
 		}
 	}
 
+	function openSidebar() {}
+
 	onMount(async () => {
 		// server fetch these
 		getNotes();
 	});
 </script>
 
-<div class="min-h-[85vh] h-full">
-	<div>
+<div class="min-h-[85vh] h-full bg-slate-50">
+	<div class="items-head">
 		<div class="flex justify-between">
 			<h3>Notes</h3>
 			<button on:click={addNote}>Add note</button>
 		</div>
 		<!-- <button on:click={getNotes}>Get notes</button> -->
+
+		<button
+			on:click={() => {
+				openSidebar();
+				$showNavigation = true;
+				$showNotes = false;
+				$showEditor = false;
+			}}>Burger</button
+		>
 
 		<div class="flex border rounded-full">
 			<label for="search">
@@ -68,6 +79,9 @@
 							class="w-full p-4 border-b border-solid"
 							on:click={() => {
 								$noteStore = note;
+								$showEditor = true;
+								$showNavigation = false;
+								$showNotes = false;
 							}}
 						>
 							<NoteItem {note} />
@@ -83,4 +97,13 @@
 </div>
 
 <style lang="scss">
+	.items-head {
+		// fixed on mobile
+		// padding on child top
+	}
+
+	@media (min-width: 768px) {
+		// place items head back
+		// remove padding top
+	}
 </style>

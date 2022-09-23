@@ -4,3 +4,8 @@ export let note = writable({});
 export let notes = writable([]);
 
 export let tags = writable([]);
+
+// TODO make this more dry
+export const showNavigation = writable(false);
+export const showNotes = writable(true);
+export const showEditor = writable(false);

@@ -32,7 +32,7 @@
 	}
 </script>
 
-<footer class="flex items-center h-8 px-2 bg-slate-500">
+<footer class="md:flex items-center h-8 px-2 bg-slate-500">
 	{#if $user}
 		<div class="flex justify-between w-full">
 			<span class="pr-4">Logged in as: {$user.user_metadata.preferred_username}</span>
@@ -61,4 +61,14 @@
 	{/if}
 </footer>
 
-<style lang="scss"></style>
+<style lang="scss">
+	footer {
+		display: none;
+	}
+
+	@media (min-width: 768px) {
+		footer {
+			display: flex;
+		}
+	}
+</style>

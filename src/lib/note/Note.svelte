@@ -1,6 +1,6 @@
 <script>
 	import { supabase, user } from '$lib/supabase';
-	import { note } from '$lib/stores';
+	import { note, showEditor, showNavigation, showNotes } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	// TODO rewrite this stylesheet
@@ -62,6 +62,8 @@
 		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
+	function openNotesList() {}
+
 	/** @type {HTMLElement | undefined} */
 	let editor;
 
@@ -89,8 +91,16 @@
 </script>
 
 <div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
-	<div class="flex flex-row gap-4 items-center">
+	<div class="flex flex-row gap-4 items-center flex-wrap">
 		<!-- TODO move this to note header component -->
+		<button
+			on:click={() => {
+				$showNotes = true;
+				$showEditor = false;
+				$showNavigation = false;
+			}}>back</button
+		>
+
 		<div>
 			<label for="title">Title</label>
 			<input id="title" type="text" bind:value={$note.title} />
