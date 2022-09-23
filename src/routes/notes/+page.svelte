@@ -18,7 +18,7 @@
 		<NoteList />
 	</div>
 	<div>
-		<!-- TODO if note is selected -->
+		<!-- TODO if note is selected or select default note -->
 		<Note />
 	</div>
 </div>
