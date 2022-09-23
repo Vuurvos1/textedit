@@ -1,5 +1,5 @@
 export async function load() {
-	/** @type {import('$lib/sidebar/types').Tag[]} */
+	/** @type {import('$lib/sidebar/tags').Tag[]} */
 	const tags = [
 		{ name: 'blogs', tags: [{ name: 'main' }] },
 		{

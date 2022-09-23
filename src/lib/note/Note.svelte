@@ -4,7 +4,6 @@
 	import { onMount } from 'svelte';
 
 	// TODO rewrite this stylesheet
-	// import 'easymde/dist/easymde.min.css'; // recommend import css, @option improve common style
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
 
 	// rename note.text to note.content?
@@ -31,8 +30,6 @@
 			.from('notes')
 			.update({
 				user_id: $user?.id,
-				// title: $note.title,
-				// text: $note.text,
 				status: 'archived'
 			})
 			.match({ id: $note.id }); // TODO add RLS rule for this
@@ -47,9 +44,7 @@
 			.from('notes')
 			.update({
 				user_id: $user?.id,
-				// title: $note.title,
-				// text: $note.text,
-				status: 'deleted'
+				status: 'deleted' // TODO add RLS for valid status ['active', 'archived', 'deleted']
 			})
 			.match({ id: $note.id }); // TODO add RLS rule for this
 
@@ -64,8 +59,7 @@
 		link.download = `${$note.title}.md`;
 		link.href = url;
 		link.click();
-		URL.revokeObjectURL(url); // Object URLs should be revoked after use
-		// TODO also remove link element?
+		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
 	/** @type {HTMLElement | undefined} */

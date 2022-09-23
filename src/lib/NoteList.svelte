@@ -2,6 +2,7 @@
 	import NoteItem from './NoteItem.svelte';
 	import { supabase, user } from './supabase';
 	import { note as noteStore, notes } from '$lib/stores';
+	import { onMount } from 'svelte';
 
 	async function addNote() {
 		const { data, error } = await supabase.from('notes').insert({
@@ -20,6 +21,11 @@
 			$noteStore = data[0];
 		}
 	}
+
+	onMount(async () => {
+		// server fetch these
+		getNotes();
+	});
 </script>
 
 <div class="min-h-[85vh] h-full">
@@ -28,7 +34,7 @@
 			<h3>Notes</h3>
 			<button on:click={addNote}>Add note</button>
 		</div>
-		<button on:click={getNotes}>Get notes</button>
+		<!-- <button on:click={getNotes}>Get notes</button> -->
 
 		<div class="flex border rounded-full">
 			<label for="search">
@@ -70,6 +76,7 @@
 				{/each}
 			</ul>
 		{:else}
+			<!-- button to create note (0 state) -->
 			<p>no notes</p>
 		{/if}
 	</div>
