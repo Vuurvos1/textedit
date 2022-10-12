@@ -6,5 +6,6 @@
 </script>
 
 <IconBase {size}>
-	<polyline points="9 18 15 12 9 6" />
+	<circle cx="11" cy="11" r="8" />
+	<line x1="21" y1="21" x2="16.65" y2="16.65" />
 </IconBase>

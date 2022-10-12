@@ -102,7 +102,7 @@
 		>
 
 		<div>
-			<label for="title">Title</label>
+			<label for="title" class="hidden">Title</label>
 			<input id="title" type="text" bind:value={$note.title} />
 		</div>
 

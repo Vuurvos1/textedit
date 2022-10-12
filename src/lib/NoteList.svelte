@@ -3,6 +3,7 @@
 	import { supabase, user } from './supabase';
 	import { note as noteStore, notes, showNavigation, showNotes, showEditor } from '$lib/stores';
 	import { onMount } from 'svelte';
+	import { Search } from './icons';
 
 	async function addNote() {
 		const { data, error } = await supabase.from('notes').insert({
@@ -49,21 +50,7 @@
 
 		<div class="flex border rounded-full">
 			<label for="search">
-				<!-- search -->
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<circle cx="11" cy="11" r="8" />
-					<line x1="21" y1="21" x2="16.65" y2="16.65" />
-				</svg>
+				<Search />
 			</label>
 
 			<input id="search" type="text" placeholder="search" class="outline-none" />
