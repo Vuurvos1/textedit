@@ -1,10 +1,13 @@
 <script>
 	export let note;
 
+	/** @param {string} str  */
 	function formatNote(str) {
-		// get first sentence,
-		// first line,
-		// first 50 characters rounded to the next wordt
+		// get first sentence / first line / first 50 characters rounded to the next wordt
+		if (!str) {
+			return '';
+		}
+
 		return str.slice(0, 50);
 	}
 </script>

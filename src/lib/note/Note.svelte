@@ -5,7 +5,7 @@
 
 	// TODO rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
-
+	import { Save, MoreHorizontal } from '$lib/icons';
 	// rename note.text to note.content?
 
 	async function saveNote() {
@@ -110,8 +110,12 @@
 		<button on:click={archiveNote}>Archive</button>
 		<button on:click={deleteNote}>Delete</button>
 
-		<button class="bg-blue-600 text-white px-4 py-1 rounded" on:click={saveNote}>
-			Save/Update
+		<button class="bg-blue-600 text-white p-2 rounded-full" title="Save note" on:click={saveNote}>
+			<Save />
+		</button>
+
+		<button>
+			<MoreHorizontal />
 		</button>
 	</div>
 

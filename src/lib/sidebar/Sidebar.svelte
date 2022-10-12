@@ -1,6 +1,7 @@
 <script>
 	import Tags from './Tags.svelte';
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
+	import { FileText, Hash, Trash } from '$lib/icons';
 
 	/** @type {import('./tags').Tag[]} */
 	export let tags;
@@ -13,16 +14,26 @@
 
 	<ul class="px-4">
 		<li>
-			<button>Notes</button>
+			<button>
+				<FileText />
+				<span>Notes</span>
+			</button>
 		</li>
 		<li>
-			<button>Untaged</button>
+			<button>
+				<Hash />
+				<span>Untaged</span>
+			</button>
 		</li>
 		<li>
+			<!-- <Archive /> -->
 			<button>Archived</button>
 		</li>
 		<li>
-			<button>Deleted</button>
+			<button>
+				<Trash />
+				<span>Deleted</span>
+			</button>
 		</li>
 	</ul>
 
@@ -43,4 +54,20 @@
 </div>
 
 <style lang="scss">
+	ul {
+		margin-bottom: 1.25rem;
+	}
+
+	li {
+		margin-bottom: 0.25rem;
+
+		button {
+			display: flex;
+			flex-direction: row;
+		}
+
+		span {
+			margin-left: 0.5rem;
+		}
+	}
 </style>

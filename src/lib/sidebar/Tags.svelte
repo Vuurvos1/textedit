@@ -1,5 +1,5 @@
 <script>
-	import Hash from '$lib/icons/Hash.svelte';
+	import { Hash, Plus } from '$lib/icons';
 	import { supabase, user } from '$lib/supabase';
 	import { tick } from 'svelte';
 	import Tag from './Tag.svelte';
@@ -46,12 +46,15 @@
 		<h3 class="font-bold font-lg">Tags</h3>
 
 		<button
+			title="Add new tag"
 			on:click={async () => {
 				addingTag = true;
 				await tick;
 				tagInput.focus();
-			}}>add +</button
+			}}
 		>
+			<Plus size={20} />
+		</button>
 	</div>
 
 	<ul>
