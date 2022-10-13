@@ -94,6 +94,7 @@
 	<div class="flex flex-row gap-4 items-center flex-wrap">
 		<!-- TODO move this to note header component -->
 		<button
+			class="back-button"
 			on:click={() => {
 				$showNotes = true;
 				$showEditor = false;
@@ -128,4 +129,10 @@
 	// .note {
 	// :global() TODO import editor styles here
 	// }
+
+	@media (min-width: 768px) {
+		.back-button {
+			display: none;
+		}
+	}
 </style>
