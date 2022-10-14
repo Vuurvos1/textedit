@@ -1,8 +1,10 @@
 export { default as ChevronDown } from './ChevronDown.svelte';
+export { default as Download } from './Download.svelte';
 export { default as FileText } from './FileText.svelte';
 export { default as Filter } from './Filter.svelte';
 export { default as GitHub } from './GitHub.svelte';
 export { default as Hash } from './Hash.svelte';
+export { default as Inbox } from './Inbox.svelte';
 export { default as MoreHorizontal } from './MoreHorizontal.svelte';
 export { default as Pin } from './Pin.svelte';
 export { default as Plus } from './Plus.svelte';

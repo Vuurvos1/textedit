@@ -5,8 +5,10 @@
 
 	// TODO rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
-	import { Save, MoreHorizontal } from '$lib/icons';
 	// rename note.text to note.content?
+
+	import { Save, Download, Trash, Inbox } from '$lib/icons';
+	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
 	async function saveNote() {
 		$note.text = easymde.value();
@@ -81,7 +83,8 @@
 		easymde = new EasyMDE({
 			element: editor,
 			placeholder: 'Type here...',
-			toolbar: ['bold', 'italic', 'heading', '|', 'quote']
+			toolbar: ['bold', 'italic', 'heading', '|', 'quote'],
+			previewImagesInEditor: true
 		});
 
 		return () => {
@@ -91,33 +94,56 @@
 </script>
 
 <div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
-	<div class="flex flex-row gap-4 items-center flex-wrap">
-		<!-- TODO move this to note header component -->
-		<button
-			class="back-button"
-			on:click={() => {
-				$showNotes = true;
-				$showEditor = false;
-				$showNavigation = false;
-			}}>back</button
-		>
-
+	<div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 ">
+		<!-- TODO: move this to note header component -->
 		<div>
-			<label for="title" class="hidden">Title</label>
-			<input id="title" type="text" bind:value={$note.title} />
+			<button
+				class="back-button"
+				on:click={() => {
+					$showNotes = true;
+					$showEditor = false;
+					$showNavigation = false;
+				}}>back</button
+			>
+
+			<div>
+				<label for="title" class="hidden">Title</label>
+				<input id="title" type="text" bind:value={$note.title} />
+			</div>
 		</div>
 
-		<button on:click={downloadNote}>Download</button>
-		<button on:click={archiveNote}>Archive</button>
-		<button on:click={deleteNote}>Delete</button>
+		<div class="flex flex-row items-center gap-2">
+			<button class="bg-blue-600 text-white p-2 rounded-full" title="Save note" on:click={saveNote}>
+				<Save />
+			</button>
 
-		<button class="bg-blue-600 text-white p-2 rounded-full" title="Save note" on:click={saveNote}>
-			<Save />
-		</button>
-
-		<button>
-			<MoreHorizontal />
-		</button>
+			<PopoutMenu>
+				<div class="flex flex-col z-10 drop-shadow-sm bg-slate-300 py-2">
+					<!-- TODO: create icon button component -->
+					<button
+						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400"
+						on:click={downloadNote}
+					>
+						<Download size={20} />
+						<span>Download</span>
+					</button>
+					<button
+						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-yellow-400"
+						on:click={archiveNote}
+					>
+						<Inbox size={20} />
+						<span>Archive</span>
+					</button>
+					<button
+						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-red-600"
+						on:click={deleteNote}
+					>
+						<Trash size={20} />
+						<span>Delete</span>
+					</button>
+				</div>
+			</PopoutMenu>
+		</div>
 	</div>
 
 	<div class="h-full">

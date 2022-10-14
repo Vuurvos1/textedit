@@ -67,11 +67,15 @@
 		</div>
 	</div>
 
-	<div>
+	<div class="note-list">
 		{#if $notes.length > 1}
 			<ul>
 				{#each $notes as note}
-					<li class:bg-indigo-700={$noteStore.id === note.id}>
+					<li
+						class="border-l-2 border-solid"
+						class:border-indigo-700={$noteStore.id === note.id}
+						class:border-transparent={$noteStore.id !== note.id}
+					>
 						<button
 							class="w-full p-4 border-b border-solid"
 							on:click={() => {
@@ -94,6 +98,9 @@
 </div>
 
 <style lang="scss">
+	.note-list {
+	}
+
 	// .list-burger {}
 
 	.items-head {

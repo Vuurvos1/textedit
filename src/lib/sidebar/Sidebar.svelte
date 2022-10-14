@@ -1,7 +1,7 @@
 <script>
 	import Tags from './Tags.svelte';
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
-	import { FileText, Hash, Trash } from '$lib/icons';
+	import { FileText, Hash, Trash, Inbox } from '$lib/icons';
 
 	/** @type {import('./tags').Tag[]} */
 	export let tags;
@@ -10,27 +10,29 @@
 <!-- change to asside? -->
 <!-- navigation -->
 <div class="h-full py-4">
-	<h3 class="font-bold font-lg px-4">Views</h3>
+	<h3 class="font-bold font-lg px-4 mb-2">Views</h3>
 
-	<ul class="px-4">
+	<ul class="flex flex-col">
 		<li>
-			<button>
+			<button class="w-full px-4 py-1 hover:bg-slate-400">
 				<FileText />
 				<span>Notes</span>
 			</button>
 		</li>
 		<li>
-			<button>
+			<button class="w-full px-4 py-1 hover:bg-slate-400">
 				<Hash />
 				<span>Untaged</span>
 			</button>
 		</li>
 		<li>
-			<!-- <Archive /> -->
-			<button>Archived</button>
+			<button class="w-full px-4 py-1 hover:bg-slate-400">
+				<Inbox />
+				<span>Archived</span>
+			</button>
 		</li>
 		<li>
-			<button>
+			<button class="w-full px-4 py-1 hover:bg-slate-400">
 				<Trash />
 				<span>Deleted</span>
 			</button>

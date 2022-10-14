@@ -274,8 +274,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 }
 .CodeMirror pre.CodeMirror-line,
 .CodeMirror pre.CodeMirror-line-like {
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
 	border-radius: 0;
 	border-width: 0;
 	background: 0 0;
@@ -323,7 +321,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 .CodeMirror-linenumber,
 .CodeMirror-scroll,
 .CodeMirror-sizer {
-	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
 .CodeMirror-measure {
@@ -687,12 +684,12 @@ span.CodeMirror-selectedtext {
 }
 .editor-toolbar .easymde-dropdown {
 	position: relative;
-	background: linear-gradient(to bottom right, #fff 0, #fff 84%, #333 50%, #333 100%);
+	/* background: linear-gradient(to bottom right, #fff 0, #fff 84%, #333 50%, #333 100%); */
 	border-radius: 0;
 	border: 1px solid #fff;
 }
 .editor-toolbar .easymde-dropdown:hover {
-	background: linear-gradient(to bottom right, #fff 0, #fff 84%, #333 50%, #333 100%);
+	/* background: linear-gradient(to bottom right, #fff 0, #fff 84%, #333 50%, #333 100%); */
 }
 .easymde-dropdown-content {
 	display: block;
