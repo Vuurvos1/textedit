@@ -57,7 +57,7 @@
 		<p>{tasksDone} of {taskAmount} tasks</p>
 	{/if}
 
-	<time class="text-xs" datetime={new Date(note.updated_at)}>
+	<time class="text-xs" datetime={new Date(note.updated_at).toISOString()}>
 		Modified {formateDate(note.updated_at)}
 	</time>
 </div>

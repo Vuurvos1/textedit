@@ -1,6 +1,6 @@
 <script>
 	import { supabase, user } from '$lib/supabase';
-	import { note, showEditor, showNavigation, showNotes } from '$lib/stores';
+	import { note, notes, showEditor, showNavigation, showNotes } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	// TODO rewrite this stylesheet
@@ -22,7 +22,11 @@
 			})
 			.match({ id: $note.id }); // TODO add RLS rule for this
 
-		console.log(data, error);
+		if (!error) {
+			console.log(data);
+		} else {
+			console.error(error);
+		}
 	}
 
 	async function archiveNote() {
@@ -40,17 +44,25 @@
 	}
 
 	async function deleteNote() {
-		$note.text = easymde.value();
+		// TODO: move this logic to "deleted page"
+		const { error } = await supabase.from('notes').delete().eq('id', $note.id);
 
-		const { data, error } = await supabase
-			.from('notes')
-			.update({
-				user_id: $user?.id,
-				status: 'deleted' // TODO add RLS for valid status ['active', 'archived', 'deleted']
-			})
-			.match({ id: $note.id }); // TODO add RLS rule for this
+		if (!error) {
+			$notes = $notes.filter((item) => item.id !== $note.id);
+			$note = $notes[0];
+		} else {
+			console.error(error);
+		}
 
-		console.log(data, error);
+		// $note.text = easymde.value();
+
+		// const { data, error } = await supabase
+		// 	.from('notes')
+		// 	.update({
+		// 		user_id: $user?.id,
+		// 		status: 'deleted' // TODO add RLS for valid status ['active', 'archived', 'deleted']
+		// 	})
+		// 	.match({ id: $note.id }); // TODO add RLS rule for this
 	}
 
 	async function downloadNote() {

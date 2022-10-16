@@ -64,9 +64,7 @@
 			display: grid;
 			grid-template-columns: auto auto 1fr;
 			grid-template-rows: auto;
-
 			height: calc(var(--viewport-height, 100vh) - 2rem);
-			// max-height: calc(100vh - 2rem);
 		}
 
 		.navigation,

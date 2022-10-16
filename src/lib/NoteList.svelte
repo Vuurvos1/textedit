@@ -15,9 +15,9 @@
 			$noteStore = data[0];
 			$notes.unshift(data[0]); // faster than concat
 			$notes = $notes; // trigger rerender
+		} else {
+			console.error(error);
 		}
-
-		console.log(data, error);
 	}
 
 	async function getNotes() {
@@ -28,8 +28,13 @@
 			.select()
 			.order('updated_at', { ascending: false });
 		notes.set(data);
-		if (data?.length > 0) {
-			$noteStore = data[0];
+
+		if (!error) {
+			if (data.length > 0) {
+				$noteStore = data[0];
+			}
+		} else {
+			console.error(error);
 		}
 	}
 
@@ -41,10 +46,9 @@
 	});
 </script>
 
-<!-- class="h-full bg-slate-50 flex flex-col relative" -->
 <!-- <div class="content flex flex-col hidden md:flex "> -->
-<div class="h-full items-column">
-	<div class="items-head flex flex-col">
+<div class="items h-full flex flex-col bg-slate-50 relative">
+	<div class="items__head flex flex-col px-4 py-2">
 		<div class="flex justify-between items-center">
 			<h3 class="text-xl font-semibold">Notes</h3>
 
@@ -58,10 +62,9 @@
 				</button>
 			</div>
 		</div>
-		<!-- <button on:click={getNotes}>Get notes</button> -->
 
 		<button
-			class="list-burger"
+			class="burger"
 			on:click={() => {
 				openSidebar();
 				$showNavigation = true;
@@ -79,9 +82,9 @@
 		</div>
 	</div>
 
-	<div class="flex-content flex note-list">
+	<div class="items__list flex h-full max-h-full relative">
 		{#if $notes.length > 1}
-			<ul class="h-full flex flex-col scrollable-content-wrapper ">
+			<ul class="flex flex-col h-full w-full">
 				{#each $notes as note}
 					<li
 						class="border-l-2 border-solid"
@@ -110,56 +113,27 @@
 </div>
 
 <style lang="scss">
-	.items-column {
-		position: relative;
-		height: 100%;
-		max-height: 100%;
+	.items {
+		// &__head {}
 
-		display: flex;
-		flex-direction: column;
-	}
+		&__list {
+			overflow: hidden;
 
-	.note-list {
-		overflow-y: hidden;
-	}
-
-	.flex-content {
-		position: relative;
-		display: flex;
-		overflow: hidden;
-		height: 100%;
-		max-height: 100%;
-	}
-
-	.scrollable-content-wrapper {
-		height: 100%;
-
-		overflow-y: scroll;
-	}
-
-	ul {
-		// max-height: 100%;
-		// height: 100%;
-		// max-height: 20rem;
-		// overflow-y: hidden;
-		// overflow-y: auto;
-		// height: 100%;
-	}
-
-	// .list-burger {}
-
-	.items-head {
-		// height: auto;
-		// fixed on mobile
-		// padding on child top
+			ul {
+				overflow-y: auto;
+			}
+		}
 	}
 
 	@media (min-width: 768px) {
 		// place items head back
-		// remove padding top
 
-		.list-burger {
-			display: none;
+		.items {
+			&__head {
+				.burger {
+					display: none;
+				}
+			}
 		}
 	}
 </style>
