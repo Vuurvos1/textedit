@@ -1,4 +1,5 @@
 <script>
+	/** @type {import('./note/note').Note} */
 	export let note;
 
 	/** @type {string[]} */
@@ -23,6 +24,21 @@
 
 		return str.slice(0, 50);
 	}
+
+	/** @param {string} dateString  */
+	function formateDate(dateString) {
+		const date = new Date(dateString);
+
+		// week day, day date, month (short), year, time hh:mm
+		return date.toLocaleDateString(undefined, {
+			weekday: 'short',
+			month: 'short',
+			year: 'numeric',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric'
+		});
+	}
 </script>
 
 <div class="text-left">
@@ -41,8 +57,8 @@
 		<p>{tasksDone} of {taskAmount} tasks</p>
 	{/if}
 
-	<time class="text-xs" datetime={new Date(note.created_at)}>
-		Created: {new Date(note.created_at).toDateString()}
+	<time class="text-xs" datetime={new Date(note.updated_at)}>
+		Modified {formateDate(note.updated_at)}
 	</time>
 </div>
 

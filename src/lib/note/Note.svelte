@@ -118,7 +118,7 @@
 			</button>
 
 			<PopoutMenu>
-				<div class="flex flex-col z-10 drop-shadow-sm bg-slate-300 py-2">
+				<div class="flex flex-col bg-slate-300 py-2">
 					<!-- TODO: create icon button component -->
 					<button
 						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400"
