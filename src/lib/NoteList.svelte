@@ -8,8 +8,14 @@
 	async function addNote() {
 		const { data, error } = await supabase.from('notes').insert({
 			user_id: $user?.id,
-			title: 'Note'
+			title: `Note ${$notes.length + 1}`
 		});
+
+		if (!error) {
+			$noteStore = data[0];
+			$notes.unshift(data[0]); // faster than concat
+			$notes = $notes; // trigger rerender
+		}
 
 		console.log(data, error);
 	}
@@ -35,8 +41,10 @@
 	});
 </script>
 
-<div class="min-h-[85vh] h-full bg-slate-50">
-	<div class="items-head">
+<!-- class="h-full bg-slate-50 flex flex-col relative" -->
+<!-- <div class="content flex flex-col hidden md:flex "> -->
+<div class="h-full items-column">
+	<div class="items-head flex flex-col">
 		<div class="flex justify-between items-center">
 			<h3 class="text-xl font-semibold">Notes</h3>
 
@@ -71,9 +79,9 @@
 		</div>
 	</div>
 
-	<div class="note-list">
+	<div class="flex-content flex note-list">
 		{#if $notes.length > 1}
-			<ul>
+			<ul class="h-full flex flex-col scrollable-content-wrapper ">
 				{#each $notes as note}
 					<li
 						class="border-l-2 border-solid"
@@ -102,12 +110,46 @@
 </div>
 
 <style lang="scss">
+	.items-column {
+		position: relative;
+		height: 100%;
+		max-height: 100%;
+
+		display: flex;
+		flex-direction: column;
+	}
+
 	.note-list {
+		overflow-y: hidden;
+	}
+
+	.flex-content {
+		position: relative;
+		display: flex;
+		overflow: hidden;
+		height: 100%;
+		max-height: 100%;
+	}
+
+	.scrollable-content-wrapper {
+		height: 100%;
+
+		overflow-y: scroll;
+	}
+
+	ul {
+		// max-height: 100%;
+		// height: 100%;
+		// max-height: 20rem;
+		// overflow-y: hidden;
+		// overflow-y: auto;
+		// height: 100%;
 	}
 
 	// .list-burger {}
 
 	.items-head {
+		// height: auto;
 		// fixed on mobile
 		// padding on child top
 	}

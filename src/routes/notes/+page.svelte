@@ -12,22 +12,30 @@
 	$: ({ tags } = data); // so it stays in sync when `data` changes
 </script>
 
-<div class="layout">
-	<div class:selected={$showNavigation} class="navigation bg-slate-300">
-		<Sidebar {tags} />
+<div class="app">
+	<div class="layout">
+		<div class:selected={$showNavigation} class="navigation bg-slate-300">
+			<Sidebar {tags} />
+		</div>
+		<div class:selected={$showNotes} class="items h-full">
+			<NoteList />
+		</div>
+		<div class:selected={$showEditor} class="editor">
+			<!-- TODO if note is selected or select default note -->
+			<Note />
+		</div>
 	</div>
-	<div class:selected={$showNotes} class="items">
-		<NoteList />
-	</div>
-	<div class:selected={$showEditor} class="editor">
-		<!-- TODO if note is selected or select default note -->
-		<Note />
-	</div>
+
+	<Footer />
 </div>
 
-<Footer />
-
 <style lang="scss">
+	.app {
+		height: 100vh;
+		min-height: 100vh;
+		position: relative;
+	}
+
 	.layout {
 		display: flex;
 		flex-direction: column;
@@ -38,7 +46,9 @@
 		.navigation,
 		.items,
 		.editor {
+			height: 100vh;
 			min-height: 100vh;
+			position: relative;
 
 			&:not(.selected) {
 				visibility: hidden;
@@ -48,12 +58,25 @@
 		}
 	}
 
-	// tablet
+	// tablet >
 	@media (min-width: 768px) {
 		.layout {
 			display: grid;
 			grid-template-columns: auto auto 1fr;
-			height: calc(100vh - 2rem);
+			grid-template-rows: auto;
+
+			height: calc(var(--viewport-height, 100vh) - 2rem);
+			// max-height: calc(100vh - 2rem);
+		}
+
+		.navigation,
+		.items,
+		.editor {
+			height: 100%;
+			max-height: 100%;
+			min-height: 0px;
+			display: flex;
+			position: relative;
 		}
 	}
 </style>

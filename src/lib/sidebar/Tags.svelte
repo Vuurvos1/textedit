@@ -5,7 +5,7 @@
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
-	/** @type {import('./types').Tag[]} */
+	/** @type {import('./tags').Tag[]} */
 	export let tags;
 
 	let addingTag = false;
