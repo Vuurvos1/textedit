@@ -8,7 +8,7 @@
 	/** @type {string} */
 	export let name;
 
-	/** @type {import('./types').Tag[]} */
+	/** @type {import('./tags').Tag[]} */
 	export let tags;
 
 	function toggle() {
