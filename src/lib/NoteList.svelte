@@ -16,7 +16,8 @@
 
 	async function getNotes() {
 		// fetch users notes
-		const { data, error } = await supabase.from('notes').select();
+		// TODO: change this to the last updated field (how to handle pins?)
+		const { data, error } = await supabase.from('notes').select().order('id', { ascending: false });
 		notes.set(data);
 		if (data?.length > 0) {
 			$noteStore = data[0];
