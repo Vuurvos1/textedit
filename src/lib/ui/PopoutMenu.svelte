@@ -1,14 +1,17 @@
 <script>
 	import { createPopperActions } from 'svelte-popperjs';
-
+	import { clickOutside } from '$lib/clickOutside';
 	import { MoreHorizontal } from '$lib/icons';
+
 	// TODO: add some id thing so that only 1 can be open at a time
 
+	// export const options = {}
+	export const placement = 'bottom';
+
 	const [popperRef, popperContent] = createPopperActions({
-		placement: 'bottom',
-		strategy: 'fixed'
+		placement: placement
 	});
-	const extraOpts = {
+	export const extraOpts = {
 		modifiers: [{ name: 'offset', options: { offset: [0, 8] } }]
 	};
 
@@ -16,23 +19,26 @@
 </script>
 
 <div class="relative leading-[0]">
-	<slot name="icon">
-		<button
-			use:popperRef
-			on:click={() => {
-				showTooltip = !showTooltip;
-			}}
-		>
+	<button
+		use:popperRef
+		on:click|stopPropagation={() => {
+			showTooltip = !showTooltip;
+		}}
+	>
+		<slot name="icon">
 			<MoreHorizontal />
-		</button>
-	</slot>
+		</slot>
+	</button>
 
 	{#if showTooltip}
 		<div
-			class="z-10 leading-normal"
+			class="z-10 leading-normal bg-slate-50 shadow rounded"
 			use:popperContent={extraOpts}
+			use:clickOutside
+			on:outclick={() => {
+				showTooltip = false;
+			}}
 			on:click={() => {
-				// TODO: add outside click
 				showTooltip = false;
 			}}
 			on:keydown={(ev) => {
@@ -45,8 +51,5 @@
 	{/if}
 </div>
 
-<style>
-	/* button {
-		line-height: 0;
-	} */
+<style lang="scss">
 </style>

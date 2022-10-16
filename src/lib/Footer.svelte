@@ -1,6 +1,9 @@
 <script>
 	import { supabase, user } from '$lib/supabase';
 	import { note, notes } from '$lib/stores';
+	import { User as UserIcon } from '$lib/icons';
+
+	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
 	let loading = false;
 	async function handleLogin() {
@@ -34,10 +37,16 @@
 
 <footer class="md:flex items-center h-8 px-2 bg-slate-500">
 	{#if $user}
-		<div class="flex justify-between w-full">
-			<span class="pr-4">Logged in as: {$user.user_metadata.preferred_username}</span>
-			<button class="hover:text-white" on:click={logout}>Logout</button>
-		</div>
+		<PopoutMenu placement="top">
+			<UserIcon slot="icon" />
+
+			<h3>Account</h3>
+			<p>You are signed in as:</p>
+			<p>{$user.email}</p>
+			<p>Using: {$user.app_metadata.provider}</p>
+
+			<button class="hover:text-purple-600" on:click={logout}>Logout</button>
+		</PopoutMenu>
 	{:else}
 		<button class="flex items-center gap-2" on:click={handleLogin}>
 			<svg
