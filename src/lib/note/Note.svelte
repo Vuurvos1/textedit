@@ -10,6 +10,24 @@
 	import { Save, Download, Trash, Inbox } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
+	/**
+	 * @param {function} func
+	 * @param {number} delay
+	 */
+	function (func, delay = 250) {
+		/** @type {setTimeout | any} */
+		let timeout;
+
+		/** @param {any} args */
+		return (...args) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				func(...args);
+			}, delay);
+		};
+	}
+
+	// TODO: before you change notes in the sidebar the note should also be saved	
 	async function saveNote() {
 		$note.text = easymde.value();
 
@@ -99,6 +117,13 @@
 			previewImagesInEditor: true
 		});
 
+		easymde.codemirror.on(
+			'change',
+			debounce(() => {
+				saveNote()
+			}, 5000)
+		);
+
 		return () => {
 			easymde.cleanup();
 		};
@@ -159,7 +184,7 @@
 	</div>
 
 	<div class="h-full">
-		<textarea bind:this={editor} id="editor" />
+		<textarea bind:this={editor} />
 	</div>
 </div>
 
