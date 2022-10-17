@@ -14,7 +14,7 @@
 	 * @param {function} func
 	 * @param {number} delay
 	 */
-	function (func, delay = 250) {
+	function debounce(func, delay = 250) {
 		/** @type {setTimeout | any} */
 		let timeout;
 
@@ -27,7 +27,7 @@
 		};
 	}
 
-	// TODO: before you change notes in the sidebar the note should also be saved	
+	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
 		$note.text = easymde.value();
 
@@ -120,7 +120,7 @@
 		easymde.codemirror.on(
 			'change',
 			debounce(() => {
-				saveNote()
+				saveNote();
 			}, 5000)
 		);
 
