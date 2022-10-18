@@ -94,8 +94,6 @@
 		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
-	function openNotesList() {}
-
 	/** @type {HTMLElement | undefined} */
 	let editor;
 
@@ -103,7 +101,7 @@
 	let easymde;
 
 	note.subscribe((value) => {
-		if (easymde && value.text) {
+		if (easymde && value.text != undefined) {
 			easymde.value(value.text);
 		}
 	});
@@ -117,12 +115,7 @@
 			previewImagesInEditor: true
 		});
 
-		easymde.codemirror.on(
-			'change',
-			debounce(() => {
-				saveNote();
-			}, 5000)
-		);
+		easymde.codemirror.on('change', debounce(saveNote, 5000));
 
 		return () => {
 			easymde.cleanup();
@@ -150,13 +143,18 @@
 		</div>
 
 		<div class="flex flex-row items-center gap-2">
-			<button class="bg-blue-600 text-white p-2 rounded-full" title="Save note" on:click={saveNote}>
-				<Save />
-			</button>
-
 			<PopoutMenu>
 				<div class="flex flex-col bg-slate-300 py-2">
 					<!-- TODO: create icon button component -->
+					<button
+						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-white p-2"
+						title="Save note"
+						on:click={saveNote}
+					>
+						<Save />
+						<span>(Manually) save</span>
+					</button>
+
 					<button
 						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400"
 						on:click={downloadNote}
@@ -189,6 +187,10 @@
 </div>
 
 <style lang="scss">
+	button {
+		width: max-content;
+	}
+
 	// .note {
 	// :global() TODO import editor styles here
 	// }
