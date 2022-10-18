@@ -1,7 +1,12 @@
+<script>
+	/** @type {(number|string)} */
+	export let size = 24;
+</script>
+
 <svg
 	xmlns="http://www.w3.org/2000/svg"
-	width="64"
-	height="64"
+	width={size}
+	height={size}
 	shape-rendering="geometricPrecision"
 	text-rendering="geometricPrecision"
 	image-rendering="optimizeQuality"

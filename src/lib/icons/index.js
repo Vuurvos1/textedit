@@ -10,5 +10,6 @@ export { default as Pin } from './Pin.svelte';
 export { default as Plus } from './Plus.svelte';
 export { default as Save } from './Save.svelte';
 export { default as Search } from './Search.svelte';
+export { default as Sliders } from './Sliders.svelte';
 export { default as Trash } from './Trash.svelte';
 export { default as User } from './User.svelte';
