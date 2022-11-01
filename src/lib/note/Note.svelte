@@ -29,21 +29,24 @@
 
 	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
-		$note.text = easymde.value();
+		// test if not the same to prevent feedback loop
+		if ($note.text != easymde.value()) {
+			$note.text = easymde.value();
 
-		const { data, error } = await supabase
-			.from('notes')
-			.update({
-				user_id: $user?.id,
-				title: $note.title,
-				text: $note.text
-			})
-			.match({ id: $note.id }); // TODO add RLS rule for this
+			const { data, error } = await supabase
+				.from('notes')
+				.update({
+					user_id: $user?.id,
+					title: $note.title,
+					text: $note.text
+				})
+				.match({ id: $note.id }); // TODO add RLS rule for this
 
-		if (!error) {
-			console.log(data);
-		} else {
-			console.error(error);
+			if (!error) {
+				console.log('saving note', data);
+			} else {
+				console.error(error);
+			}
 		}
 	}
 
