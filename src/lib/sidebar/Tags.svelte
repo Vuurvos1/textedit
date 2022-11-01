@@ -5,6 +5,8 @@
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
+	// TODO: allow editing of existing tags
+
 	/** @type {import('./tags').Tag[]} */
 	export let tags;
 
@@ -22,6 +24,7 @@
 	}
 
 	async function addTag() {
+		// TODO: make sure the user didn't already add this tag
 		if (tag !== '') {
 			// submit tag
 			const { data, error } = await supabase.from('tags').insert({

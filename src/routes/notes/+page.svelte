@@ -6,6 +6,7 @@
 
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
 
+	// TODO: get these values from database
 	/** @type {import('./$types').PageData} */
 	export let data;
 	let { tags } = data;

@@ -20,6 +20,9 @@
 	class:expanded
 	class="flex flex-row items-center pl-4 font-bold cursor-pointer hover:bg-indigo-600"
 	on:click={toggle}
+	on:keydown={(ev) => {
+		console.log('hit key on tag folder');
+	}}
 >
 	<span style={expanded ? 'transform:rotate(90deg)' : ''} class="origin-center">
 		<ChevronDown size="16" />

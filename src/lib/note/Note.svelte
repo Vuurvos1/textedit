@@ -147,30 +147,30 @@
 				<div class="flex flex-col bg-slate-300 py-2">
 					<!-- TODO: create icon button component -->
 					<button
-						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-white p-2"
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
 						title="Save note"
 						on:click={saveNote}
 					>
 						<Save />
-						<span>(Manually) save</span>
+						<span>(Force) save</span>
 					</button>
 
 					<button
-						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400"
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
 						on:click={downloadNote}
 					>
 						<Download size={20} />
 						<span>Download</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-yellow-400"
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-yellow-400"
 						on:click={archiveNote}
 					>
 						<Inbox size={20} />
 						<span>Archive</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 px-4 py-1 hover:bg-slate-400 text-red-600"
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-red-600"
 						on:click={deleteNote}
 					>
 						<Trash size={20} />
@@ -188,7 +188,9 @@
 
 <style lang="scss">
 	button {
-		width: max-content;
+		white-space: nowrap;
+
+		// width: max-content;
 	}
 
 	// .note {
