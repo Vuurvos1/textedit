@@ -4,13 +4,39 @@
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
 	import Footer from '$lib/Footer.svelte';
 
+	import { supabase, user } from '$lib/supabase';
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
+	import { onMount } from 'svelte';
+	import { insertTag } from '$lib/tags/tagUtils';
 
-	// TODO: get these values from database
-	/** @type {import('./$types').PageData} */
-	export let data;
-	let { tags } = data;
-	$: ({ tags } = data); // so it stays in sync when `data` changes
+	// /** @type {import('./$types').PageData} */
+	// export let data;
+	// let { tags } = data;
+	// $: ({ tags } = data); // so it stays in sync when `data` changes
+
+	/** @type {import('$lib/sidebar/tags').Tags} */
+	let tags = [];
+	// change to an object for speed?
+
+	async function getTags() {
+		// fetch users notes
+		// TODO: change this to the last updated field (how to handle pins?)
+		const { data, error } = await supabase.from('tags').select('tag');
+
+		if (!error) {
+			// TODO: how to sort these, preferibly the user can determine the order
+			tags = data
+				.map((path) => path.tag.split('/').filter((tag) => tag))
+				.reduce((children, path) => insertTag(children, path), []);
+		} else {
+			console.error(error);
+		}
+	}
+
+	onMount(async () => {
+		// server fetch these
+		getTags();
+	});
 </script>
 
 <div class="app">

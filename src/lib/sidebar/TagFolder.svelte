@@ -35,7 +35,7 @@
 	<ul class="ml-5 border-l border-solid border-slate-100">
 		{#each tags as tag}
 			<li class="py-0.5">
-				{#if tag.tags}
+				{#if tag.tags && tag.tags.length > 0}
 					<svelte:self {...tag} />
 				{:else}
 					<Tag {...tag} />

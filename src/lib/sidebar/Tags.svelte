@@ -1,6 +1,7 @@
 <script>
 	import { Hash, Plus } from '$lib/icons';
 	import { supabase, user } from '$lib/supabase';
+	import { insertTagBefore } from '$lib/tags/tagUtils';
 	import { tick } from 'svelte';
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
@@ -34,9 +35,13 @@
 
 			if (error) {
 				console.error(error);
+				return;
 			}
 
-			console.log(data);
+			tags = insertTagBefore(
+				tags,
+				tag.split('/').filter((tag) => tag)
+			);
 		}
 
 		addingTag = false;
@@ -81,7 +86,8 @@
 
 		{#each tags as tag}
 			<li>
-				{#if tag.tags}
+				<!-- this logic seems a bit double and it also in the tag folder -->
+				{#if tag.tags && tag.tags.length > 0}
 					<TagFolder name={tag.name} tags={tag.tags} expanded />
 				{:else}
 					<Tag name={tag.name} />
