@@ -1,7 +1,7 @@
 <script>
 	import { supabase, user } from '$lib/supabase';
-	import { note, notes, showEditor, showNavigation, showNotes } from '$lib/stores';
-	import { onMount } from 'svelte';
+	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
+	import { onMount, tick } from 'svelte';
 
 	// TODO rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
@@ -97,6 +97,42 @@
 		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
+	async function searchTags(ev) {
+		// or bind this value within component
+		const results = $tags.filter((item) => item.tag.includes(ev.target.value));
+
+		console.log(results);
+
+		// TODO: create a dropdown/context menu for this
+		if (ev.key === 'Enter' && results.length > 0) {
+			const { data, error } = await supabase.from('note_tags').insert({
+				user_id: $user?.id,
+				tag_id: results[0].id,
+				note_id: $note?.id
+			});
+
+			if (error) {
+				console.error(error);
+			} else {
+				console.log(data);
+			}
+		}
+
+		// console.log(ev.target.value);
+		// console.log(results);
+	}
+
+	async function addTagToNote(ev) {
+		// get note id
+
+		console.log($note.id, $user.id);
+		// console.log
+		// get tag id
+		// add to
+		// supabase.
+		// note_tag
+	}
+
 	/** @type {HTMLElement | undefined} */
 	let editor;
 
@@ -139,10 +175,27 @@
 				}}>back</button
 			>
 
-			<div>
+			<div class="mb-2">
 				<label for="title" class="hidden">Title</label>
-				<input id="title" type="text" bind:value={$note.title} />
+				<input id="title" type="text" bind:value={$note.title} class="text-lg" />
 			</div>
+
+			<div>
+				<!-- search tags -->
+				<input
+					id="title"
+					type="text"
+					placeholder="tag"
+					class="border-b-2 border-blue-400"
+					on:keyup={searchTags}
+				/>
+			</div>
+
+			<ul class="flex flex-row gap-2">
+				{#each $noteTags as tag}
+					<li>{tag.tag_id.tag}</li>
+				{/each}
+			</ul>
 		</div>
 
 		<div class="flex flex-row items-center gap-2">

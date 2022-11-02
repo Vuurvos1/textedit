@@ -3,8 +3,8 @@
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
 	import { FileText, Hash, Trash, Inbox } from '$lib/icons';
 
-	/** @type {import('./tags').Tag[]} */
-	export let tags;
+	// /** @type {import('./tags').Tag[]} */
+	// export let tags;
 </script>
 
 <!-- change to asside? -->
@@ -39,7 +39,7 @@
 		</li>
 	</ul>
 
-	<Tags {tags} />
+	<Tags />
 
 	<div class="md:hidden">
 		<button

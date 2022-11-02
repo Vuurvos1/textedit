@@ -1,15 +1,14 @@
 <script>
 	import { Hash, Plus } from '$lib/icons';
+	import { tags, tagFolders } from '$lib/stores';
 	import { supabase, user } from '$lib/supabase';
 	import { insertTagBefore } from '$lib/tags/tagUtils';
+	import { stringify } from 'postcss';
 	import { tick } from 'svelte';
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
 	// TODO: allow editing of existing tags
-
-	/** @type {import('./tags').Tag[]} */
-	export let tags;
 
 	let addingTag = false;
 
@@ -38,8 +37,8 @@
 				return;
 			}
 
-			tags = insertTagBefore(
-				tags,
+			$tagFolders = insertTagBefore(
+				$tagFolders,
 				tag.split('/').filter((tag) => tag)
 			);
 		}
@@ -84,7 +83,7 @@
 			</li>
 		{/if}
 
-		{#each tags as tag}
+		{#each $tagFolders as tag}
 			<li>
 				<!-- this logic seems a bit double and it also in the tag folder -->
 				{#if tag.tags && tag.tags.length > 0}

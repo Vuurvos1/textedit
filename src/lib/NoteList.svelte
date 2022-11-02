@@ -1,7 +1,14 @@
 <script>
 	import NoteItem from './NoteItem.svelte';
 	import { supabase, user } from './supabase';
-	import { note as noteStore, notes, showNavigation, showNotes, showEditor } from '$lib/stores';
+	import {
+		note as noteStore,
+		notes,
+		showNavigation,
+		showNotes,
+		showEditor,
+		noteTags
+	} from '$lib/stores';
 	import { onMount } from 'svelte';
 	import { Search, Filter, Plus } from './icons';
 
@@ -93,11 +100,22 @@
 					>
 						<button
 							class="w-full p-4 border-b border-solid"
-							on:click={() => {
+							on:click={async () => {
 								$noteStore = note;
 								$showEditor = true;
 								$showNavigation = false;
 								$showNotes = false;
+
+								// .eq('', note.id)
+
+								const { data, error } = await supabase
+									.from('note_tags')
+									.select('note_id!inner(id), tag_id (tag)')
+									.eq('note_id.id', note.id);
+
+								$noteTags = data;
+
+								console.log(data);
 							}}
 						>
 							<NoteItem {note} />

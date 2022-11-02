@@ -5,7 +5,7 @@
 	import Footer from '$lib/Footer.svelte';
 
 	import { supabase, user } from '$lib/supabase';
-	import { showNavigation, showNotes, showEditor } from '$lib/stores';
+	import { showNavigation, showNotes, showEditor, tags, tagFolders } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import { insertTag } from '$lib/tags/tagUtils';
 
@@ -14,18 +14,18 @@
 	// let { tags } = data;
 	// $: ({ tags } = data); // so it stays in sync when `data` changes
 
-	/** @type {import('$lib/sidebar/tags').Tags} */
-	let tags = [];
 	// change to an object for speed?
 
 	async function getTags() {
 		// fetch users notes
 		// TODO: change this to the last updated field (how to handle pins?)
-		const { data, error } = await supabase.from('tags').select('tag');
+		const { data, error } = await supabase.from('tags').select('tag, id');
 
 		if (!error) {
 			// TODO: how to sort these, preferibly the user can determine the order
-			tags = data
+			$tags = data;
+
+			$tagFolders = data
 				.map((path) => path.tag.split('/').filter((tag) => tag))
 				.reduce((children, path) => insertTag(children, path), []);
 		} else {
@@ -42,7 +42,7 @@
 <div class="app">
 	<div class="layout">
 		<div class:selected={$showNavigation} class="navigation bg-slate-300">
-			<Sidebar {tags} />
+			<Sidebar />
 		</div>
 		<div class:selected={$showNotes} class="items h-full">
 			<NoteList />
