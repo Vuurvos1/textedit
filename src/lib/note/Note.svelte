@@ -9,6 +9,7 @@
 
 	import { Save, Download, Trash, Inbox } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
+	import Cross from '$lib/icons/Cross.svelte';
 
 	/**
 	 * @param {function} func
@@ -193,7 +194,27 @@
 
 			<ul class="flex flex-row gap-2">
 				{#each $noteTags as tag}
-					<li>{tag.tag_id.tag}</li>
+					<li class="flex flex-row">
+						<span>
+							{tag.tag_id.tag}
+						</span>
+						<button
+							on:click={async () => {
+								console.log(tag, $noteTags);
+
+								const { error } = await supabase.from('note_tags').delete().eq('id', tag.id);
+
+								if (error) {
+									console.error(error);
+								} else {
+									// remove tag from note
+									$noteTags = $noteTags.filter((t) => t.tag_id.id !== tag.tag_id.id);
+								}
+							}}
+						>
+							<Cross size={16} />
+						</button>
+					</li>
 				{/each}
 			</ul>
 		</div>

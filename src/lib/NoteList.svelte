@@ -106,11 +106,11 @@
 								$showNavigation = false;
 								$showNotes = false;
 
-								// .eq('', note.id)
-
+								// this query is still a bit bad since I bascially only want an array
+								// of strings that are the tags related to a note
 								const { data, error } = await supabase
 									.from('note_tags')
-									.select('note_id!inner(id), tag_id (tag)')
+									.select('note_id!inner(id), id, tag_id (tag, id)')
 									.eq('note_id.id', note.id);
 
 								$noteTags = data;
