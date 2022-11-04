@@ -4,7 +4,7 @@
 	user.set(supabase.auth.user());
 
 	supabase.auth.onAuthStateChange((event, session) => {
-		console.log('state change', event);
+		// console.log('state change', event);
 		user.set(session.user);
 	});
 </script>

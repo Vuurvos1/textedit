@@ -9,7 +9,7 @@
 
 	import { Save, Download, Trash, Inbox } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
-	import Cross from '$lib/icons/Cross.svelte';
+	import TagChip from '$lib/ui/TagChip.svelte';
 
 	/**
 	 * @param {function} func
@@ -102,6 +102,7 @@
 		// or bind this value within component
 		const results = $tags.filter((item) => item.tag.includes(ev.target.value));
 
+		// move through results with with arrows
 		console.log(results);
 
 		// TODO: create a dropdown/context menu for this
@@ -115,18 +116,17 @@
 			if (error) {
 				console.error(error);
 			} else {
-				console.log(data);
+				$noteTags.push({ id: data.id, name: results[0].tag });
+				$noteTags = $noteTags;
 			}
-		}
 
-		// console.log(ev.target.value);
-		// console.log(results);
+			ev.target.value = '';
+		}
 	}
 
 	async function addTagToNote(ev) {
 		// get note id
-
-		console.log($note.id, $user.id);
+		// console.log($note.id, $user.id);
 		// console.log
 		// get tag id
 		// add to
@@ -166,22 +166,72 @@
 <div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
 	<div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 ">
 		<!-- TODO: move this to note header component -->
-		<div>
-			<button
-				class="back-button"
-				on:click={() => {
-					$showNotes = true;
-					$showEditor = false;
-					$showNavigation = false;
-				}}>back</button
-			>
+		<div class="w-full">
+			<div class="flex flex-row justify-between mb-2">
+				<div>
+					<button
+						class="back-button mr-2"
+						on:click={() => {
+							$showNotes = true;
+							$showEditor = false;
+							$showNavigation = false;
+						}}
+					>
+						back
+					</button>
 
-			<div class="mb-2">
-				<label for="title" class="hidden">Title</label>
-				<input id="title" type="text" bind:value={$note.title} class="text-lg" />
+					<label for="title" class="hidden">Title</label>
+					<input id="title" type="text" bind:value={$note.title} class="text-lg" />
+				</div>
+
+				<div class="flex flex-row items-center gap-2">
+					<PopoutMenu>
+						<div class="flex flex-col bg-slate-300 py-2">
+							<!-- TODO: create icon button component -->
+							<button
+								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
+								title="Save note"
+								on:click={saveNote}
+							>
+								<Save />
+								<span>(Force) save</span>
+							</button>
+
+							<button
+								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
+								on:click={downloadNote}
+							>
+								<Download size={20} />
+								<span>Download</span>
+							</button>
+							<button
+								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-yellow-400"
+								on:click={archiveNote}
+							>
+								<Inbox size={20} />
+								<span>Archive</span>
+							</button>
+							<button
+								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-red-600"
+								on:click={deleteNote}
+							>
+								<Trash size={20} />
+								<span>Delete</span>
+							</button>
+						</div>
+					</PopoutMenu>
+				</div>
 			</div>
 
-			<div>
+			<div class="flex flex-row">
+				<ul class="flex flex-row">
+					{#each $noteTags as tag}
+						<li class="mr-2">
+							<TagChip {tag} />
+						</li>
+					{/each}
+				</ul>
+
 				<!-- search tags -->
 				<input
 					id="title"
@@ -191,70 +241,6 @@
 					on:keyup={searchTags}
 				/>
 			</div>
-
-			<ul class="flex flex-row gap-2">
-				{#each $noteTags as tag}
-					<li class="flex flex-row">
-						<span>
-							{tag.tag_id.tag}
-						</span>
-						<button
-							on:click={async () => {
-								console.log(tag, $noteTags);
-
-								const { error } = await supabase.from('note_tags').delete().eq('id', tag.id);
-
-								if (error) {
-									console.error(error);
-								} else {
-									// remove tag from note
-									$noteTags = $noteTags.filter((t) => t.tag_id.id !== tag.tag_id.id);
-								}
-							}}
-						>
-							<Cross size={16} />
-						</button>
-					</li>
-				{/each}
-			</ul>
-		</div>
-
-		<div class="flex flex-row items-center gap-2">
-			<PopoutMenu>
-				<div class="flex flex-col bg-slate-300 py-2">
-					<!-- TODO: create icon button component -->
-					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-						title="Save note"
-						on:click={saveNote}
-					>
-						<Save />
-						<span>(Force) save</span>
-					</button>
-
-					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-						on:click={downloadNote}
-					>
-						<Download size={20} />
-						<span>Download</span>
-					</button>
-					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-yellow-400"
-						on:click={archiveNote}
-					>
-						<Inbox size={20} />
-						<span>Archive</span>
-					</button>
-					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-red-600"
-						on:click={deleteNote}
-					>
-						<Trash size={20} />
-						<span>Delete</span>
-					</button>
-				</div>
-			</PopoutMenu>
 		</div>
 	</div>
 
@@ -266,8 +252,6 @@
 <style lang="scss">
 	button {
 		white-space: nowrap;
-
-		// width: max-content;
 	}
 
 	// .note {

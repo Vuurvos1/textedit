@@ -113,9 +113,11 @@
 									.select('note_id!inner(id), id, tag_id (tag, id)')
 									.eq('note_id.id', note.id);
 
-								$noteTags = data;
+								$noteTags = data.map((dataTag) => {
+									return { name: dataTag.tag_id.tag, id: dataTag.id };
+								});
 
-								console.log(data);
+								// console.log(data);
 							}}
 						>
 							<NoteItem {note} />
