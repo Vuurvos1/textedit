@@ -1,7 +1,7 @@
 <script>
 	import { supabase, user } from '$lib/supabase';
 	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
-	import { onMount, tick } from 'svelte';
+	import { onMount } from 'svelte';
 
 	// TODO rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
@@ -10,6 +10,18 @@
 	import { Save, Download, Trash, Inbox } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import TagChip from '$lib/ui/TagChip.svelte';
+
+	import { createPopperActions } from 'svelte-popperjs';
+	import { clickOutside } from '$lib/clickOutside';
+
+	// TODO: add some id thing so that only 1 can be open at a time
+
+	const [popperRef, popperContent] = createPopperActions({
+		placement: 'bottom-start'
+	});
+	export const extraOpts = {
+		modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
+	};
 
 	/**
 	 * @param {function} func
@@ -98,40 +110,68 @@
 		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
+	let searchString = '';
+	let searchResults = [];
+	let searchIndex = -1;
 	async function searchTags(ev) {
-		// or bind this value within component
-		const results = $tags.filter((item) => item.tag.includes(ev.target.value));
+		if (searchString == '') {
+			searchResults = [];
+			return;
+		}
 
-		// move through results with with arrows
-		console.log(results);
+		//  cancel search
+		if (ev.key === 'Escape') {
+			//reset values
+			searchString = '';
+			searchResults = [];
+			searchIndex = -1;
+			return;
+		}
+
+		searchResults = $tags.filter((item) => item.tag.includes(searchString));
+
+		if (ev.key === 'ArrowUp') {
+			searchIndex--;
+			if (searchIndex < 0) {
+				searchIndex = searchResults.length - 1;
+			}
+			return;
+		}
+
+		if (ev.key === 'ArrowDown') {
+			// focus first search result
+			searchIndex++;
+			if (searchIndex > searchResults.length - 1) {
+				searchIndex = 0;
+			}
+			return;
+		}
 
 		// TODO: create a dropdown/context menu for this
-		if (ev.key === 'Enter' && results.length > 0) {
-			const { data, error } = await supabase.from('note_tags').insert({
-				user_id: $user?.id,
-				tag_id: results[0].id,
-				note_id: $note?.id
-			});
-
-			if (error) {
-				console.error(error);
-			} else {
-				$noteTags.push({ id: data.id, name: results[0].tag });
-				$noteTags = $noteTags;
-			}
-
-			ev.target.value = '';
+		if (ev.key === 'Enter' && searchResults.length > 0) {
+			addTagToNote(searchIndex);
 		}
 	}
 
-	async function addTagToNote(ev) {
-		// get note id
-		// console.log($note.id, $user.id);
-		// console.log
-		// get tag id
-		// add to
-		// supabase.
-		// note_tag
+	async function addTagToNote(index) {
+		// add tag to post
+		const { data, error } = await supabase.from('note_tags').insert({
+			user_id: $user?.id,
+			tag_id: searchResults[index].id,
+			note_id: $note?.id
+		});
+
+		if (error) {
+			console.error(error);
+		} else {
+			$noteTags.push({ id: data[0].id, name: searchResults[index].tag });
+			$noteTags = $noteTags;
+		}
+
+		// reset values
+		searchString = '';
+		searchResults = [];
+		searchIndex = -1;
 	}
 
 	/** @type {HTMLElement | undefined} */
@@ -223,8 +263,8 @@
 				</div>
 			</div>
 
-			<div class="flex flex-row">
-				<ul class="flex flex-row">
+			<div class="flex flex-row flex-wrap">
+				<ul class="flex flex-row flex-wrap">
 					{#each $noteTags as tag}
 						<li class="mr-2">
 							<TagChip {tag} />
@@ -238,8 +278,37 @@
 					type="text"
 					placeholder="tag"
 					class="border-b-2 border-blue-400"
+					use:popperRef
+					bind:value={searchString}
 					on:keyup={searchTags}
 				/>
+
+				{#if searchResults.length > 0}
+					<ul
+						class="z-10 bg-slate-400"
+						use:popperContent={extraOpts}
+						use:clickOutside
+						on:outclick={() => {
+							searchResults = [];
+							searchString = '';
+						}}
+					>
+						{#each searchResults as option, i}
+							<li class="bg-slate-400 hover:bg-slate-300 " class:bg-slate-200={searchIndex === i}>
+								<button
+									class="px-4 py-1"
+									on:click={async () => {
+										// add tag to post
+										addTagToNote(i);
+									}}
+								>
+									<!-- TODO: bold part of string that matches search -->
+									{option.tag}
+								</button>
+							</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 		</div>
 	</div>
