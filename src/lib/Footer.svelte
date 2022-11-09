@@ -7,12 +7,13 @@
 	import { Download, GitHub, Sliders } from '$lib/icons';
 
 	import JSZip from 'jszip';
+	import { stringify } from 'postcss';
 
 	let loading = false;
 	async function handleLogin() {
 		try {
 			loading = true;
-			const { user, session, error } = await supabase.auth.signIn({
+			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'github'
 			});
 			// console.log(error, user, session);

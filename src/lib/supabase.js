@@ -6,7 +6,13 @@ export const supabase = createClient(
 	import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-export const user = writable(supabase.auth.user());
+const getUser = async () => {
+	const {
+		data: { session }
+	} = await supabase.auth.getSession();
+	return session?.user;
+};
+export const user = writable(getUser);
 // export const session = writable({});
 
 supabase.auth.onAuthStateChange((event, session) => {
