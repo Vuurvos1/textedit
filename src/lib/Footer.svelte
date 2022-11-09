@@ -64,11 +64,11 @@
 <footer class="md:flex items-center gap-2 h-8 px-2 bg-slate-500">
 	<PopoutMenu placement="top">
 		<UserIcon slot="icon" />
-		{#if $user}
+		{#if $user && ($user != undefined || $user != null)}
 			<h3>Account</h3>
 			<p>You are signed in as:</p>
-			<p>{$user.email}</p>
-			<p>Using: {$user.app_metadata.provider}</p>
+			<p>{$user?.email}</p>
+			<p>Using: {$user?.app_metadata?.provider}</p>
 
 			<button class="hover:text-purple-600" on:click={logout}>Logout</button>
 		{:else}
