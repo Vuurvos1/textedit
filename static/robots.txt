@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /api/
+Disallow: /fonts/
+Disallow: /css/
+Disallow: /js/
+Disallow: /notes/
