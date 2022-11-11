@@ -1,9 +1,12 @@
 import { writable } from 'svelte/store';
 
-export let note = writable(
-	/** @type {import('$lib/note/note').Note} */
-	{}
-);
+// /** @type {import('$lib/note/note').Note} */
+
+export let note = writable({
+	title: '',
+	id: '',
+	content: '' // rename to content
+});
 
 export let notes = writable([]);
 

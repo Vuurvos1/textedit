@@ -13,10 +13,13 @@
 	import { Search, Filter, Plus } from './icons';
 
 	async function addNote() {
-		const { data, error } = await supabase.from('notes').insert({
-			user_id: $user?.id,
-			title: `Note ${$notes.length + 1}`
-		});
+		const { data, error } = await supabase
+			.from('notes')
+			.insert({
+				user_id: $user?.id,
+				title: `Note ${$notes.length + 1}`
+			})
+			.select();
 
 		if (!error) {
 			$noteStore = data[0];

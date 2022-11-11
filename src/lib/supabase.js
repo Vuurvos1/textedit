@@ -10,9 +10,17 @@ const getUser = async () => {
 	const {
 		data: { session }
 	} = await supabase.auth.getSession();
-	return session?.user;
+
+	user.set(session?.user);
 };
-export const user = writable(getUser);
+
+export const user = writable({
+	id: '',
+	email: ''
+});
+
+getUser();
+
 // export const session = writable({});
 
 supabase.auth.onAuthStateChange((event, session) => {

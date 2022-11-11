@@ -7,7 +7,6 @@
 	import { Download, GitHub, Sliders } from '$lib/icons';
 
 	import JSZip from 'jszip';
-	import { stringify } from 'postcss';
 
 	let loading = false;
 	async function handleLogin() {
@@ -31,8 +30,8 @@
 			console.error(error);
 		}
 
-		// clear all stores
-		$user = null;
+		// clear all values
+		$user = undefined;
 		$note = {};
 		$notes = [];
 	}
@@ -43,7 +42,7 @@
 
 		for (let i = 0; i < $notes.length; i++) {
 			const n = $notes[i];
-			zip.file(`${n.title}.md`, n.text);
+			zip.file(`${n.title}.md`, n.content);
 		}
 
 		const blob = await zip.generateAsync({ type: 'blob' });
@@ -62,12 +61,13 @@
 </script>
 
 <footer class="md:flex items-center gap-2 h-8 px-2 bg-slate-500">
+	<!-- <pre>aaa</pre> -->
 	<PopoutMenu placement="top">
 		<UserIcon slot="icon" />
-		{#if $user && ($user != undefined || $user != null)}
+		{#if $user && $user?.email}
 			<h3>Account</h3>
 			<p>You are signed in as:</p>
-			<p>{$user?.email}</p>
+			<p>{$user.email}</p>
 			<p>Using: {$user?.app_metadata?.provider}</p>
 
 			<button class="hover:text-purple-600" on:click={logout}>Logout</button>
