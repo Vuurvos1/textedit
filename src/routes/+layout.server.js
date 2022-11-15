@@ -1,7 +1,8 @@
-// /** @type {import('./$types').LayoutServerLoad} */
-// export function load({ locals }) {
-// 	console.log(locals);
-// 	// return locals.user ? { user: locals.user } : { user: null };
+import { getServerSession } from '@supabase/auth-helpers-sveltekit';
 
-// 	return locals.user;
-// }
+/** @type {import('./$types').LayoutServerLoad} */
+export const load = async (event) => {
+	return {
+		session: await getServerSession(event)
+	};
+};

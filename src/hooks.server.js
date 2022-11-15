@@ -1,27 +1,38 @@
+import '$lib/db';
+
 // import { supabase } from '$lib/supabase';
 
-// /** @type {import('@sveltejs/kit').Handle} */
-// export async function handle({ event, resolve }) {
-// 	const session = event.cookies.get('session');
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+	// const { cookies } = event;
 
-// 	console.log(session);
+	// console.log(cookies);
 
-// 	if (!session) {
-// 		return await resolve(event);
-// 	}
+	// cookies.forEach((value, key) => {
+	// 	// do something
+	// 	console.log(value, key);
+	// });
 
-// 	const user = {};
-// 	// const user = await // get user from supabase
+	// 	const session = event.cookies.get('session');
 
-// 	if (user) {
-// 		event.locals.user = {
-// 			user: 'username',
-// 			role: 'role'
-// 		};
-// 	}
+	// 	console.log(session);
 
-// 	return await resolve(event);
-// }
+	// 	if (!session) {
+	// 		return await resolve(event);
+	// 	}
+
+	// 	const user = {};
+	// 	// const user = await // get user from supabase
+
+	// 	if (user) {
+	// 		event.locals.user = {
+	// 			user: 'username',
+	// 			role: 'role'
+	// 		};
+	// 	}
+
+	return await resolve(event);
+}
 
 // import { sequence } from '@sveltejs/kit/hooks';
 

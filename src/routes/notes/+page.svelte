@@ -4,7 +4,7 @@
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
 	import Footer from '$lib/Footer.svelte';
 
-	import { supabase, user } from '$lib/supabase';
+	import { supabase } from '$lib/supabase';
 	import { showNavigation, showNotes, showEditor, tags, tagFolders } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import { insertTag } from '$lib/tags/tagUtils';
