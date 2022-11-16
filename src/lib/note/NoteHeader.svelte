@@ -6,8 +6,17 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import { supabase, user } from '$lib/supabase';
-	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
+	import {
+		note,
+		notes,
+		noteTags,
+		showEditor,
+		showNavigation,
+		showNotes,
+		tags,
+		user
+	} from '$lib/stores';
+	import { supabaseClient } from '$lib/db';
 
 	/** @type {import('easymde')} */
 	export let easymde;
@@ -24,7 +33,7 @@
 	async function archiveNote() {
 		$note.content = easymde.value();
 
-		const { data, error } = await supabase
+		const { data, error } = await supabaseClient
 			.from('notes')
 			.update({
 				user_id: $user?.id,
@@ -39,7 +48,7 @@
 		// TODO: move this logic to "deleted page"
 		// first delete all note_tags that reference this note
 
-		const { error } = await supabase.from('notes').delete().eq('id', $note.id);
+		const { error } = await supabaseClient.from('notes').delete().eq('id', $note.id);
 
 		if (!error) {
 			$notes = $notes.filter((item) => item.id !== $note.id);
@@ -50,7 +59,7 @@
 
 		// $note.content = easymde.value();
 
-		// const { data, error } = await supabase
+		// const { data, error } = await supabaseClient
 		// 	.from('notes')
 		// 	.update({
 		// 		user_id: $user?.id,
@@ -115,7 +124,7 @@
 
 	async function addTagToNote(index) {
 		// add tag to post
-		const { data, error } = await supabase
+		const { data, error } = await supabaseClient
 			.from('note_tags')
 			.insert({
 				user_id: $user?.id,

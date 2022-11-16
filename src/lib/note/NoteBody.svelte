@@ -1,11 +1,11 @@
 <script>
-	import { note } from '$lib/stores';
+	import { note, user } from '$lib/stores';
 	import { debounce } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	// TODO rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
-	import { supabase, user } from '$lib/supabase';
+	import { supabaseClient } from '$lib/db';
 
 	/** @type {HTMLElement | undefined} */
 	let editor;
@@ -26,7 +26,7 @@
 		if ($note.content != easymde.value()) {
 			$note.content = easymde.value();
 
-			const { data, error } = await supabase
+			const { data, error } = await supabaseClient
 				.from('notes')
 				.update({
 					user_id: $user?.id,

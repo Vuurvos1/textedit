@@ -1,19 +1,19 @@
 <script>
 	import NoteItem from './NoteItem.svelte';
-	import { supabase, user } from './supabase';
 	import {
 		note as noteStore,
 		notes,
 		showNavigation,
 		showNotes,
 		showEditor,
-		noteTags
+		noteTags,
+		user
 	} from '$lib/stores';
-	import { onMount } from 'svelte';
 	import { Search, Filter, Plus } from './icons';
+	import { supabaseClient } from './db';
 
 	async function addNote() {
-		const { data, error } = await supabase
+		const { data, error } = await supabaseClient
 			.from('notes')
 			.insert({
 				user_id: $user?.id,
@@ -88,7 +88,7 @@
 
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
-								const { data, error } = await supabase
+								const { data, error } = await supabaseClient
 									.from('note_tags')
 									.select('note_id!inner(id), id, tag_id (tag, id)')
 									.eq('note_id.id', note.id);

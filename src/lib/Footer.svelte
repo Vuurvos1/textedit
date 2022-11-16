@@ -1,7 +1,6 @@
 <script>
 	import { supabaseClient } from '$lib/db';
-	import { supabase, user } from '$lib/supabase';
-	import { note, notes } from '$lib/stores';
+	import { note, notes, user } from '$lib/stores';
 	import { User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import { Download, GitHub, Sliders } from '$lib/icons';

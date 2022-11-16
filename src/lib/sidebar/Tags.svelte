@@ -1,9 +1,8 @@
 <script>
+	import { supabaseClient } from '$lib/db';
 	import { Hash, Plus } from '$lib/icons';
-	import { tags, tagFolders } from '$lib/stores';
-	import { supabase, user } from '$lib/supabase';
+	import { tagFolders, user } from '$lib/stores';
 	import { insertTagBefore } from '$lib/tags/tagUtils';
-	import { stringify } from 'postcss';
 	import { tick } from 'svelte';
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
@@ -27,7 +26,7 @@
 		// TODO: make sure the user didn't already add this tag
 		if (tag !== '') {
 			// submit tag
-			const { data, error } = await supabase.from('tags').insert({
+			const { data, error } = await supabaseClient.from('tags').insert({
 				user_id: $user?.id,
 				tag: tag
 			});

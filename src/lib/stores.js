@@ -1,4 +1,12 @@
 import { writable } from 'svelte/store';
+import { supabaseClient } from './db';
+
+// TODO: change to be read only?
+export let user = writable({});
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+	user.set(session?.user || {});
+});
 
 // /** @type {import('$lib/note/note').Note} */
 export let note = writable({
