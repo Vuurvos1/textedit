@@ -1,4 +1,4 @@
-// export const prerender = false;
+export const prerender = true;
 
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
