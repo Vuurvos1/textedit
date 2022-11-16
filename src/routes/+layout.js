@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
 /** @type {import('./$types').LayoutLoad} */
