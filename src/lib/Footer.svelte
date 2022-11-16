@@ -1,8 +1,8 @@
 <script>
+	import { supabaseClient } from '$lib/db';
 	import { supabase, user } from '$lib/supabase';
 	import { note, notes } from '$lib/stores';
 	import { User as UserIcon } from '$lib/icons';
-
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import { Download, GitHub, Sliders } from '$lib/icons';
 
@@ -12,7 +12,7 @@
 	async function handleLogin() {
 		try {
 			loading = true;
-			const { error } = await supabase.auth.signInWithOAuth({
+			const { error } = await supabaseClient.auth.signInWithOAuth({
 				provider: 'github'
 			});
 			// console.log(error, user, session);
@@ -25,7 +25,7 @@
 	}
 
 	async function logout() {
-		const { error } = await supabase.auth.signOut();
+		const { error } = await supabaseClient.auth.signOut();
 		if (error) {
 			console.error(error);
 		}

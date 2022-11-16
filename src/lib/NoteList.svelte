@@ -30,30 +30,7 @@
 		}
 	}
 
-	async function getNotes() {
-		// fetch users notes
-		// TODO: change this to the last updated field (how to handle pins?)
-		const { data, error } = await supabase
-			.from('notes')
-			.select()
-			.order('updated_at', { ascending: false });
-		notes.set(data);
-
-		if (!error) {
-			if (data.length > 0) {
-				$noteStore = data[0];
-			}
-		} else {
-			console.error(error);
-		}
-	}
-
 	function openSidebar() {}
-
-	onMount(async () => {
-		// server fetch these
-		getNotes();
-	});
 </script>
 
 <!-- <div class="content flex flex-col hidden md:flex "> -->

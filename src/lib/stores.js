@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 
 // /** @type {import('$lib/note/note').Note} */
-
 export let note = writable({
 	title: '',
 	id: '',

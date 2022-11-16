@@ -2,9 +2,6 @@
 	import Tags from './Tags.svelte';
 	import { showNavigation, showNotes, showEditor } from '$lib/stores';
 	import { FileText, Hash, Trash, Inbox } from '$lib/icons';
-
-	// /** @type {import('./tags').Tag[]} */
-	// export let tags;
 </script>
 
 <!-- change to asside? -->
