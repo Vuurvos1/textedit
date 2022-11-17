@@ -2,8 +2,10 @@
 	import Tags from './Tags.svelte';
 	import { showNavigation, showNotes, showEditor, user, note, notes } from '$lib/stores';
 	import { GitHub, FileText, Hash, Trash, Inbox, User as UserIcon } from '$lib/icons';
+	import { supabaseClient } from '$lib/db';
 
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
+	import { Chevron } from '$lib/icons';
 
 	async function handleLogin() {
 		try {
@@ -69,12 +71,17 @@
 
 	<div class="flex flex-row justify-between px-4 md:hidden">
 		<button
+			class="flex flex-row gap-2"
 			on:click={() => {
 				$showNotes = true;
 				$showNavigation = false;
 				$showEditor = false;
-			}}>&#60; Back</button
+			}}
 		>
+			<!-- TODO: turn this into a rotatable component, allong with chevron down -->
+			<Chevron rotation={270} />
+			<span>back</span>
+		</button>
 
 		<div class="flex flex-row ">
 			<!-- profile -->

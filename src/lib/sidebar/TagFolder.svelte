@@ -1,5 +1,5 @@
 <script>
-	import ChevronDown from '$lib/icons/ChevronDown.svelte';
+	import { Chevron } from '$lib/icons';
 	import Hash from '$lib/icons/Hash.svelte';
 	import Tag from './Tag.svelte';
 
@@ -24,9 +24,8 @@
 		console.log('hit key on tag folder');
 	}}
 >
-	<span style={expanded ? 'transform:rotate(90deg)' : ''} class="origin-center">
-		<ChevronDown size="16" />
-	</span>
+	<Chevron size="16" rotation={expanded ? 180 : 90} />
+
 	<span><Hash size="14" /></span>
 	<span>{name}</span>
 </span>

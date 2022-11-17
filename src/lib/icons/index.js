@@ -1,4 +1,4 @@
-export { default as ChevronDown } from './ChevronDown.svelte';
+export { default as Chevron } from './Chevron.svelte';
 export { default as Download } from './Download.svelte';
 export { default as FileText } from './FileText.svelte';
 export { default as Filter } from './Filter.svelte';
