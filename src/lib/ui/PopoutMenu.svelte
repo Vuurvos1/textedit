@@ -3,10 +3,11 @@
 	import { clickOutside } from '$lib/clickOutside';
 	import { MoreHorizontal } from '$lib/icons';
 
+	// /** @type {import('svelte-popperjs').ReferenceAction} */
 	// TODO: add some id thing so that only 1 can be open at a time
 
-	// export const options = {}
-	export const placement = 'bottom';
+	// TODO: add placement type to this
+	export let placement = 'bottom';
 
 	const [popperRef, popperContent] = createPopperActions({
 		placement: placement

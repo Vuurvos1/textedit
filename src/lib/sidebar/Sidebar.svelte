@@ -1,7 +1,36 @@
 <script>
 	import Tags from './Tags.svelte';
-	import { showNavigation, showNotes, showEditor } from '$lib/stores';
-	import { FileText, Hash, Trash, Inbox } from '$lib/icons';
+	import { showNavigation, showNotes, showEditor, user, note, notes } from '$lib/stores';
+	import { GitHub, FileText, Hash, Trash, Inbox, User as UserIcon } from '$lib/icons';
+
+	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
+
+	async function handleLogin() {
+		try {
+			loading = true;
+			const { error } = await supabaseClient.auth.signInWithOAuth({
+				provider: 'github'
+			});
+			// console.log(error, user, session);
+			if (error) throw error;
+		} catch (err) {
+			console.log(err);
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function logout() {
+		const { error } = await supabaseClient.auth.signOut();
+		if (error) {
+			console.error(error);
+		}
+
+		// clear all values
+		$user = undefined;
+		$note = {};
+		$notes = [];
+	}
 </script>
 
 <!-- change to asside? -->
@@ -38,7 +67,7 @@
 
 	<Tags />
 
-	<div class="md:hidden">
+	<div class="flex flex-row justify-between px-4 md:hidden">
 		<button
 			on:click={() => {
 				$showNotes = true;
@@ -46,9 +75,29 @@
 				$showEditor = false;
 			}}>&#60; Back</button
 		>
-		<!-- profile -->
-		<!-- settings -->
-		<!-- theme -->
+
+		<div class="flex flex-row ">
+			<!-- profile -->
+			<PopoutMenu placement="top-start" extraOpts={{ modifiers: [] }}>
+				<UserIcon slot="icon" />
+				{#if $user && $user?.email}
+					<h3>Account</h3>
+					<p>You are signed in as:</p>
+					<p>{$user.email}</p>
+					<p>Using: {$user?.app_metadata?.provider}</p>
+
+					<button class="hover:text-purple-600" on:click={logout}>Logout</button>
+				{:else}
+					<button class="flex flex-row items-center gap-2 px-2 py-1" on:click={handleLogin}>
+						<GitHub />
+
+						<span class="w-max">Login with Github</span>
+					</button>
+				{/if}
+			</PopoutMenu>
+			<!-- settings -->
+			<!-- theme -->
+		</div>
 	</div>
 </div>
 
