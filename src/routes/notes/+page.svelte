@@ -9,7 +9,8 @@
 		showNotes,
 		showEditor,
 		tagFolders,
-		notes as notesStore
+		notes as notesStore,
+		tags as tagsStore
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 
@@ -19,6 +20,8 @@
 	// TODO: how to sort these, preferibly the user can determine the order
 	let { tags, notes } = data;
 	$: ({ tags, notes } = data);
+
+	$tagsStore = tags;
 
 	// change to an object for speed?
 	$tagFolders = tags
