@@ -245,8 +245,9 @@
 									addTagToNote(i);
 								}}
 							>
-								<!-- TODO: bold part of string that matches search -->
-								{option.tag}
+								<!-- {option.tag} -->
+								<!-- Bold part of string that matches search -->
+								{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
 							</button>
 						</li>
 					{/each}
