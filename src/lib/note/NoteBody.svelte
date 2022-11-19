@@ -23,13 +23,13 @@
 	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
 		// test if not the same to prevent feedback loop
-		if ($note.content != easymde.value()) {
+		if ($user && $note.content != easymde.value()) {
 			$note.content = easymde.value();
 
 			const { data, error } = await supabaseClient
 				.from('notes')
 				.update({
-					user_id: $user?.id,
+					user_id: $user.id,
 					title: $note.title,
 					text: $note.content
 				})

@@ -1,9 +1,9 @@
 <script>
-	import { supabaseClient } from '$lib/db';
-	import { note, notes, user } from '$lib/stores';
 	import { Download, GitHub, Sliders, User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
+	import { note, notes, user } from '$lib/stores';
+	import { supabaseClient } from '$lib/db';
 	import JSZip from 'jszip';
 
 	let loading = false;
@@ -29,7 +29,7 @@
 		}
 
 		// clear all values
-		$user = undefined;
+		$user = {};
 		$note = {};
 		$notes = [];
 	}

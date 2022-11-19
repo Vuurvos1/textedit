@@ -1,11 +1,12 @@
 <script>
-	import { supabaseClient } from '$lib/db';
 	import { Hash, Plus } from '$lib/icons';
-	import { tagFolders, user } from '$lib/stores';
 	import { insertTagBefore } from '$lib/tags/tagUtils';
-	import { tick } from 'svelte';
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
+
+	import { tagFolders, user } from '$lib/stores';
+	import { tick } from 'svelte';
+	import { supabaseClient } from '$lib/db';
 
 	// TODO: allow editing of existing tags
 
@@ -24,10 +25,10 @@
 
 	async function addTag() {
 		// TODO: make sure the user didn't already add this tag
-		if (tag !== '') {
+		if (tag !== '' && $user) {
 			// submit tag
-			const { data, error } = await supabaseClient.from('tags').insert({
-				user_id: $user?.id,
+			const { error } = await supabaseClient.from('tags').insert({
+				user_id: $user.id,
 				tag: tag
 			});
 

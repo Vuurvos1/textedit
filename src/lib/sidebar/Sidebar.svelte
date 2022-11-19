@@ -1,12 +1,12 @@
 <script>
 	import Tags from './Tags.svelte';
+	import { GitHub, FileText, Hash, Trash, Inbox, Chevron, User as UserIcon } from '$lib/icons';
+	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
+
 	import { showNavigation, showNotes, showEditor, user, note, notes } from '$lib/stores';
-	import { GitHub, FileText, Hash, Trash, Inbox, User as UserIcon } from '$lib/icons';
 	import { supabaseClient } from '$lib/db';
 
-	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
-	import { Chevron } from '$lib/icons';
-
+	let loading = false;
 	async function handleLogin() {
 		try {
 			loading = true;
@@ -35,8 +35,7 @@
 	}
 </script>
 
-<!-- change to asside? -->
-<!-- navigation -->
+<!-- navigation, change to an asside? -->
 <div class="h-full py-4">
 	<h3 class="font-bold font-lg px-4 mb-2">Views</h3>
 

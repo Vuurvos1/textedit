@@ -1,5 +1,5 @@
 <script>
-	import { Save, Download, Trash, Inbox } from '$lib/icons';
+	import { Save, Download, Trash, Inbox, Chevron } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import TagChip from '$lib/ui/TagChip.svelte';
 
@@ -148,11 +148,11 @@
 </script>
 
 <div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 ">
-	<!-- TODO: move this to note header component -->
 	<div class="w-full">
 		<div class="flex flex-row justify-between mb-2">
-			<div>
+			<div class="flex flex-row items-center">
 				<button
+					aria-label="Back"
 					class="back-button mr-2"
 					on:click={() => {
 						$showNotes = true;
@@ -160,7 +160,7 @@
 						$showNavigation = false;
 					}}
 				>
-					back
+					<Chevron rotation={270} />
 				</button>
 
 				<label for="title" class="hidden">Title</label>
