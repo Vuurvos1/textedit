@@ -14,27 +14,27 @@
 	import { supabaseClient } from './db';
 
 	async function addNote() {
-		if (!$user) return;
+		const res = await fetch('/api/note', {
+			method: 'POST',
+			body: JSON.stringify({ index: $notes.length + 1 }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
 
-		const { data, error } = await supabaseClient
-			.from('notes')
-			.insert({
-				user_id: $user.id,
-				title: `Note ${$notes.length + 1}`
-			})
-			.select();
+		if (res.ok) {
+			const data = await res.json();
 
-		if (!error) {
-			$noteStore = data[0];
-			$notes.unshift(data[0]); // faster than concat
+			// clear and update stores with new note
+			$noteTags = [];
+			$noteStore = data;
+			$notes.unshift(data); // faster than concat
 			$notes = $notes; // trigger rerender
 
 			// focus note
 			$showNavigation = false;
 			$showNotes = false;
 			$showEditor = true;
-		} else {
-			console.error(error);
 		}
 	}
 
@@ -156,11 +156,6 @@
 	}
 
 	@media (min-width: 768px) {
-		// place items head back
-
-		.items {
-			&__head {
-			}
-		}
+		//
 	}
 </style>

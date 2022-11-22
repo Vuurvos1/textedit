@@ -45,20 +45,20 @@
 	}
 
 	async function deleteNote() {
-		// TODO: move this logic to "deleted page"
-		// first delete all note_tags that reference this note
+		const res = await fetch('/api/note', {
+			method: 'DELETE',
+			body: JSON.stringify({ noteId: $note.id }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
 
-		const { error } = await supabaseClient.from('notes').delete().eq('id', $note.id);
-
-		if (!error) {
+		if (res.ok) {
 			$notes = $notes.filter((item) => item.id !== $note.id);
 			$note = $notes[0];
-		} else {
-			console.error(error);
 		}
 
 		// $note.content = easymde.value();
-
 		// const { data, error } = await supabaseClient
 		// 	.from('notes')
 		// 	.update({
