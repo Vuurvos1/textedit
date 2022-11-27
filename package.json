@@ -19,7 +19,7 @@
 		"package": "npm run build && electron-builder --config electron-builder.config.json"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.28.0",
+		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "1.0.0-next.89",
 		"@sveltejs/adapter-static": "1.0.0-next.41",
 		"@sveltejs/adapter-vercel": "1.0.0-next.84",
@@ -29,7 +29,7 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"postcss": "^8.4.19",
-		"prettier": "^2.7.1",
+		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",
 		"sass": "^1.56.1",
 		"svelte": "^3.53.1",
@@ -44,7 +44,7 @@
 	"dependencies": {
 		"@popperjs/core": "^2.11.6",
 		"@supabase/auth-helpers-sveltekit": "^0.8.6",
-		"@supabase/supabase-js": "^2.1.0",
+		"@supabase/supabase-js": "^2.1.1",
 		"cookie": "0.5.0",
 		"dotenv": "^16.0.3",
 		"easymde": "^2.18.0",

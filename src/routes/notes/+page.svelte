@@ -28,7 +28,6 @@
 		.map((path) => path.tag.split('/').filter((tag) => tag))
 		.reduce((children, path) => insertTag(children, path), []);
 
-	//
 	$notesStore = notes;
 </script>
 

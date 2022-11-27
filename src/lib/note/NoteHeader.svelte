@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import type EasyMDE from 'easymde';
+
 	import { Save, Download, Trash, Inbox, Chevron } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import TagChip from '$lib/ui/TagChip.svelte';
@@ -18,8 +20,7 @@
 	} from '$lib/stores';
 	import { supabaseClient } from '$lib/db';
 
-	/** @type {import('easymde')} */
-	export let easymde;
+	export let easymde: EasyMDE;
 
 	// TODO: add some id thing so that only 1 can be open at a time,
 	// like a global store thing
@@ -30,21 +31,27 @@
 		modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
 	};
 
-	async function archiveNote() {
+	async function updateNoteStatus(newStatus: 'active' | 'archived' | 'deleted') {
 		$note.content = easymde.value();
 
-		const { data, error } = await supabaseClient
-			.from('notes')
-			.update({
-				user_id: $user?.id,
-				status: 'archived'
-			})
-			.match({ id: $note.id }); // TODO add RLS rule for this
+		// TODO: add RLS to validate status
+		const res = await fetch('/api/note', {
+			method: 'PATCH',
+			body: JSON.stringify({ noteId: $note.id, status: newStatus }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
 
-		console.log(data, error);
+		if (res.ok) {
+			return;
+		}
+
+		console.error('Problem updating note status');
 	}
 
 	async function deleteNote() {
+		// TODO: move to trash folder first (remove note after 30 days in folder?)
 		const res = await fetch('/api/note', {
 			method: 'DELETE',
 			body: JSON.stringify({ noteId: $note.id }),
@@ -58,14 +65,7 @@
 			$note = $notes[0];
 		}
 
-		// $note.content = easymde.value();
-		// const { data, error } = await supabaseClient
-		// 	.from('notes')
-		// 	.update({
-		// 		user_id: $user?.id,
-		// 		status: 'deleted' // TODO add RLS for valid status ['active', 'archived', 'deleted']
-		// 	})
-		// 	.match({ id: $note.id }); // TODO add RLS rule for this
+		console.error('Problem deleting note');
 	}
 
 	async function downloadNote() {
@@ -135,10 +135,11 @@
 
 		if (error) {
 			console.error(error);
-		} else {
-			$noteTags.push({ id: data[0].id, name: searchResults[index].tag });
-			$noteTags = $noteTags;
+			return;
 		}
+
+		$noteTags.push({ id: data[0].id, name: searchResults[index].tag });
+		$noteTags = $noteTags;
 
 		// reset values
 		searchString = '';
@@ -189,7 +190,9 @@
 						</button>
 						<button
 							class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-yellow-400"
-							on:click={archiveNote}
+							on:click={() => {
+								updateNoteStatus('archived');
+							}}
 						>
 							<Inbox size={20} />
 							<span>Archive</span>

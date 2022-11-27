@@ -1,17 +1,16 @@
-<script>
-	import { note, user } from '$lib/stores';
+<script lang="ts">
+	import type EasyMDE from 'easymde';
+
+	import { note } from '$lib/stores';
 	import { debounce } from '$lib/utils';
 	import { onMount } from 'svelte';
 
-	// TODO rewrite this stylesheet
+	// TODO: rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
-	import { supabaseClient } from '$lib/db';
 
-	/** @type {HTMLElement | undefined} */
-	let editor;
+	let editor: HTMLElement;
 
-	/** @type {import('easymde')} */
-	export let easymde;
+	export let easymde: EasyMDE;
 
 	note.subscribe((value) => {
 		if (easymde && value.content !== undefined) {
@@ -22,24 +21,20 @@
 	// TODO: move this into the note store component?
 	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
-		// test if not the same to prevent feedback loop
-		if ($user && $note.content != easymde.value()) {
-			$note.content = easymde.value();
+		if ($note.content == easymde.value()) return;
 
-			const { data, error } = await supabaseClient
-				.from('notes')
-				.update({
-					user_id: $user.id,
-					title: $note.title,
-					text: $note.content
-				})
-				.match({ id: $note.id }); // TODO add RLS rule for this
+		$note.content = easymde.value();
 
-			if (!error) {
-				console.log('saving note', data);
-			} else {
-				console.error(error);
+		const res = await fetch('/api/note', {
+			method: 'PATCH',
+			body: JSON.stringify({ note_id: $note.id, title: $note.title, content: easymde.value() }),
+			headers: {
+				'content-type': 'application/json'
 			}
+		});
+
+		if (res.ok) {
+			return;
 		}
 	}
 

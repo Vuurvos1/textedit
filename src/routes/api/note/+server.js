@@ -1,7 +1,6 @@
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { error } from '@sveltejs/kit';
 
-// GET POST PATCH PUT DELETE
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function POST(event) {
 	const { session, supabaseClient } = await getSupabase(event);
@@ -28,6 +27,34 @@ export async function POST(event) {
 }
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
+export async function PATCH(event) {
+	const { session, supabaseClient } = await getSupabase(event);
+
+	if (!session) {
+		throw error(401, 'Unauthorized');
+	}
+
+	const data = await event.request.json();
+	const { note_id } = data;
+	delete data.note_id;
+
+	const { error: err } = await supabaseClient
+		.from('notes')
+		.update({
+			user_id: session.user.id,
+			...data
+		})
+		.match({ id: note_id })
+		.single(); // TODO add RLS rule that also matches note id for update
+
+	if (err) {
+		throw error(501, err.message);
+	}
+
+	return new Response('note updated successfully');
+}
+
+/** @type {import('@sveltejs/kit').RequestHandler} */
 export async function DELETE(event) {
 	const { session, supabaseClient } = await getSupabase(event);
 
@@ -37,7 +64,7 @@ export async function DELETE(event) {
 
 	const { noteId } = await event.request.json();
 
-	// delete all note_tags that reference note
+	// delete all note_tags that reference note, change this to be done on a db level?
 	const { error: err1 } = await supabaseClient.from('note_tags').delete().eq('note_id', noteId);
 
 	if (err1) {
@@ -51,5 +78,5 @@ export async function DELETE(event) {
 		throw error(501, err2.message);
 	}
 
-	return new Response('great succes');
+	return new Response('great success');
 }
