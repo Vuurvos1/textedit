@@ -10,6 +10,7 @@
 		showEditor,
 		tagFolders,
 		notes as notesStore,
+		note,
 		tags as tagsStore
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
@@ -29,6 +30,8 @@
 		.reduce((children, path) => insertTag(children, path), []);
 
 	$notesStore = notes;
+
+	$note = notes[0];
 </script>
 
 <div class="app">

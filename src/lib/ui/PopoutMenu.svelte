@@ -22,6 +22,11 @@
 <div class="relative leading-[0]">
 	<button
 		use:popperRef
+		on:keydown={(ev) => {
+			if (ev.key === ' ' || ev.key === 'Enter') {
+				showTooltip = !showTooltip;
+			}
+		}}
 		on:click|stopPropagation={() => {
 			showTooltip = !showTooltip;
 		}}
@@ -33,7 +38,7 @@
 
 	{#if showTooltip}
 		<div
-			class="z-10 leading-normal bg-slate-50 shadow rounded"
+			class="z-10 leading-normal bg-white shadow rounded"
 			use:popperContent={extraOpts}
 			use:clickOutside
 			on:outclick={() => {

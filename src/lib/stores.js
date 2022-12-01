@@ -8,7 +8,6 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 	user.set(session?.user || {});
 });
 
-// /** @type {import('$lib/note/note').Note} */
 export let note = writable({
 	title: '',
 	id: '',

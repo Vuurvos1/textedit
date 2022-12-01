@@ -69,8 +69,10 @@
 	}
 
 	async function downloadNote() {
-		// TODO add metadata on top?
-		const blob = new Blob([easymde.value()], { type: 'text/plain' });
+		// TODO: add metadata header on top
+		// console.log($note);
+
+		const blob = new Blob([$note.content], { type: 'text/plain' });
 		const url = URL.createObjectURL(blob);
 		const link = document.createElement('a');
 		link.download = `${$note.title}.md`;
@@ -148,115 +150,121 @@
 	}
 </script>
 
-<div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 ">
-	<div class="w-full">
-		<div class="flex flex-row justify-between mb-2">
-			<div class="flex flex-row items-center">
-				<button
-					aria-label="Back"
-					class="back-button mr-2"
-					on:click={() => {
-						$showNotes = true;
-						$showEditor = false;
-						$showNavigation = false;
-					}}
-				>
-					<Chevron rotation={270} />
-				</button>
+<div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 py-2">
+	<div class="flex flex-row items-center mb-2 w-full">
+		<button
+			aria-label="Back"
+			class="back-button mr-2"
+			on:click={() => {
+				$showNotes = true;
+				$showEditor = false;
+				$showNavigation = false;
+			}}
+		>
+			<Chevron rotation={270} />
+		</button>
 
-				<label for="title" class="hidden">Title</label>
-				<input id="title" type="text" bind:value={$note.title} class="text-lg" />
-			</div>
+		<input
+			id="title"
+			aria-label="title"
+			type="text"
+			bind:value={$note.title}
+			class="w-full text-2xl font-bold bg-transparent focus:outline-none"
+		/>
 
-			<div class="flex flex-row items-center gap-2">
-				<PopoutMenu>
-					<div class="flex flex-col bg-slate-300 py-2">
-						<!-- TODO: create icon button component -->
-						<!-- <button
-							class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-							title="Save note"
-							on:click={saveNote}
-						>
-							<Save />
-							<span>(Force) save</span>
-						</button> -->
+		<div class="ml-auto">
+			<PopoutMenu>
+				<div class="flex flex-col py-2">
+					<!-- TODO: create icon button component -->
+					<!-- <button
+								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
+								title="Save note"
+								on:click={saveNote}
+							>
+								<Save />
+								<span>(Force) save</span>
+							</button> -->
 
+					<button
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200"
+						on:click={downloadNote}
+					>
+						<Download size={16} />
+						<span>Export</span>
+					</button>
+					<button
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
+						on:click={() => {
+							updateNoteStatus('archived');
+						}}
+					>
+						<Inbox size={16} />
+						<span>Archive</span>
+					</button>
+					<button
+						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-red-600"
+						on:click={deleteNote}
+					>
+						<Trash size={16} />
+						<span>Delete</span>
+					</button>
+
+					<!-- Duplicate -->
+					<!-- Spellcheck -->
+				</div>
+			</PopoutMenu>
+		</div>
+	</div>
+
+	<div class="flex flex-row flex-wrap gap-2">
+		<ul class="flex flex-row flex-wrap gap-2">
+			{#each $noteTags as tag}
+				<li>
+					<TagChip {tag} />
+				</li>
+			{/each}
+		</ul>
+
+		<!-- note-view-linking-container hidden min-w-80 max-w-full flex-wrap items-center gap-2 bg-transparent md:-mr-2 md:flex mt-1 -->
+
+		<!-- search tags -->
+		<input
+			id="title"
+			type="text"
+			placeholder="add tag"
+			class="border-b-2 focus:border-blue-400 focus:outline-none"
+			use:popperRef
+			bind:value={searchString}
+			on:keyup={searchTags}
+		/>
+
+		{#if searchResults.length > 0}
+			<ul
+				class="z-10 bg-white rounded shadow"
+				use:popperContent={extraOpts}
+				use:clickOutside
+				on:outclick={() => {
+					searchResults = [];
+					searchString = '';
+				}}
+			>
+				{#each searchResults as option, i}
+					<li class="hover:bg-slate-100 " class:bg-slate-200={searchIndex === i}>
 						<button
-							class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-							on:click={downloadNote}
-						>
-							<Download size={20} />
-							<span>Download</span>
-						</button>
-						<button
-							class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-yellow-400"
-							on:click={() => {
-								updateNoteStatus('archived');
+							class="px-4 py-1"
+							on:click={async () => {
+								// add tag to post
+								addTagToNote(i);
 							}}
 						>
-							<Inbox size={20} />
-							<span>Archive</span>
+							<!-- {option.tag} -->
+							<!-- Bold part of string that matches search -->
+							{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
 						</button>
-						<button
-							class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400 text-red-600"
-							on:click={deleteNote}
-						>
-							<Trash size={20} />
-							<span>Delete</span>
-						</button>
-					</div>
-				</PopoutMenu>
-			</div>
-		</div>
-
-		<div class="flex flex-row flex-wrap">
-			<ul class="flex flex-row flex-wrap">
-				{#each $noteTags as tag}
-					<li class="mr-2">
-						<TagChip {tag} />
 					</li>
 				{/each}
 			</ul>
-
-			<!-- search tags -->
-			<input
-				id="title"
-				type="text"
-				placeholder="tag"
-				class="border-b-2 border-blue-400"
-				use:popperRef
-				bind:value={searchString}
-				on:keyup={searchTags}
-			/>
-
-			{#if searchResults.length > 0}
-				<ul
-					class="z-10 bg-slate-400"
-					use:popperContent={extraOpts}
-					use:clickOutside
-					on:outclick={() => {
-						searchResults = [];
-						searchString = '';
-					}}
-				>
-					{#each searchResults as option, i}
-						<li class="bg-slate-400 hover:bg-slate-300 " class:bg-slate-200={searchIndex === i}>
-							<button
-								class="px-4 py-1"
-								on:click={async () => {
-									// add tag to post
-									addTagToNote(i);
-								}}
-							>
-								<!-- {option.tag} -->
-								<!-- Bold part of string that matches search -->
-								{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
-							</button>
-						</li>
-					{/each}
-				</ul>
-			{/if}
-		</div>
+		{/if}
 	</div>
 </div>
 

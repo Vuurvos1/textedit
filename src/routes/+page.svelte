@@ -10,7 +10,7 @@
 		<h1
 			class="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-12"
 		>
-			A quick way to take notes
+			A quicker way to take notes
 		</h1>
 
 		<!-- <p class="mb-4 text-center" /> -->
