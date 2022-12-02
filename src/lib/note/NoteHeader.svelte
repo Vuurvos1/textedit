@@ -43,11 +43,10 @@
 			}
 		});
 
-		if (res.ok) {
+		if (!res.ok) {
+			console.error('Problem updating note status');
 			return;
 		}
-
-		console.error('Problem updating note status');
 	}
 
 	async function deleteNote() {
@@ -61,15 +60,16 @@
 		});
 
 		if (res.ok) {
-			$notes = $notes.filter((item) => item.id !== $note.id);
-			$note = $notes[0];
+			console.error('Problem deleting note');
+			return;
 		}
 
-		console.error('Problem deleting note');
+		$notes = $notes.filter((item) => item.id !== $note.id);
+		$note = $notes[0];
 	}
 
 	async function downloadNote() {
-		// TODO: add metadata header on top
+		// TODO: add metadata header on top > add tags to $note
 		// console.log($note);
 
 		const blob = new Blob([$note.content], { type: 'text/plain' });
@@ -125,22 +125,24 @@
 	}
 
 	async function addTagToNote(index) {
-		// add tag to post
-		const { data, error } = await supabaseClient
-			.from('note_tags')
-			.insert({
-				user_id: $user?.id,
-				tag_id: searchResults[index].id,
-				note_id: $note?.id
-			})
-			.select();
+		const res = await fetch('/api/noteTag', {
+			method: 'POST',
+			body: JSON.stringify({
+				note_id: $note?.id,
+				tag_id: searchResults[index].id
+			}),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
 
-		if (error) {
-			console.error(error);
+		if (!res.ok) {
+			console.error('Problem deleting note');
 			return;
 		}
 
-		$noteTags.push({ id: data[0].id, name: searchResults[index].tag });
+		const data = await res.json();
+		$noteTags.push({ id: data.id, name: searchResults[index].tag });
 		$noteTags = $noteTags;
 
 		// reset values
