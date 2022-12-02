@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
+	import type EasyMDE from 'easymde';
 	import NoteBody from './NoteBody.svelte';
 	import NoteHeader from './NoteHeader.svelte';
 
-	/** @type {import('easymde')} */
-	let easymde;
+	let easymde: EasyMDE;
 </script>
 
 <div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
@@ -13,17 +13,4 @@
 </div>
 
 <style lang="scss">
-	button {
-		white-space: nowrap;
-	}
-
-	// .note {
-	// :global() TODO import editor styles here
-	// }
-
-	@media (min-width: 768px) {
-		.back-button {
-			display: none;
-		}
-	}
 </style>

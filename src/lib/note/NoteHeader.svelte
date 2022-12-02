@@ -8,17 +8,7 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import {
-		note,
-		notes,
-		noteTags,
-		showEditor,
-		showNavigation,
-		showNotes,
-		tags,
-		user
-	} from '$lib/stores';
-	import { supabaseClient } from '$lib/db';
+	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
 
 	export let easymde: EasyMDE;
 

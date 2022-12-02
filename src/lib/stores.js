@@ -9,9 +9,9 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 
 export let note = writable({
-	title: '',
+	title: 'Note',
 	id: '',
-	content: '' // rename to content
+	content: 'Start writing…' // rename to content
 });
 
 export let notes = writable([]);

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import NoteList from '$lib/NoteList.svelte';
 	import Note from '$lib/note/Note.svelte';
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
@@ -14,9 +14,9 @@
 		tags as tagsStore
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
+	import type { PageData } from './$types';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	export let data: PageData;
 
 	// TODO: how to sort these, preferibly the user can determine the order
 	let { tags, notes } = data;
@@ -31,7 +31,9 @@
 
 	$notesStore = notes;
 
-	$note = notes[0];
+	if ($notesStore.length > 0) {
+		$note = $notesStore[0];
+	}
 </script>
 
 <div class="app">
