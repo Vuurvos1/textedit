@@ -1,8 +1,8 @@
-// import { redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import type { PageLoad } from './$types';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
-/** @type {import('./$types').PageLoad} */
-export async function load(event) {
+export const load: PageLoad = async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
 
 	if (!session) {
@@ -32,4 +32,4 @@ export async function load(event) {
 		notes: notesRes.data ? notesRes.data : [],
 		tags: tagsRes.data ? tagsRes.data : []
 	};
-}
+};

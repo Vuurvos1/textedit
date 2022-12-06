@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.scss';
 
 	import { supabaseClient } from '$lib/db';
@@ -16,8 +16,6 @@
 			subscription.unsubscribe();
 		};
 	});
-
-	// redirect to /notes if loged in?
 </script>
 
 <slot />
