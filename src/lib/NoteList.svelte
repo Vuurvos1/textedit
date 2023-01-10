@@ -131,7 +131,10 @@
 						<button
 							class="w-full p-4 border-b border-solid"
 							on:click={async () => {
-								// saveNote();
+								// save current note
+
+								// update note store
+
 								$noteStore = note;
 								$showEditor = true;
 								$showNavigation = false;
@@ -155,7 +158,7 @@
 								// console.log(data);
 							}}
 						>
-							<NoteItem {note} />
+							<NoteItem note={$noteStore.id === note.id ? $noteStore : note} />
 						</button>
 					</li>
 				{/each}

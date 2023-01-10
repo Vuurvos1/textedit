@@ -2,7 +2,7 @@
 	import type EasyMDE from 'easymde';
 
 	import { note, notes } from '$lib/stores';
-	import { debounce } from '$lib/utils';
+	// import { debounce } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	// TODO: rewrite this stylesheet
@@ -12,32 +12,64 @@
 
 	export let easymde: EasyMDE;
 
-	note.subscribe((value) => {
-		if (easymde && value.content !== undefined) {
-			easymde.value(value.content);
-		}
-	});
+	// note.subscribe((value) => {
+	// 	console.log('note change');
+	// 	if (easymde && value.content !== undefined) {
+	// 		easymde.value(value.content);
+	// 	}
+	// });
+
+	function debounce(func: Function, delay = 250) {
+		/** @type {setTimeout | any} */
+		let timeout: NodeJS.Timeout;
+		console.log('a');
+
+		/** @param {any} args */
+		return (...args: any) => {
+			console.log('b');
+
+			// console.log($note.content);
+			// $note.content = easymde.value();
+			// console.log($note.content);
+
+			// $notes = $notes;
+
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				console.log('c');
+				// $note.content == easymde.value();
+				// $notes = $notes;
+				func(...args);
+			}, delay);
+		};
+	}
 
 	// TODO: move this into the note store component?
 	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
+		console.log('try save');
 		if ($note.content == easymde.value()) return;
 
 		localStorage.setItem('note-data', JSON.stringify($notes));
 
+		console.log($note.content);
 		$note.content = easymde.value();
+		console.log($note.content);
 
-		const res = await fetch('/api/note', {
-			method: 'PATCH',
-			body: JSON.stringify({ note_id: $note.id, title: $note.title, content: easymde.value() }),
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
+		$notes = $notes;
 
-		if (res.ok) {
-			return;
-		}
+		// note.save();
+		// const res = await fetch('/api/note', {
+		// 	method: 'PATCH',
+		// 	body: JSON.stringify({ note_id: $note.id, title: $note.title, content: easymde.value() }),
+		// 	headers: {
+		// 		'content-type': 'application/json'
+		// 	}
+		// });
+
+		// if (res.ok) {
+		// 	return;
+		// }
 	}
 
 	onMount(async () => {
@@ -50,7 +82,7 @@
 		});
 
 		// easymde.codemirror.on('change', updateNote);
-		easymde.codemirror.on('change', debounce(saveNote, 5000));
+		easymde.codemirror.on('change', debounce(saveNote, 2500));
 
 		return () => {
 			easymde.cleanup();

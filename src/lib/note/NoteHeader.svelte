@@ -156,11 +156,11 @@
 			<Chevron rotation={270} />
 		</button>
 
+		<!-- bind:value={$note.title} -->
 		<input
 			id="title"
 			aria-label="title"
 			type="text"
-			bind:value={$note.title}
 			class="w-full text-2xl font-bold bg-transparent focus:outline-none"
 		/>
 
