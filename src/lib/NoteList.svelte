@@ -12,6 +12,7 @@
 		user
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
+	import { tick } from 'svelte';
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -39,6 +40,29 @@
 	}
 
 	function openSidebar() {}
+
+	// TODO: move this into the note store component?
+	// TODO: before you change notes in the sidebar the note should also be saved
+	// async function saveNote() {
+	// 	console.log('saving...');
+	// 	console.log($noteStore.content);
+	// 	const res = await fetch('/api/note', {
+	// 		method: 'PATCH',
+	// 		body: JSON.stringify({
+	// 			note_id: $noteStore.id,
+	// 			title: $noteStore.title,
+	// 			content: $noteStore.content
+	// 		}),
+	// 		headers: {
+	// 			'content-type': 'application/json'
+	// 		}
+	// 	});
+
+	// 	if (res.ok) {
+	// 		console.log('saving ok');
+	// 		return;
+	// 	}
+	// }
 </script>
 
 <!-- <div class="content flex flex-col hidden md:flex "> -->
@@ -107,6 +131,7 @@
 						<button
 							class="w-full p-4 border-b border-solid"
 							on:click={async () => {
+								// saveNote();
 								$noteStore = note;
 								$showEditor = true;
 								$showNavigation = false;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
 
-	import { note } from '$lib/stores';
+	import { note, notes } from '$lib/stores';
 	import { debounce } from '$lib/utils';
 	import { onMount } from 'svelte';
 
@@ -22,6 +22,8 @@
 	// TODO: before you change notes in the sidebar the note should also be saved
 	async function saveNote() {
 		if ($note.content == easymde.value()) return;
+
+		localStorage.setItem('note-data', JSON.stringify($notes));
 
 		$note.content = easymde.value();
 
@@ -47,6 +49,7 @@
 			previewImagesInEditor: true
 		});
 
+		// easymde.codemirror.on('change', updateNote);
 		easymde.codemirror.on('change', debounce(saveNote, 5000));
 
 		return () => {
