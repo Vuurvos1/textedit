@@ -142,7 +142,7 @@
 	}
 </script>
 
-<div class="flex flex-row gap-4 justify-between items-center flex-wrap px-4 py-2">
+<div class="flex flex-row gap-2 justify-between items-center flex-wrap px-4 py-2">
 	<div class="flex flex-row items-center mb-2 w-full">
 		<button
 			aria-label="Back"
@@ -224,7 +224,7 @@
 			id="title"
 			type="text"
 			placeholder="add tag"
-			class="border-b-2 focus:border-blue-400 focus:outline-none"
+			class="bg-transparent border-b-2 border-transparent focus:outline-none focus:border-blue-400 "
 			use:popperRef
 			bind:value={searchString}
 			on:keyup={searchTags}
