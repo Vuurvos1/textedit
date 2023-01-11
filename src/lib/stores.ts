@@ -28,7 +28,16 @@ export const notes = writable(<Note[]>[]);
 // could remove the need of updateNote
 // also add saving status
 function createNote() {
-	const { subscribe, set, update } = writable();
+	const { subscribe, set, update } = writable(<Note>{
+		id: '',
+		created_at: '', // date string
+		updated_at: '', // date string
+		title: 'Note',
+		content: '', // actual note
+		data: {}, // TODO figure out how to implement
+		status: 'notes', // TODO change/remove notes status
+		tags: [] // TODO figure out how this works
+	});
 
 	return {
 		subscribe,
