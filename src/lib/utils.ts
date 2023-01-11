@@ -24,6 +24,8 @@ export async function saveNote() {
 	// TODO: add loading state
 	// add note param?
 
+	// TODO: move this into the note store component?
+
 	console.log('saving note...');
 	const n = <Note>get(note);
 

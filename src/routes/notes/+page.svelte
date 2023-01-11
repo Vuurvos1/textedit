@@ -31,9 +31,7 @@
 
 	$notesStore = notes;
 
-	if ($notesStore.length > 0) {
-		$note = $notesStore[0];
-	}
+	if ($notesStore.length > 0) $note = $notesStore[0];
 </script>
 
 <div class="app">
