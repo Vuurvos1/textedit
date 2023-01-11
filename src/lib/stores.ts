@@ -26,8 +26,13 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 // 	};
 // }
 
+export const updateNote = writable(0);
+
 export const notes = writable(<Note[]>[]);
 
+// add thingie to update the note when the note id changes, when the note id changes, update the note
+// could remove the need of updateNote
+// also add saving status
 function createNote() {
 	const { subscribe, set, update } = writable();
 

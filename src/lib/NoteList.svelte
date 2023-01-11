@@ -9,10 +9,12 @@
 		showNotes,
 		showEditor,
 		noteTags,
-		user
+		user,
+		updateNote
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
 	import { tick } from 'svelte';
+	import { saveNote } from './utils';
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -133,9 +135,12 @@
 							on:click={async () => {
 								// save current note
 
-								// update note store
+								saveNote(); // await?
 
+								// update note store
 								$noteStore = note;
+
+								$updateNote = Math.random();
 								$showEditor = true;
 								$showNavigation = false;
 								$showNotes = false;
