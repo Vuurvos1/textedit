@@ -10,12 +10,6 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 	user.set(session?.user || {});
 });
 
-// export let note = writable({
-// 	title: 'Note',
-// 	id: '',
-// 	content: 'Start writing…' // rename to content
-// });
-
 // function createNotes() {
 // 	const { subscribe, set, update } = writable(<Note[]>[]);
 
@@ -61,11 +55,6 @@ export const note = createNote();
 
 // filtered notes could be a derived store that takes something to filter the notes on
 // this is what the notelist should show?
-
-// export const note = derived(notes, ($notes) => {
-// 	// set($notes[0]);
-// 	return $notes[0];
-// });
 
 // function createNote() {
 // 	const store = writable(<Note>{
