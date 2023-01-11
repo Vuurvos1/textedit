@@ -1,43 +1,44 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
 
-	import { note, notes } from '$lib/stores';
-	import { debounce } from '$lib/utils';
+	import { note, notes, updateNote } from '$lib/stores';
+	// import { debounce } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	// TODO: rewrite this stylesheet
 	import '$lib/easymde.css'; // recommend import css, @option improve common style
-
-	let editor: HTMLElement;
+	import { saveNote } from '$lib/utils';
 
 	export let easymde: EasyMDE;
 
-	note.subscribe((value) => {
-		if (easymde && value.content !== undefined) {
-			easymde.value(value.content);
+	let editor: HTMLElement;
+
+	updateNote.subscribe((value) => {
+		console.log('note change');
+		// don't think the undefined check is needed anymore
+		if (easymde && $note.content !== undefined) {
+			easymde.value($note.content);
 		}
 	});
 
-	// TODO: move this into the note store component?
-	// TODO: before you change notes in the sidebar the note should also be saved
-	async function saveNote() {
-		if ($note.content == easymde.value()) return;
+	function debounce(func: Function, delay = 250) {
+		let timeout: NodeJS.Timeout;
 
+		/** @param {any} args */
+		return (...args: any) => {
+			// always update store
+			$note.content = easymde.value();
+
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				func(...args);
+			}, delay);
+		};
+	}
+
+	function save() {
+		saveNote();
 		localStorage.setItem('note-data', JSON.stringify($notes));
-
-		$note.content = easymde.value();
-
-		const res = await fetch('/api/note', {
-			method: 'PATCH',
-			body: JSON.stringify({ note_id: $note.id, title: $note.title, content: easymde.value() }),
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
-
-		if (res.ok) {
-			return;
-		}
 	}
 
 	onMount(async () => {
@@ -49,8 +50,11 @@
 			previewImagesInEditor: true
 		});
 
-		// easymde.codemirror.on('change', updateNote);
-		easymde.codemirror.on('change', debounce(saveNote, 5000));
+		easymde.codemirror.on('change', debounce(save, 2500));
+
+		if ($note.content !== undefined) {
+			easymde.value($note.content);
+		}
 
 		return () => {
 			easymde.cleanup();
