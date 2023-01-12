@@ -34,8 +34,8 @@
 	if ($notesStore.length > 0) $note = $notesStore[0];
 </script>
 
-<div class="app">
-	<div class="layout">
+<div class="app h-screen min-h-screen">
+	<div class="layout h-full">
 		<div class:selected={$showNavigation} class="navigation bg-slate-300">
 			<Sidebar />
 		</div>
@@ -53,8 +53,6 @@
 
 <style lang="scss">
 	.app {
-		height: 100vh;
-		min-height: 100vh;
 		position: relative;
 	}
 

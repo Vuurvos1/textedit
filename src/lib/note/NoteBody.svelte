@@ -62,7 +62,7 @@
 	});
 </script>
 
-<div class="h-full">
+<div class="h-full overflow-hidden">
 	<textarea bind:this={editor} />
 </div>
 

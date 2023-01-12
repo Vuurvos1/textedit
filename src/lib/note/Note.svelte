@@ -6,7 +6,7 @@
 	let easymde: EasyMDE;
 </script>
 
-<div class="h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
+<div class="h-full max-h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
 	<NoteHeader {easymde} />
 
 	<NoteBody {easymde} />
