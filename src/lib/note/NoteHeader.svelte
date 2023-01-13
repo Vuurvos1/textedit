@@ -9,6 +9,7 @@
 	import { clickOutside } from '$lib/clickOutside';
 
 	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
+	import type { NoteStatus } from './note';
 
 	export let easymde: EasyMDE;
 
@@ -21,13 +22,11 @@
 		modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
 	};
 
-	async function updateNoteStatus(newStatus: 'active' | 'archived' | 'deleted') {
-		$note.content = easymde.value();
-
+	async function updateNoteStatus(newStatus: NoteStatus) {
 		// TODO: add RLS to validate status
 		const res = await fetch('/api/note', {
 			method: 'PATCH',
-			body: JSON.stringify({ noteId: $note.id, status: newStatus }),
+			body: JSON.stringify({ note_id: $note.id, status: newStatus }),
 			headers: {
 				'content-type': 'application/json'
 			}
@@ -43,13 +42,13 @@
 		// TODO: move to trash folder first (remove note after 30 days in folder?)
 		const res = await fetch('/api/note', {
 			method: 'DELETE',
-			body: JSON.stringify({ noteId: $note.id }),
+			body: JSON.stringify({ note_id: $note.id }),
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
 
-		if (res.ok) {
+		if (!res.ok) {
 			console.error('Problem deleting note');
 			return;
 		}
