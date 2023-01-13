@@ -1,4 +1,4 @@
-import { writable, get, derived } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import { supabaseClient } from './db';
 
 import type { Note } from './note/note';
@@ -35,6 +35,26 @@ function createNote() {
 }
 
 export const note = createNote();
+
+export const noteFilter = writable('');
+export const noteSort = writable('updated_at');
+
+export const filteredNotes = derived(
+	[noteFilter, noteSort, notes],
+	([$noteFilter, $noteSort, $notes]) => {
+		// note dates are acting kinda funky
+		// sort ns by date modified
+		// ns.sort((a, b) => {
+		// 	return a.updated_at.localeCompare(b.updated_at);
+		// 	// return b.updated_at.localeCompare(a.updated_at);
+		// });
+
+		return $notes.filter((n) => {
+			if ($noteFilter === '') return true;
+			return n.content.toLowerCase().includes($noteFilter.toLowerCase());
+		});
+	}
+);
 
 // filtered notes could be a derived store that takes something to filter the notes on
 // this is what the notelist should show?

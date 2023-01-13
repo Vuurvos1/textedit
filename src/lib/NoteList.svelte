@@ -10,7 +10,9 @@
 		showEditor,
 		noteTags,
 		user,
-		updateNote
+		updateNote,
+		noteFilter,
+		filteredNotes
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
 	import { tick } from 'svelte';
@@ -117,14 +119,23 @@
 			<label for="search" class="mr-2">
 				<Search />
 			</label>
-			<input id="search" type="text" placeholder="search" class="outline-none" />
+			<input
+				id="search"
+				type="text"
+				placeholder="search"
+				class="outline-none"
+				bind:value={$noteFilter}
+			/>
 		</div>
 	</div>
 
 	<div class="items__list flex h-full max-h-full relative">
-		{#if $notes.length > 1}
+		<!-- if user has no notes -->
+
+		<!-- if no match found -->
+		{#if $filteredNotes.length > 0}
 			<ul class="flex flex-col h-full w-full">
-				{#each $notes as note}
+				{#each $filteredNotes as note (note.id)}
 					<li
 						class="border-l-2 border-solid"
 						class:border-indigo-700={$noteStore.id === note.id}
@@ -170,7 +181,9 @@
 			</ul>
 		{:else}
 			<!-- button to create note (0 state) -->
-			<p>no notes</p>
+			<div class="w-full h-full flex justify-center items-center">
+				<p>no notes</p>
+			</div>
 		{/if}
 	</div>
 </div>
