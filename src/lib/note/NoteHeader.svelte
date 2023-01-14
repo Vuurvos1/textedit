@@ -8,7 +8,16 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
+	import {
+		filteredNotes,
+		note,
+		notes,
+		noteTags,
+		showEditor,
+		showNavigation,
+		showNotes,
+		tags
+	} from '$lib/stores';
 	import type { NoteStatus } from './note';
 
 	export let easymde: EasyMDE;
@@ -54,7 +63,7 @@
 		}
 
 		$notes = $notes.filter((item) => item.id !== $note.id);
-		$note = $notes[0];
+		$note = $filteredNotes[0];
 	}
 
 	async function downloadNote() {
@@ -155,13 +164,15 @@
 			<Chevron rotation={270} />
 		</button>
 
-		<input
-			id="title"
-			aria-label="title"
-			type="text"
-			bind:value={$note.title}
-			class="w-full text-2xl font-bold bg-transparent focus:outline-none"
-		/>
+		{#if $note?.title}
+			<input
+				id="title"
+				aria-label="title"
+				type="text"
+				bind:value={$note.title}
+				class="w-full text-2xl font-bold bg-transparent focus:outline-none"
+			/>
+		{/if}
 
 		<div class="ml-auto">
 			<PopoutMenu>
@@ -186,11 +197,16 @@
 					<button
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
 						on:click={() => {
+							if ($note.status == 'archived') {
+								updateNoteStatus('notes'); // rename to 'active'?
+								return;
+							}
+
 							updateNoteStatus('archived');
 						}}
 					>
 						<Inbox size={16} />
-						<span>Archive</span>
+						<span>{$note.status === 'archived' ? 'Unarchive' : 'Archive'}</span>
 					</button>
 					<button
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-red-600"

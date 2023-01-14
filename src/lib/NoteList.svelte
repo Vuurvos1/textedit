@@ -15,7 +15,6 @@
 		filteredNotes
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
-	import { tick } from 'svelte';
 	import { saveNote } from './utils';
 
 	async function addNote() {
@@ -33,8 +32,11 @@
 			// clear and update stores with new note
 			$noteTags = [];
 			$noteStore = data;
+			$updateNote = Math.random();
 			$notes.unshift(data); // faster than concat
 			$notes = $notes; // trigger rerender
+
+			$noteFilter.status = 'notes';
 
 			// focus note
 			$showNavigation = false;
@@ -44,29 +46,6 @@
 	}
 
 	function openSidebar() {}
-
-	// TODO: move this into the note store component?
-	// TODO: before you change notes in the sidebar the note should also be saved
-	// async function saveNote() {
-	// 	console.log('saving...');
-	// 	console.log($noteStore.content);
-	// 	const res = await fetch('/api/note', {
-	// 		method: 'PATCH',
-	// 		body: JSON.stringify({
-	// 			note_id: $noteStore.id,
-	// 			title: $noteStore.title,
-	// 			content: $noteStore.content
-	// 		}),
-	// 		headers: {
-	// 			'content-type': 'application/json'
-	// 		}
-	// 	});
-
-	// 	if (res.ok) {
-	// 		console.log('saving ok');
-	// 		return;
-	// 	}
-	// }
 </script>
 
 <!-- <div class="content flex flex-col hidden md:flex "> -->
@@ -124,7 +103,7 @@
 				type="text"
 				placeholder="search"
 				class="outline-none"
-				bind:value={$noteFilter}
+				bind:value={$noteFilter.text}
 			/>
 		</div>
 	</div>
@@ -150,8 +129,8 @@
 
 								// update note store
 								$noteStore = note;
-
 								$updateNote = Math.random();
+
 								$showEditor = true;
 								$showNavigation = false;
 								$showNotes = false;

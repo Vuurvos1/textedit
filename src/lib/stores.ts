@@ -1,7 +1,7 @@
 import { writable, derived } from 'svelte/store';
 import { supabaseClient } from './db';
 
-import type { Note } from './note/note';
+import type { Note, NoteStatus } from './note/note';
 import type { Tag, Tags } from './sidebar/tags';
 // TODO: change to be read only?
 export const user = writable({});
@@ -14,45 +14,50 @@ export const updateNote = writable(0);
 
 export const notes = writable(<Note[]>[]);
 
+export const noteDirty = writable(false);
+
 // TODO add saving status
-function createNote() {
-	const { subscribe, set, update } = writable(<Note>{
-		id: '',
-		created_at: '', // date string
-		updated_at: '', // date string
-		title: 'Note',
-		content: '', // actual note
-		data: {}, // TODO figure out how to implement
-		status: 'notes', // TODO change/remove notes status
-		tags: [] // TODO figure out how this works
-	});
+export const note = writable(<Note>{
+	id: '',
+	created_at: '', // date string
+	updated_at: '', // date string
+	title: 'Note',
+	content: '', // actual note
+	data: {}, // TODO figure out how to implement
+	status: 'public' as NoteStatus, // TODO change/remove notes status
+	tags: [] // TODO figure out how this works
+});
 
-	return {
-		subscribe,
-		set,
-		update
-	};
-}
-
-export const note = createNote();
-
-export const noteFilter = writable('');
+// TODO: rename to plural
+export const noteFilter = writable({
+	text: '',
+	tag: '',
+	status: 'public' as NoteStatus // TODO change/remove notes status
+});
 export const noteSort = writable('updated_at');
 
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		// note dates are acting kinda funky
+		// note dates are acting kinda funky, because they are saved to often?
 		// sort ns by date modified
-		// ns.sort((a, b) => {
-		// 	return a.updated_at.localeCompare(b.updated_at);
-		// 	// return b.updated_at.localeCompare(a.updated_at);
-		// });
+		let ns = $notes;
 
-		return $notes.filter((n) => {
-			if ($noteFilter === '') return true;
-			return n.content.toLowerCase().includes($noteFilter.toLowerCase());
+		ns = ns.filter((n) => {
+			if ($noteFilter.text === '') return true;
+			return n.content.toLowerCase().includes($noteFilter.text.toLowerCase());
 		});
+
+		ns = ns.filter((n) => {
+			return n.status === $noteFilter.status;
+		});
+
+		// sort notes by date, newest first (descending)
+		ns.sort((a, b) => {
+			return b.updated_at.localeCompare(b.updated_at);
+		});
+
+		return ns;
 	}
 );
 

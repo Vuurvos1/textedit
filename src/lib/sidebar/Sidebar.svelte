@@ -3,7 +3,17 @@
 	import { GitHub, FileText, Hash, Trash, Inbox, Chevron, User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
-	import { showNavigation, showNotes, showEditor, user, note, notes } from '$lib/stores';
+	import {
+		showNavigation,
+		showNotes,
+		showEditor,
+		user,
+		notes,
+		note,
+		updateNote,
+		noteFilter,
+		filteredNotes
+	} from '$lib/stores';
 	import { supabaseClient } from '$lib/db';
 
 	let loading = false;
@@ -29,9 +39,9 @@
 		}
 
 		// clear all values
-		$user = undefined;
-		$note = {};
+		$user = {};
 		$notes = [];
+		$note = $notes[0];
 	}
 </script>
 
@@ -41,25 +51,57 @@
 
 	<ul class="flex flex-col">
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'public';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
+					$updateNote = Math.random();
+				}}
+			>
 				<FileText />
 				<span>Notes</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					// filter notes that don't have a tag
+					console.log('not implemented yet');
+
+					// if note has 'notes/public' status and has no tags
+				}}
+			>
 				<Hash />
 				<span>Untaged</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'archived';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0];
+					$updateNote = Math.random();
+				}}
+			>
 				<Inbox />
 				<span>Archived</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'deleted';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0];
+					$updateNote = Math.random();
+				}}
+			>
 				<Trash />
 				<span>Deleted</span>
 			</button>

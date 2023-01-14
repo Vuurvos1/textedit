@@ -30,8 +30,8 @@
 
 		// clear all values
 		$user = {};
-		$note = {};
 		$notes = [];
+		$note = $notes[0]; // TODO: this should be a new note
 	}
 
 	async function downloadAll() {
