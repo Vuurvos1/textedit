@@ -1,17 +1,15 @@
 import { get } from 'svelte/store';
 import type { Note } from './note/note';
-import { note } from './stores';
+import { note, noteDirty } from './stores';
 
 /**
  * @param {function} func
  * @param {number} delay
  */
-export function debounce(func, delay = 250) {
-	/** @type {setTimeout | any} */
-	let timeout;
+export function debounce(func: Function, delay = 250) {
+	let timeout: NodeJS.Timeout;
 
-	/** @param {any} args */
-	return (...args) => {
+	return (...args: any) => {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
 			func(...args);
@@ -20,6 +18,8 @@ export function debounce(func, delay = 250) {
 }
 
 export async function saveNote() {
+	if (!get(noteDirty)) return;
+
 	// TODO: add error handling
 	// TODO: add loading state
 	// add note param?
@@ -45,6 +45,8 @@ export async function saveNote() {
 
 	if (res.ok) {
 		console.log('saving ok');
+
+		noteDirty.set(false);
 		return;
 	}
 }
