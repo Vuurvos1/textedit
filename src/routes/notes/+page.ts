@@ -19,10 +19,8 @@ export const load: PageLoad = async (event) => {
 		console.error(tagsRes.error);
 	}
 
-	const notesRes = await supabaseClient
-		.from('notes')
-		.select()
-		.order('updated_at', { ascending: false });
+	const notesRes = await supabaseClient.from('notes').select(); // merge note tags into notes here
+	// .order('updated_at', { ascending: false }); // order doesn't really matter because of sort
 
 	if (notesRes.error) {
 		console.error(notesRes.error);

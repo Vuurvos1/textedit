@@ -43,6 +43,12 @@
 		$notes = [];
 		$note = $notes[0];
 	}
+
+	function closeSidebar() {
+		$showNotes = true;
+		$showNavigation = false;
+		$showEditor = false;
+	}
 </script>
 
 <!-- navigation, change to an asside? -->
@@ -58,6 +64,8 @@
 					$noteFilter.text = '';
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
+
+					closeSidebar();
 				}}
 			>
 				<FileText />
@@ -71,7 +79,21 @@
 					// filter notes that don't have a tag
 					console.log('not implemented yet');
 
+					$noteFilter.status = 'public';
+					$noteFilter.text = '';
+					// $noteFilter.tags = [];
+					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
+					$updateNote = Math.random();
+
+					// console.log($note);
+
+					// const noTags = $notes.filter((note) => {
+					// 	// return note.tags.length === 0;
+					// });
+
 					// if note has 'notes/public' status and has no tags
+
+					closeSidebar();
 				}}
 			>
 				<Hash />
@@ -86,6 +108,8 @@
 					$noteFilter.text = '';
 					$note = $filteredNotes[0];
 					$updateNote = Math.random();
+
+					closeSidebar();
 				}}
 			>
 				<Inbox />
@@ -100,6 +124,8 @@
 					$noteFilter.text = '';
 					$note = $filteredNotes[0];
 					$updateNote = Math.random();
+
+					closeSidebar();
 				}}
 			>
 				<Trash />
@@ -114,9 +140,7 @@
 		<button
 			class="flex flex-row gap-2"
 			on:click={() => {
-				$showNotes = true;
-				$showNavigation = false;
-				$showEditor = false;
+				closeSidebar();
 			}}
 		>
 			<!-- TODO: turn this into a rotatable component, allong with chevron down -->

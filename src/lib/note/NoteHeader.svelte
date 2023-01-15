@@ -18,6 +18,7 @@
 		showNotes,
 		tags
 	} from '$lib/stores';
+
 	import type { NoteStatus } from './note';
 
 	export let easymde: EasyMDE;
@@ -45,6 +46,10 @@
 			console.error('Problem updating note status');
 			return;
 		}
+
+		const noteIndex = $notes.findIndex((n) => n.id === $note.id);
+		$notes[noteIndex].status = newStatus;
+		$note = $filteredNotes[0];
 	}
 
 	async function deleteNote() {
@@ -201,7 +206,6 @@
 								updateNoteStatus('notes'); // rename to 'active'?
 								return;
 							}
-
 							updateNoteStatus('archived');
 						}}
 					>
@@ -231,8 +235,6 @@
 				</li>
 			{/each}
 		</ul>
-
-		<!-- note-view-linking-container hidden min-w-80 max-w-full flex-wrap items-center gap-2 bg-transparent md:-mr-2 md:flex mt-1 -->
 
 		<!-- search tags -->
 		<input
@@ -264,8 +266,7 @@
 								addTagToNote(i);
 							}}
 						>
-							<!-- {option.tag} -->
-							<!-- Bold part of string that matches search -->
+							<!-- bolds part of string that matches search -->
 							{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
 						</button>
 					</li>
