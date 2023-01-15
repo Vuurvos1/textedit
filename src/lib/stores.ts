@@ -54,7 +54,7 @@ export const filteredNotes = derived(
 
 		// sort notes by date, newest first (descending)
 		ns.sort((a, b) => {
-			return b.updated_at.localeCompare(b.updated_at);
+			return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
 		});
 
 		return ns;

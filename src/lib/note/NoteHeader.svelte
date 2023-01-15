@@ -198,7 +198,7 @@
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
 						on:click={() => {
 							if ($note.status == 'archived') {
-								updateNoteStatus('notes'); // rename to 'active'?
+								updateNoteStatus('public'); // rename to 'active'?
 								return;
 							}
 
