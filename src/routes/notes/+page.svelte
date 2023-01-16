@@ -25,6 +25,8 @@
 
 	$tagsStore = tags;
 
+	// console.log(notes, tags);
+
 	// change to an object for speed?
 	$tagFolders = tags
 		.map((path) => path.tag.split('/').filter((tag) => tag))

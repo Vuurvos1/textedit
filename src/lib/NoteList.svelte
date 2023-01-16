@@ -32,13 +32,13 @@
 			// clear and update stores with new note
 			$noteTags = [];
 			$noteStore = data;
-			$updateNote = Math.random();
 			$notes.unshift(data); // faster than concat
 			$notes = $notes; // trigger rerender
 
-			$noteFilter.status = 'notes';
+			$noteFilter.status = 'public';
+			$updateNote = Math.random();
 
-			// focus note
+			// focus note mobile
 			$showNavigation = false;
 			$showNotes = false;
 			$showEditor = true;
@@ -109,9 +109,6 @@
 	</div>
 
 	<div class="items__list flex h-full max-h-full relative">
-		<!-- if user has no notes -->
-
-		<!-- if no match found -->
 		{#if $filteredNotes.length > 0}
 			<ul class="flex flex-col h-full w-full">
 				{#each $filteredNotes as note (note.id)}
@@ -135,8 +132,11 @@
 								$showNavigation = false;
 								$showNotes = false;
 
+								// TODO this needs to be done different if I want to filte notes on tags
+
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
+								// this should be done in the intial query
 								const { data, error } = await supabaseClient
 									.from('note_tags')
 									.select('note_id!inner(id), id, tag_id (tag, id)')

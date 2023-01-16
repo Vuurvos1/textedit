@@ -16,7 +16,7 @@
 	let noteChanged = true;
 
 	const unsubscribe = updateNote.subscribe(() => {
-		if (easymde && $note?.content) {
+		if (easymde && $note !== undefined) {
 			// this shouldn't trigger a save
 			noteChanged = true;
 			easymde.value($note.content);
