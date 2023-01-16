@@ -140,7 +140,7 @@
 		});
 
 		if (!res.ok) {
-			console.error('Problem deleting note');
+			console.error('Problem adding tag to note');
 			return;
 		}
 

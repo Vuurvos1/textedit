@@ -45,7 +45,6 @@ export async function saveNote() {
 
 	if (res.ok) {
 		console.log('saving ok');
-
 		noteDirty.set(false);
 		return;
 	}
