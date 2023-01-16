@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import { supabaseClient } from './db';
 
 import type { Note, NoteStatus } from './note/note';
@@ -36,26 +36,48 @@ export const noteFilter = writable({
 });
 export const noteSort = writable('updated_at');
 
+const filterText = (n: Note) => {
+	if (get(noteFilter).text === '') return true;
+	return n.content.toLowerCase().includes(get(noteFilter).text.toLowerCase());
+};
+
+const filterStatus = (n: Note) => {
+	return n.status === get(noteFilter).status;
+};
+
+const sortDateDesc = (a: Note, b: Note) => {
+	return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+};
+
+// const sortDateAsc = (a: Note, b: Note) => {
+// 	return new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
+// };
+
+// const sortCreatedAsc = (a: Note, b: Note) => {
+// 	return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+// };
+
+// const sortCreatedDesc = (a: Note, b: Note) => {
+// 	return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+// };
+
+// const sortTitleAsc = (a: Note, b: Note) => {
+// 	return a.title.localeCompare(b.title);
+// };
+
+// const sortTitleDesc = (a: Note, b: Note) => {
+// 	return b.title.localeCompare(a.title);
+// };
+
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
 		// note dates are acting kinda funky, because they are saved to often?
 		// sort ns by date modified
-		let ns = $notes;
+		let ns = $notes.filter(filterText).filter(filterStatus);
 
-		ns = ns.filter((n) => {
-			if ($noteFilter.text === '') return true;
-			return n.content.toLowerCase().includes($noteFilter.text.toLowerCase());
-		});
-
-		ns = ns.filter((n) => {
-			return n.status === $noteFilter.status;
-		});
-
-		// sort notes by date, newest first (descending)
-		ns.sort((a, b) => {
-			return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-		});
+		// sort notes by date (descending)
+		ns.sort(sortDateDesc);
 
 		return ns;
 	}
