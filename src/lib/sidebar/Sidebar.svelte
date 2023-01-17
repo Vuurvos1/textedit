@@ -3,7 +3,17 @@
 	import { GitHub, FileText, Hash, Trash, Inbox, Chevron, User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
-	import { showNavigation, showNotes, showEditor, user, note, notes } from '$lib/stores';
+	import {
+		showNavigation,
+		showNotes,
+		showEditor,
+		user,
+		notes,
+		note,
+		updateNote,
+		noteFilter,
+		filteredNotes
+	} from '$lib/stores';
 	import { supabaseClient } from '$lib/db';
 
 	let loading = false;
@@ -29,9 +39,15 @@
 		}
 
 		// clear all values
-		$user = undefined;
-		$note = {};
+		$user = {};
 		$notes = [];
+		$note = $notes[0];
+	}
+
+	function closeSidebar() {
+		$showNotes = true;
+		$showNavigation = false;
+		$showEditor = false;
 	}
 </script>
 
@@ -41,25 +57,77 @@
 
 	<ul class="flex flex-col">
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'public';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
+					$updateNote = Math.random();
+
+					closeSidebar();
+				}}
+			>
 				<FileText />
 				<span>Notes</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					// filter notes that don't have a tag
+					console.log('not implemented yet');
+
+					$noteFilter.status = 'public';
+					$noteFilter.text = '';
+					// $noteFilter.tags = [];
+					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
+					$updateNote = Math.random();
+
+					// console.log($note);
+
+					// const noTags = $notes.filter((note) => {
+					// 	// return note.tags.length === 0;
+					// });
+
+					// if note has 'notes/public' status and has no tags
+
+					closeSidebar();
+				}}
+			>
 				<Hash />
 				<span>Untaged</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'archived';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0];
+					$updateNote = Math.random();
+
+					closeSidebar();
+				}}
+			>
 				<Inbox />
 				<span>Archived</span>
 			</button>
 		</li>
 		<li>
-			<button class="w-full px-4 py-1 hover:bg-slate-400">
+			<button
+				class="w-full px-4 py-1 hover:bg-slate-400"
+				on:click={() => {
+					$noteFilter.status = 'deleted';
+					$noteFilter.text = '';
+					$note = $filteredNotes[0];
+					$updateNote = Math.random();
+
+					closeSidebar();
+				}}
+			>
 				<Trash />
 				<span>Deleted</span>
 			</button>
@@ -72,9 +140,7 @@
 		<button
 			class="flex flex-row gap-2"
 			on:click={() => {
-				$showNotes = true;
-				$showNavigation = false;
-				$showEditor = false;
+				closeSidebar();
 			}}
 		>
 			<!-- TODO: turn this into a rotatable component, allong with chevron down -->

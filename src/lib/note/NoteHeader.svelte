@@ -8,7 +8,18 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import { note, notes, noteTags, showEditor, showNavigation, showNotes, tags } from '$lib/stores';
+	import {
+		filteredNotes,
+		note,
+		notes,
+		noteTags,
+		showEditor,
+		showNavigation,
+		showNotes,
+		tags
+	} from '$lib/stores';
+
+	import type { NoteStatus } from './note';
 
 	export let easymde: EasyMDE;
 
@@ -21,13 +32,11 @@
 		modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
 	};
 
-	async function updateNoteStatus(newStatus: 'active' | 'archived' | 'deleted') {
-		$note.content = easymde.value();
-
+	async function updateNoteStatus(newStatus: NoteStatus) {
 		// TODO: add RLS to validate status
 		const res = await fetch('/api/note', {
 			method: 'PATCH',
-			body: JSON.stringify({ noteId: $note.id, status: newStatus }),
+			body: JSON.stringify({ note_id: $note.id, status: newStatus }),
 			headers: {
 				'content-type': 'application/json'
 			}
@@ -37,25 +46,29 @@
 			console.error('Problem updating note status');
 			return;
 		}
+
+		const noteIndex = $notes.findIndex((n) => n.id === $note.id);
+		$notes[noteIndex].status = newStatus;
+		$note = $filteredNotes[0];
 	}
 
 	async function deleteNote() {
 		// TODO: move to trash folder first (remove note after 30 days in folder?)
 		const res = await fetch('/api/note', {
 			method: 'DELETE',
-			body: JSON.stringify({ noteId: $note.id }),
+			body: JSON.stringify({ note_id: $note.id }),
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
 
-		if (res.ok) {
+		if (!res.ok) {
 			console.error('Problem deleting note');
 			return;
 		}
 
 		$notes = $notes.filter((item) => item.id !== $note.id);
-		$note = $notes[0];
+		$note = $filteredNotes[0];
 	}
 
 	async function downloadNote() {
@@ -127,7 +140,7 @@
 		});
 
 		if (!res.ok) {
-			console.error('Problem deleting note');
+			console.error('Problem adding tag to note');
 			return;
 		}
 
@@ -156,13 +169,15 @@
 			<Chevron rotation={270} />
 		</button>
 
-		<input
-			id="title"
-			aria-label="title"
-			type="text"
-			bind:value={$note.title}
-			class="w-full text-2xl font-bold bg-transparent focus:outline-none"
-		/>
+		{#if $note?.title}
+			<input
+				id="title"
+				aria-label="title"
+				type="text"
+				bind:value={$note.title}
+				class="w-full text-2xl font-bold bg-transparent focus:outline-none"
+			/>
+		{/if}
 
 		<div class="ml-auto">
 			<PopoutMenu>
@@ -187,11 +202,15 @@
 					<button
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
 						on:click={() => {
+							if ($note.status == 'archived') {
+								updateNoteStatus('public'); // rename to 'active'?
+								return;
+							}
 							updateNoteStatus('archived');
 						}}
 					>
 						<Inbox size={16} />
-						<span>Archive</span>
+						<span>{$note.status === 'archived' ? 'Unarchive' : 'Archive'}</span>
 					</button>
 					<button
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-red-600"
@@ -216,8 +235,6 @@
 				</li>
 			{/each}
 		</ul>
-
-		<!-- note-view-linking-container hidden min-w-80 max-w-full flex-wrap items-center gap-2 bg-transparent md:-mr-2 md:flex mt-1 -->
 
 		<!-- search tags -->
 		<input
@@ -249,8 +266,7 @@
 								addTagToNote(i);
 							}}
 						>
-							<!-- {option.tag} -->
-							<!-- Bold part of string that matches search -->
+							<!-- bolds part of string that matches search -->
 							{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
 						</button>
 					</li>

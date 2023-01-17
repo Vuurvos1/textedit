@@ -10,11 +10,14 @@
 		showEditor,
 		noteTags,
 		user,
-		updateNote
+		updateNote,
+		noteFilter,
+		filteredNotes,
+		noteSort
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
-	import { tick } from 'svelte';
 	import { saveNote } from './utils';
+	import PopoutMenu from './ui/PopoutMenu.svelte';
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -34,7 +37,10 @@
 			$notes.unshift(data); // faster than concat
 			$notes = $notes; // trigger rerender
 
-			// focus note
+			$noteFilter.status = 'public';
+			$updateNote = Math.random();
+
+			// focus note mobile
 			$showNavigation = false;
 			$showNotes = false;
 			$showEditor = true;
@@ -42,29 +48,6 @@
 	}
 
 	function openSidebar() {}
-
-	// TODO: move this into the note store component?
-	// TODO: before you change notes in the sidebar the note should also be saved
-	// async function saveNote() {
-	// 	console.log('saving...');
-	// 	console.log($noteStore.content);
-	// 	const res = await fetch('/api/note', {
-	// 		method: 'PATCH',
-	// 		body: JSON.stringify({
-	// 			note_id: $noteStore.id,
-	// 			title: $noteStore.title,
-	// 			content: $noteStore.content
-	// 		}),
-	// 		headers: {
-	// 			'content-type': 'application/json'
-	// 		}
-	// 	});
-
-	// 	if (res.ok) {
-	// 		console.log('saving ok');
-	// 		return;
-	// 	}
-	// }
 </script>
 
 <!-- <div class="content flex flex-col hidden md:flex "> -->
@@ -102,10 +85,68 @@
 				<h3 class="text-xl font-semibold">Notes</h3>
 			</div>
 
-			<div>
-				<button aria-label="Filter notes">
-					<Filter size={24} />
-				</button>
+			<div class="flex flex-row gap-2">
+				<PopoutMenu placement="bottom">
+					<!-- turn into icon button? -->
+					<button aria-label="Filter notes" slot="icon">
+						<Filter size={24} />
+					</button>
+					<div class="flex flex-col w-max  py-4">
+						<h3 class="font-bold mb-1">Filter notes</h3>
+						<!-- TODO: Turn these into 3 buttons that switch the order -->
+						<!-- turn text into color if selected -->
+						<!-- TODO: refactor -->
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								// rename to updated_at
+								$noteSort = 'date_modified_desc';
+							}}
+						>
+							Date modified Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'date_modified_asc';
+							}}
+						>
+							Date modified Asc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'created_at_desc';
+							}}
+						>
+							Date created Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'created_at_asc';
+							}}
+						>
+							Date created Asc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'title_asc';
+							}}
+						>
+							Title Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'title_desc';
+							}}
+						>
+							Title Asc
+						</button>
+					</div>
+				</PopoutMenu>
 
 				<button aria-label="Create a new note" on:click={addNote}>
 					<Plus size={24} />
@@ -117,14 +158,20 @@
 			<label for="search" class="mr-2">
 				<Search />
 			</label>
-			<input id="search" type="text" placeholder="search" class="outline-none" />
+			<input
+				id="search"
+				type="text"
+				placeholder="search"
+				class="outline-none"
+				bind:value={$noteFilter.text}
+			/>
 		</div>
 	</div>
 
 	<div class="items__list flex h-full max-h-full relative">
-		{#if $notes.length > 1}
+		{#if $filteredNotes.length > 0}
 			<ul class="flex flex-col h-full w-full">
-				{#each $notes as note}
+				{#each $filteredNotes as note (note.id)}
 					<li
 						class="border-l-2 border-solid"
 						class:border-indigo-700={$noteStore.id === note.id}
@@ -139,14 +186,17 @@
 
 								// update note store
 								$noteStore = note;
-
 								$updateNote = Math.random();
+
 								$showEditor = true;
 								$showNavigation = false;
 								$showNotes = false;
 
+								// TODO this needs to be done different if I want to filte notes on tags
+
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
+								// this should be done in the intial query
 								const { data, error } = await supabaseClient
 									.from('note_tags')
 									.select('note_id!inner(id), id, tag_id (tag, id)')
@@ -170,7 +220,9 @@
 			</ul>
 		{:else}
 			<!-- button to create note (0 state) -->
-			<p>no notes</p>
+			<div class="w-full h-full flex justify-center items-center">
+				<p>no notes</p>
+			</div>
 		{/if}
 	</div>
 </div>

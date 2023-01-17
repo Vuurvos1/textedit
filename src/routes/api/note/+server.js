@@ -62,17 +62,17 @@ export async function DELETE(event) {
 		throw error(401, 'Unauthorized');
 	}
 
-	const { noteId } = await event.request.json();
+	const { note_id } = await event.request.json();
 
 	// delete all note_tags that reference note, change this to be done on a db level?
-	const { error: err1 } = await supabaseClient.from('note_tags').delete().eq('note_id', noteId);
+	const { error: err1 } = await supabaseClient.from('note_tags').delete().eq('note_id', note_id);
 
 	if (err1) {
 		throw error(501, err1.message);
 	}
 
 	// delete note
-	const { error: err2 } = await supabaseClient.from('notes').delete().eq('id', noteId);
+	const { error: err2 } = await supabaseClient.from('notes').delete().eq('id', note_id);
 
 	if (err2) {
 		throw error(501, err2.message);

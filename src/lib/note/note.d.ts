@@ -1,3 +1,5 @@
+export type NoteStatus = 'notes' | 'public' | 'archived' | 'deleted';
+
 export type Note = {
 	id: string;
 	created_at: string; // date string
@@ -5,7 +7,7 @@ export type Note = {
 	title: string;
 	content: string; // actual note
 	data: { [key: string]: any }; // TODO figure out how to implement
-	status: 'notes' | 'public' | 'archived' | 'deleted'; // TODO change/remove notes status
+	status: NoteStatus; // TODO change/remove notes status
 	tags: any; // TODO figure out how this works
 };
 

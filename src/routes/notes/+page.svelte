@@ -11,7 +11,8 @@
 		tagFolders,
 		notes as notesStore,
 		note,
-		tags as tagsStore
+		tags as tagsStore,
+		filteredNotes
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
@@ -24,14 +25,15 @@
 
 	$tagsStore = tags;
 
+	// console.log(notes, tags);
+
 	// change to an object for speed?
 	$tagFolders = tags
 		.map((path) => path.tag.split('/').filter((tag) => tag))
 		.reduce((children, path) => insertTag(children, path), []);
 
 	$notesStore = notes;
-
-	if ($notesStore.length > 0) $note = $notesStore[0];
+	$note = $filteredNotes[0];
 </script>
 
 <div class="app h-screen min-h-screen">

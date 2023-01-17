@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
 
-	import { note, notes, updateNote } from '$lib/stores';
-	// import { debounce } from '$lib/utils';
+	import { note, noteDirty, notes, updateNote } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	// TODO: rewrite this stylesheet
@@ -13,10 +12,13 @@
 
 	let editor: HTMLElement;
 
-	updateNote.subscribe((value) => {
-		console.log('note change');
-		// don't think the undefined check is needed anymore
-		if (easymde && $note.content !== undefined) {
+	// TODO: there might be a better way to do this
+	let noteChanged = true;
+
+	const unsubscribe = updateNote.subscribe(() => {
+		if (easymde && $note !== undefined) {
+			// this shouldn't trigger a save
+			noteChanged = true;
 			easymde.value($note.content);
 		}
 	});
@@ -24,10 +26,14 @@
 	function debounce(func: Function, delay = 250) {
 		let timeout: NodeJS.Timeout;
 
-		/** @param {any} args */
 		return (...args: any) => {
-			// always update store
-			$note.content = easymde.value();
+			$note.content = easymde.value(); // always update store
+
+			if (!noteChanged) $noteDirty = true;
+
+			if (noteChanged) {
+				noteChanged = false;
+			}
 
 			clearTimeout(timeout);
 			timeout = setTimeout(() => {
@@ -50,7 +56,7 @@
 			previewImagesInEditor: true
 		});
 
-		easymde.codemirror.on('change', debounce(save, 2500));
+		easymde.codemirror.on('change', debounce(save, 3500));
 
 		if ($note.content !== undefined) {
 			easymde.value($note.content);
@@ -58,6 +64,7 @@
 
 		return () => {
 			easymde.cleanup();
+			unsubscribe();
 		};
 	});
 </script>
