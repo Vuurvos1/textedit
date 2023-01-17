@@ -12,10 +12,12 @@
 		user,
 		updateNote,
 		noteFilter,
-		filteredNotes
+		filteredNotes,
+		noteSort
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
+	import PopoutMenu from './ui/PopoutMenu.svelte';
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -83,10 +85,68 @@
 				<h3 class="text-xl font-semibold">Notes</h3>
 			</div>
 
-			<div>
-				<button aria-label="Filter notes">
-					<Filter size={24} />
-				</button>
+			<div class="flex flex-row gap-2">
+				<PopoutMenu placement="bottom">
+					<!-- turn into icon button? -->
+					<button aria-label="Filter notes" slot="icon">
+						<Filter size={24} />
+					</button>
+					<div class="flex flex-col w-max  py-4">
+						<h3 class="font-bold mb-1">Filter notes</h3>
+						<!-- TODO: Turn these into 3 buttons that switch the order -->
+						<!-- turn text into color if selected -->
+						<!-- TODO: refactor -->
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								// rename to updated_at
+								$noteSort = 'date_modified_desc';
+							}}
+						>
+							Date modified Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'date_modified_asc';
+							}}
+						>
+							Date modified Asc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'created_at_desc';
+							}}
+						>
+							Date created Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'created_at_asc';
+							}}
+						>
+							Date created Asc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'title_asc';
+							}}
+						>
+							Title Desc
+						</button>
+						<button
+							class="px-2 hover:bg-slate-200"
+							on:click={() => {
+								$noteSort = 'title_desc';
+							}}
+						>
+							Title Asc
+						</button>
+					</div>
+				</PopoutMenu>
 
 				<button aria-label="Create a new note" on:click={addNote}>
 					<Plus size={24} />

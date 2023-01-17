@@ -45,29 +45,32 @@ const filterStatus = (n: Note) => {
 	return n.status === get(noteFilter).status;
 };
 
+// TODO: refactor sort
+// Add param for asc/desc that reverses the array?
+// created_at, updated_at, title
 const sortDateDesc = (a: Note, b: Note) => {
 	return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
 };
 
-// const sortDateAsc = (a: Note, b: Note) => {
-// 	return new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
-// };
+const sortDateAsc = (a: Note, b: Note) => {
+	return new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
+};
 
-// const sortCreatedAsc = (a: Note, b: Note) => {
-// 	return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-// };
+const sortCreatedAsc = (a: Note, b: Note) => {
+	return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+};
 
-// const sortCreatedDesc = (a: Note, b: Note) => {
-// 	return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-// };
+const sortCreatedDesc = (a: Note, b: Note) => {
+	return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+};
 
-// const sortTitleAsc = (a: Note, b: Note) => {
-// 	return a.title.localeCompare(b.title);
-// };
+const sortTitleAsc = (a: Note, b: Note) => {
+	return a.title.localeCompare(b.title);
+};
 
-// const sortTitleDesc = (a: Note, b: Note) => {
-// 	return b.title.localeCompare(a.title);
-// };
+const sortTitleDesc = (a: Note, b: Note) => {
+	return b.title.localeCompare(a.title);
+};
 
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
@@ -76,8 +79,20 @@ export const filteredNotes = derived(
 		// sort ns by date modified
 		let ns = $notes.filter(filterText).filter(filterStatus);
 
-		// sort notes by date (descending)
-		ns.sort(sortDateDesc);
+		// sort notes
+		if ($noteSort === 'updated_at_desc') {
+			ns.sort(sortDateDesc);
+		} else if ($noteSort === 'updated_at_asc') {
+			ns.sort(sortDateAsc);
+		} else if ($noteSort === 'created_at_desc') {
+			ns.sort(sortCreatedDesc);
+		} else if ($noteSort === 'created_at_asc') {
+			ns.sort(sortCreatedAsc);
+		} else if ($noteSort === 'title_desc') {
+			ns.sort(sortTitleDesc);
+		} else if ($noteSort === 'title_asc') {
+			ns.sort(sortTitleAsc);
+		}
 
 		return ns;
 	}
