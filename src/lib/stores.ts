@@ -34,7 +34,7 @@ export const noteFilter = writable({
 	tag: '',
 	status: 'public' as NoteStatus // TODO change/remove notes status
 });
-export const noteSort = writable('updated_at');
+export const noteSort = writable('updated_at_desc');
 
 const filterText = (n: Note) => {
 	if (get(noteFilter).text === '') return true;
