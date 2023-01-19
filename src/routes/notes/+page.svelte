@@ -12,7 +12,8 @@
 		notes as notesStore,
 		note,
 		tags as tagsStore,
-		filteredNotes
+		filteredNotes,
+		noteDirty
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
@@ -37,12 +38,15 @@
 	$note = $filteredNotes[0];
 
 	function unload(ev: BeforeUnloadEvent) {
-		ev.preventDefault();
-		ev.returnValue = '';
+		// only show if note is dirty
+		if ($noteDirty) {
+			ev.preventDefault();
+			ev.returnValue = '';
+		}
 	}
 
-	// show warning on tab close
 	onMount(() => {
+		// show warning on tab close
 		window.addEventListener('beforeunload', unload);
 
 		return () => {
