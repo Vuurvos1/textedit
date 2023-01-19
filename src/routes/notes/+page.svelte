@@ -16,6 +16,7 @@
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -34,6 +35,20 @@
 
 	$notesStore = notes;
 	$note = $filteredNotes[0];
+
+	function unload(ev: BeforeUnloadEvent) {
+		ev.preventDefault();
+		ev.returnValue = '';
+	}
+
+	// show warning on tab close
+	onMount(() => {
+		window.addEventListener('beforeunload', unload);
+
+		return () => {
+			window.removeEventListener('beforeunload', unload);
+		};
+	});
 </script>
 
 <div class="app h-screen min-h-screen">
