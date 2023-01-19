@@ -12,10 +12,12 @@
 		notes as notesStore,
 		note,
 		tags as tagsStore,
-		filteredNotes
+		filteredNotes,
+		noteDirty
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -34,6 +36,23 @@
 
 	$notesStore = notes;
 	$note = $filteredNotes[0];
+
+	function unload(ev: BeforeUnloadEvent) {
+		// only show if note is dirty
+		if ($noteDirty) {
+			ev.preventDefault();
+			ev.returnValue = '';
+		}
+	}
+
+	onMount(() => {
+		// show warning on tab close
+		window.addEventListener('beforeunload', unload);
+
+		return () => {
+			window.removeEventListener('beforeunload', unload);
+		};
+	});
 </script>
 
 <div class="app h-screen min-h-screen">
