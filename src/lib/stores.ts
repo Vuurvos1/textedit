@@ -45,31 +45,14 @@ const filterStatus = (n: Note) => {
 	return n.status === get(noteFilter).status;
 };
 
-// TODO: refactor sort
 // Add param for asc/desc that reverses the array?
 // created_at, updated_at, title
-const sortDateDesc = (a: Note, b: Note) => {
-	return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+const sortDateDesc = (a: string | number | Date, b: string | number | Date) => {
+	return new Date(b).getTime() - new Date(a).getTime();
 };
 
-const sortDateAsc = (a: Note, b: Note) => {
-	return new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
-};
-
-const sortCreatedAsc = (a: Note, b: Note) => {
-	return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-};
-
-const sortCreatedDesc = (a: Note, b: Note) => {
-	return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-};
-
-const sortTitleAsc = (a: Note, b: Note) => {
-	return a.title.localeCompare(b.title);
-};
-
-const sortTitleDesc = (a: Note, b: Note) => {
-	return b.title.localeCompare(a.title);
+const sortTextDesc = (a: string, b: string) => {
+	return b.localeCompare(a);
 };
 
 export const filteredNotes = derived(
@@ -77,21 +60,22 @@ export const filteredNotes = derived(
 	([$noteFilter, $noteSort, $notes]) => {
 		// note dates are acting kinda funky, because they are saved to often?
 		// sort ns by date modified
-		let ns = $notes.filter(filterText).filter(filterStatus);
+		const ns = $notes.filter(filterText).filter(filterStatus);
 
+		// TODO sorting by updated at still acting kinda funky, value gets updated to often?
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {
-			ns.sort(sortDateDesc);
+			ns.sort((a, b) => sortDateDesc(a.updated_at, b.updated_at));
 		} else if ($noteSort === 'updated_at_asc') {
-			ns.sort(sortDateAsc);
+			ns.sort((a, b) => sortDateDesc(a.updated_at, b.updated_at)).reverse();
 		} else if ($noteSort === 'created_at_desc') {
-			ns.sort(sortCreatedDesc);
+			ns.sort((a, b) => sortDateDesc(a.created_at, b.created_at));
 		} else if ($noteSort === 'created_at_asc') {
-			ns.sort(sortCreatedAsc);
+			ns.sort((a, b) => sortDateDesc(a.created_at, b.created_at)).reverse();
 		} else if ($noteSort === 'title_desc') {
-			ns.sort(sortTitleDesc);
+			ns.sort((a, b) => sortTextDesc(a.title, b.title));
 		} else if ($noteSort === 'title_asc') {
-			ns.sort(sortTitleAsc);
+			ns.sort((a, b) => sortTextDesc(a.title, b.title)).reverse();
 		}
 
 		return ns;
