@@ -127,7 +127,7 @@
 		}
 	}
 
-	async function addTagToNote(index) {
+	async function addTagToNote(index: number) {
 		const res = await fetch('/api/noteTag', {
 			method: 'POST',
 			body: JSON.stringify({

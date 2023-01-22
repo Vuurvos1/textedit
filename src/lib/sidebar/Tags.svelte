@@ -4,7 +4,7 @@
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
-	import { tagFolders, user } from '$lib/stores';
+	import { noteFilter, tagFolders, user } from '$lib/stores';
 	import { tick } from 'svelte';
 	import { supabaseClient } from '$lib/db';
 
@@ -83,6 +83,13 @@
 			</li>
 		{/if}
 
+		<!-- on:click={() => {
+					$noteFilter.tag = tag.name; // remove leading slash
+					console.log('tags', $noteFilter.tag);
+				}}
+				on:keydown={() => {
+					console.log('keydown');
+				}} -->
 		{#each $tagFolders as tag}
 			<li>
 				<!-- this logic seems a bit double and it also in the tag folder -->

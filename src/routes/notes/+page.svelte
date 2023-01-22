@@ -27,7 +27,7 @@
 
 	$tagsStore = tags;
 
-	// console.log(notes, tags);
+	// console.log(notes);
 
 	// change to an object for speed?
 	$tagFolders = tags

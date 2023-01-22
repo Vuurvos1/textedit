@@ -62,6 +62,7 @@
 				on:click={() => {
 					$noteFilter.status = 'public';
 					$noteFilter.text = '';
+					$noteFilter.tag = '';
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
 
@@ -81,6 +82,8 @@
 
 					$noteFilter.status = 'public';
 					$noteFilter.text = '';
+					$noteFilter.tag = '';
+
 					// $noteFilter.tags = [];
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
@@ -105,6 +108,7 @@
 				class="w-full px-4 py-1 hover:bg-slate-400"
 				on:click={() => {
 					$noteFilter.status = 'archived';
+					$noteFilter.tag = '';
 					$noteFilter.text = '';
 					$note = $filteredNotes[0];
 					$updateNote = Math.random();
@@ -121,6 +125,7 @@
 				class="w-full px-4 py-1 hover:bg-slate-400"
 				on:click={() => {
 					$noteFilter.status = 'deleted';
+					$noteFilter.tag = '';
 					$noteFilter.text = '';
 					$note = $filteredNotes[0];
 					$updateNote = Math.random();

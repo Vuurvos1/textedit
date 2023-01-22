@@ -1,18 +1,26 @@
 <script>
 	import Hash from '$lib/icons/Hash.svelte';
+	import { noteFilter } from '$lib/stores';
 
 	/** @type {string} */
 	export let name;
 
-	// export let collapsible = false;
+	/** @type {string} */
+	export let before = '/';
 </script>
 
-<span class="flex flex-row items-center gap-1 pl-4 hover:bg-indigo-600">
+<button
+	class="flex flex-row items-center gap-1  w-full pl-4 cursor-pointer hover:bg-indigo-600"
+	on:click|stopPropagation={() => {
+		$noteFilter.tag = (before + '/' + name).slice(1); // remove leading slash
+		console.log($noteFilter.tag);
+	}}
+>
 	<div>
 		<Hash size="14" />
 	</div>
 	<div>{name}</div>
-</span>
+</button>
 
 <style lang="scss">
 </style>

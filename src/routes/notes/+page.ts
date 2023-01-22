@@ -13,46 +13,33 @@ export const load: PageLoad = async (event) => {
 		};
 	}
 
-	// query notes and merge tags into notes using note_tags
-	// const newNotes = await supabaseClient.from('notes').select('*, tags!inner(*)'); // merge note tags into notes here
-	// console.log(newNotes.data);
-	// console.log(newNotes.data.map((n) => [n.title, n.tags]));
+	const [notes, tags, noteTags] = await Promise.all([
+		supabaseClient.from('notes').select(), // get all notes
+		supabaseClient.from('tags').select('tag, id'), // gets all the tags
+		supabaseClient.from('note_tags').select('note_id!inner(id), id, tag_id (tag, id)') // all tags that are associated with a note
+	]);
 
-	const newNoteTags = await supabaseClient
-		.from('note_tags')
-		.select('note_id!inner(id), id, tag_id (tag, id)');
-	// .eq('note_id.id', note.id);
-
-	console.log(newNoteTags.data);
-
-	// const { data, error } = await supabaseClient
-	// .from('note_tags')
-	// .select('note_id!inner(id), id, tag_id (tag, id)')
-	// .eq('note_id.id', note.id);
-
-	const tagsRes = await supabaseClient.from('tags').select('tag, id');
-
-	if (tagsRes.error) {
-		console.error(tagsRes.error);
+	if (tags.error) {
+		console.error(tags.error);
 	}
 
-	const notesRes = await supabaseClient.from('notes').select(); // merge note tags into notes here
-	// .order('updated_at', { ascending: false }); // order doesn't really matter because of sort
-
-	if (notesRes.error) {
-		console.error(notesRes.error);
+	if (notes.error) {
+		console.error(notes.error);
 	}
 
-	const mergedNotes = notesRes.data.map((n) => {
-		const noteTags = newNoteTags.data.filter((nt) => nt.note_id.id === n.id);
-		n.tags = noteTags.map((nt) => nt.tag_id.tag);
+	if (noteTags.error) {
+		console.error(noteTags.error);
+	}
+
+	// merge tags into notes
+	notes.data = notes.data.map((n) => {
+		const nts = noteTags.data.filter((nt) => nt.note_id.id === n.id);
+		n.tags = nts.map((nt) => nt.tag_id.tag);
 		return n;
 	});
 
-	console.log(mergedNotes.map((n) => [n.title, n.tags]));
-
 	return {
-		notes: notesRes.data ? notesRes.data : [],
-		tags: tagsRes.data ? tagsRes.data : []
+		notes: notes.data ? notes.data : [],
+		tags: tags.data ? tags.data : []
 	};
 };
