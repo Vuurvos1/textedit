@@ -1,7 +1,7 @@
 <script>
 	import { Chevron } from '$lib/icons';
 	import Hash from '$lib/icons/Hash.svelte';
-	import { noteFilter } from '$lib/stores';
+	import { filteredNotes, note, noteFilter } from '$lib/stores';
 	import Tag from './Tag.svelte';
 
 	export let expanded = true;
@@ -25,6 +25,7 @@
 	class="flex flex-row items-center pl-4 font-bold cursor-pointer hover:bg-indigo-600"
 	on:click|stopPropagation={() => {
 		$noteFilter.tag = name;
+		$note = $filteredNotes[0];
 	}}
 	on:keydown={(ev) => {
 		console.log('hit key on tag folder');

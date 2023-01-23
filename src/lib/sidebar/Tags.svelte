@@ -83,13 +83,6 @@
 			</li>
 		{/if}
 
-		<!-- on:click={() => {
-					$noteFilter.tag = tag.name; // remove leading slash
-					console.log('tags', $noteFilter.tag);
-				}}
-				on:keydown={() => {
-					console.log('keydown');
-				}} -->
 		{#each $tagFolders as tag}
 			<li>
 				<!-- this logic seems a bit double and it also in the tag folder -->

@@ -1,6 +1,6 @@
 <script>
 	import Hash from '$lib/icons/Hash.svelte';
-	import { noteFilter } from '$lib/stores';
+	import { filteredNotes, note, noteFilter } from '$lib/stores';
 
 	/** @type {string} */
 	export let name;
@@ -13,7 +13,7 @@
 	class="flex flex-row items-center gap-1  w-full pl-4 cursor-pointer hover:bg-indigo-600"
 	on:click|stopPropagation={() => {
 		$noteFilter.tag = (before + '/' + name).slice(1); // remove leading slash
-		console.log($noteFilter.tag);
+		$note = $filteredNotes[0];
 	}}
 >
 	<div>
