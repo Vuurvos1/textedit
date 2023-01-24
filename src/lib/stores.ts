@@ -63,11 +63,9 @@ const sortTextDesc = (a: string, b: string) => {
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		// note dates are acting kinda funky, because they are saved to often?
-		// sort ns by date modified
 		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
 
-		// TODO: sorting by updated at still acting kinda funky, value gets updated to often?
+		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
 		// TODO: maybe switch parameters instead of calling reverse?
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {
@@ -87,9 +85,6 @@ export const filteredNotes = derived(
 		return ns;
 	}
 );
-
-// filtered notes could be a derived store that takes something to filter the notes on
-// this is what the notelist should show?
 
 export const tags = writable(<Tag[]>[]);
 export const tagFolders = writable(<Tags>[]);

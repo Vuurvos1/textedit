@@ -35,7 +35,9 @@ export const load: PageLoad = async (event) => {
 	// merge tags into notes
 	notes.data = notes.data.map((n) => {
 		const nts = noteTags.data.filter((nt) => nt.note_id.id === n.id);
-		n.tags = nts.map((nt) => nt.tag_id.tag);
+		n.tags = nts.map((nt) => {
+			return { name: nt.tag_id.tag, id: nt.tag_id.id };
+		});
 		return n;
 	});
 

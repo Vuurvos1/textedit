@@ -229,7 +229,7 @@
 
 	<div class="flex flex-row flex-wrap gap-2">
 		<ul class="flex flex-row flex-wrap gap-2">
-			{#each $noteTags as tag}
+			{#each $note?.tags as tag}
 				<li>
 					<TagChip {tag} />
 				</li>
