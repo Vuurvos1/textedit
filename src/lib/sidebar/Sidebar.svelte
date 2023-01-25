@@ -88,8 +88,6 @@
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
 
-					// console.log($note);
-
 					// const noTags = $notes.filter((note) => {
 					// 	// return note.tags.length === 0;
 					// });

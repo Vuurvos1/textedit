@@ -36,7 +36,7 @@ export const load: PageLoad = async (event) => {
 	notes.data = notes.data.map((n) => {
 		const nts = noteTags.data.filter((nt) => nt.note_id.id === n.id);
 		n.tags = nts.map((nt) => {
-			return { name: nt.tag_id.tag, id: nt.tag_id.id };
+			return { id: nt.id, name: nt.tag_id.tag, tag_id: nt.tag_id.id };
 		});
 		return n;
 	});

@@ -44,9 +44,9 @@
 		{#each tags as tag}
 			<li class="py-0.5">
 				{#if tag.tags && tag.tags.length > 0}
-					<svelte:self {...tag} before={`${before}/${name}`} />
+					<svelte:self {...tag} before={before === '' ? name : before + '/' + name} />
 				{:else}
-					<Tag {...tag} before={`${before}/${name}`} />
+					<Tag {...tag} before={before === '' ? name : before + '/' + name} />
 				{/if}
 			</li>
 		{/each}

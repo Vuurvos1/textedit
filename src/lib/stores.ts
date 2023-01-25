@@ -60,10 +60,11 @@ const sortTextDesc = (a: string, b: string) => {
 	return b.localeCompare(a);
 };
 
+// this functions seems to be called a lot on the server?
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+		const ns = $notes.filter(filterTags);
 
 		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
 		// TODO: maybe switch parameters instead of calling reverse?
