@@ -147,6 +147,7 @@
 		const data = await res.json();
 		$noteTags.push({ id: data.id, name: searchResults[index].tag });
 		$noteTags = $noteTags;
+		// TODO: still update the note tags after the fetch
 
 		// reset values
 		searchString = '';
@@ -229,11 +230,13 @@
 
 	<div class="flex flex-row flex-wrap gap-2">
 		<ul class="flex flex-row flex-wrap gap-2">
-			{#each $note?.tags as tag}
-				<li>
-					<TagChip {tag} />
-				</li>
-			{/each}
+			{#if $note}
+				{#each $note.tags as tag}
+					<li>
+						<TagChip {tag} />
+					</li>
+				{/each}
+			{/if}
 		</ul>
 
 		<!-- search tags -->

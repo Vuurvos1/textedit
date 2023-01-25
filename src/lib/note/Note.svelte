@@ -8,7 +8,7 @@
 </script>
 
 <div class="h-full max-h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
-	{#if $note}
+	{#if $note !== undefined}
 		<NoteHeader {easymde} />
 
 		<NoteBody {easymde} />
