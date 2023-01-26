@@ -1,7 +1,7 @@
 <script>
 	import { supabaseClient } from '$lib/db';
 	import Cross from '$lib/icons/Cross.svelte';
-	import { noteTags } from '$lib/stores';
+	import { note, noteTags } from '$lib/stores';
 
 	export let tag = {};
 </script>
@@ -17,10 +17,12 @@
 
 			if (error) {
 				console.error(error);
-			} else {
-				// remove tag from note
-				$noteTags = $noteTags.filter((t) => t.id !== tag.id);
+				return;
 			}
+
+			// remove tag from note
+			$noteTags = $noteTags.filter((t) => t.id !== tag.id);
+			$note.tags = $note.tags.filter((t) => t.id !== tag.id);
 		}}
 	>
 		<Cross size={16} />

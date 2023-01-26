@@ -127,7 +127,14 @@
 		}
 	}
 
-	async function addTagToNote(index) {
+	async function addTagToNote(index: number) {
+		const tagName = searchResults[index].tag;
+
+		if ($note.tags.some((tag) => tag.name === tagName)) {
+			console.log('Tag already exists');
+			return;
+		}
+
 		const res = await fetch('/api/noteTag', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -145,8 +152,11 @@
 		}
 
 		const data = await res.json();
-		$noteTags.push({ id: data.id, name: searchResults[index].tag });
-		$noteTags = $noteTags;
+
+		$note.tags.push({ id: data.id, name: searchResults[index].tag });
+		$note = $note;
+
+		// TODO: still update the note tags after the post to ensure the note is up to date
 
 		// reset values
 		searchString = '';
@@ -183,6 +193,7 @@
 			<PopoutMenu>
 				<div class="flex flex-col py-2">
 					<!-- TODO: create icon button component -->
+					<!-- TODO: create save state indicator -->
 					<!-- <button
 								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
 								title="Save note"
@@ -229,11 +240,13 @@
 
 	<div class="flex flex-row flex-wrap gap-2">
 		<ul class="flex flex-row flex-wrap gap-2">
-			{#each $noteTags as tag}
-				<li>
-					<TagChip {tag} />
-				</li>
-			{/each}
+			{#if $note}
+				{#each $note.tags as tag}
+					<li>
+						<TagChip {tag} />
+					</li>
+				{/each}
+			{/if}
 		</ul>
 
 		<!-- search tags -->

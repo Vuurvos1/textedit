@@ -1,6 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import type { Note } from '$lib/note/note';
 
 export const load: PageLoad = async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
@@ -13,21 +14,35 @@ export const load: PageLoad = async (event) => {
 		};
 	}
 
-	const tagsRes = await supabaseClient.from('tags').select('tag, id');
+	const [notes, tags, noteTags] = await Promise.all([
+		supabaseClient.from('notes').select(), // get all notes
+		supabaseClient.from('tags').select('tag, id'), // gets all the tags
+		supabaseClient.from('note_tags').select('note_id!inner(id), id, tag_id (tag, id)') // all tags that are associated with a note
+	]);
 
-	if (tagsRes.error) {
-		console.error(tagsRes.error);
+	if (tags.error) {
+		console.error(tags.error);
 	}
 
-	const notesRes = await supabaseClient.from('notes').select(); // merge note tags into notes here
-	// .order('updated_at', { ascending: false }); // order doesn't really matter because of sort
-
-	if (notesRes.error) {
-		console.error(notesRes.error);
+	if (notes.error) {
+		console.error(notes.error);
 	}
+
+	if (noteTags.error) {
+		console.error(noteTags.error);
+	}
+
+	// merge tags into notes
+	notes.data = notes.data.map((n) => {
+		const nts = noteTags.data.filter((nt) => nt.note_id.id === n.id);
+		n.tags = nts.map((nt) => {
+			return { id: nt.id, name: nt.tag_id.tag, tag_id: nt.tag_id.id };
+		});
+		return n;
+	});
 
 	return {
-		notes: notesRes.data ? notesRes.data : [],
-		tags: tagsRes.data ? tagsRes.data : []
+		notes: notes.data ? notes.data : [],
+		tags: tags.data ? tags.data : []
 	};
 };

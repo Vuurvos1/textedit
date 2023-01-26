@@ -4,7 +4,7 @@
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
-	import { tagFolders, user } from '$lib/stores';
+	import { noteFilter, tagFolders, user } from '$lib/stores';
 	import { tick } from 'svelte';
 	import { supabaseClient } from '$lib/db';
 

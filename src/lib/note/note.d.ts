@@ -8,7 +8,7 @@ export type Note = {
 	content: string; // actual note
 	data: { [key: string]: any }; // TODO figure out how to implement
 	status: NoteStatus; // TODO change/remove notes status
-	tags: any; // TODO figure out how this works
+	tags: stirng[]; // TODO figure out how this works
 };
 
 export type Notes = Note[];

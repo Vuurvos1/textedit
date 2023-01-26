@@ -45,61 +45,48 @@ const filterStatus = (n: Note) => {
 	return n.status === get(noteFilter).status;
 };
 
-// TODO: refactor sort
+const filterTags = (n: Note) => {
+	if (get(noteFilter).tag === '') return true;
+	return n.tags.filter((t) => t.name === get(noteFilter).tag).length > 0;
+};
+
 // Add param for asc/desc that reverses the array?
 // created_at, updated_at, title
-const sortDateDesc = (a: Note, b: Note) => {
-	return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+const sortDateDesc = (a: string | number | Date, b: string | number | Date) => {
+	return new Date(b).getTime() - new Date(a).getTime();
 };
 
-const sortDateAsc = (a: Note, b: Note) => {
-	return new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
+const sortTextDesc = (a: string, b: string) => {
+	return b.localeCompare(a);
 };
 
-const sortCreatedAsc = (a: Note, b: Note) => {
-	return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-};
-
-const sortCreatedDesc = (a: Note, b: Note) => {
-	return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-};
-
-const sortTitleAsc = (a: Note, b: Note) => {
-	return a.title.localeCompare(b.title);
-};
-
-const sortTitleDesc = (a: Note, b: Note) => {
-	return b.title.localeCompare(a.title);
-};
-
+// this functions seems to be called a lot on the server?
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		// note dates are acting kinda funky, because they are saved to often?
-		// sort ns by date modified
-		let ns = $notes.filter(filterText).filter(filterStatus);
+		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+
+		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
+		// TODO: maybe switch parameters instead of calling reverse?
 
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {
-			ns.sort(sortDateDesc);
+			ns.sort((a, b) => sortDateDesc(a.updated_at, b.updated_at));
 		} else if ($noteSort === 'updated_at_asc') {
-			ns.sort(sortDateAsc);
+			ns.sort((a, b) => sortDateDesc(a.updated_at, b.updated_at)).reverse();
 		} else if ($noteSort === 'created_at_desc') {
-			ns.sort(sortCreatedDesc);
+			ns.sort((a, b) => sortDateDesc(a.created_at, b.created_at));
 		} else if ($noteSort === 'created_at_asc') {
-			ns.sort(sortCreatedAsc);
+			ns.sort((a, b) => sortDateDesc(a.created_at, b.created_at)).reverse();
 		} else if ($noteSort === 'title_desc') {
-			ns.sort(sortTitleDesc);
+			ns.sort((a, b) => sortTextDesc(a.title, b.title));
 		} else if ($noteSort === 'title_asc') {
-			ns.sort(sortTitleAsc);
+			ns.sort((a, b) => sortTextDesc(a.title, b.title)).reverse();
 		}
 
 		return ns;
 	}
 );
-
-// filtered notes could be a derived store that takes something to filter the notes on
-// this is what the notelist should show?
 
 export const tags = writable(<Tag[]>[]);
 export const tagFolders = writable(<Tags>[]);
