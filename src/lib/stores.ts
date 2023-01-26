@@ -64,10 +64,11 @@ const sortTextDesc = (a: string, b: string) => {
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		const ns = $notes.filter(filterTags);
+		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
 
 		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
 		// TODO: maybe switch parameters instead of calling reverse?
+
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {
 			ns.sort((a, b) => sortDateDesc(a.updated_at, b.updated_at));
