@@ -78,21 +78,12 @@
 				class="w-full px-4 py-1 hover:bg-slate-400"
 				on:click={() => {
 					// filter notes that don't have a tag
-					console.log('not implemented yet');
-
-					$noteFilter.status = 'public';
+					$noteFilter.status = 'untagged';
 					$noteFilter.text = '';
 					$noteFilter.tag = '';
 
-					// $noteFilter.tags = [];
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
-
-					// const noTags = $notes.filter((note) => {
-					// 	// return note.tags.length === 0;
-					// });
-
-					// if note has 'notes/public' status and has no tags
 
 					closeSidebar();
 				}}

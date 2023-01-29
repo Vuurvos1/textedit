@@ -32,7 +32,7 @@ export const note = writable(<Note>{
 export const noteFilter = writable({
 	text: '',
 	tag: '',
-	status: 'public' as NoteStatus // TODO change/remove notes status
+	status: 'public' as NoteStatus | 'untagged' // TODO change/remove notes status
 });
 export const noteSort = writable('updated_at_desc');
 
@@ -64,7 +64,13 @@ const sortTextDesc = (a: string, b: string) => {
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+		let ns: Note[] = [];
+
+		if ($noteFilter.status === 'untagged') {
+			ns = $notes.filter((n) => n.tags.length === 0).filter(filterText);
+		} else {
+			ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+		}
 
 		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
 		// TODO: maybe switch parameters instead of calling reverse?
