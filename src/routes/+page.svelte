@@ -1,30 +1,136 @@
 <script>
 </script>
 
-<main class="flex align-center justify-center min-h-screen relative">
-	<div
-		class="background absolute inset-0 bottom-0 bg-bottom bg-no-repeat bg-slate-50 dark:bg-[#0B1120]"
-	/>
+<main class="min-h-screen relative dark:bg-gray-900">
+	<section class="landing relative flex flex-col justify-center px-4 min-h-screen border-b">
+		<div
+			class="background absolute -z-10 inset-0 bottom-0 bg-bottom bg-no-repeat bg-slate-50 dark:bg-[#0B1120]"
+		/>
 
-	<section class="flex flex-col justify-center max-w-2xl mx-auto px-4">
-		<h1
-			class="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-12"
-		>
-			A quicker way to take notes
-		</h1>
+		<div class="max-w-2xl mx-auto flex flex-col justify-center">
+			<h1
+				class="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-12"
+			>
+				A quicker way to take notes
+			</h1>
 
-		<!-- <p class="mb-4 text-center" /> -->
+			<a
+				class="bg-purple-500 px-4 py-2 rounded font-bold text-white mx-auto drop-shadow-md"
+				href="/notes">Goto notes</a
+			>
+		</div>
+	</section>
 
-		<a
-			class="bg-purple-500 px-4 py-2 rounded font-bold text-white mx-auto drop-shadow-md"
-			href="/notes">Goto notes</a
-		>
+	<section
+		class="flex flex-col mx-auto sm:px-6 lg:px-8 px-4 max-w-7xl pt-24 pb-4 sm:pb-8 md:pb-12 lg:pb-20"
+	>
+		<h2 class="pb-6 dark:text-white font-bold text-4xl">Features</h2>
+
+		<ul class="lg:grid-cols-3 grid grid-cols-1 gap-8 sm:grid-cols-2">
+			<li
+				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+			>
+				<div class="flex align-center justify-center pb-4">
+					<svg
+						width="88"
+						height="54"
+						viewBox="0 0 88 54"
+						fill="currentColor"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M21.1237 12.6007H12.4953V41.3143H21.4864V25.3714L30.0467 35.6571L38.2008 25.3714V41.3143H46.7393V12.6007H38.2008L30.0467 23.2286L21.1237 12.6007ZM6.84798 0H81.152C84.9325 0 88 3.06965 88 6.85626V47.1437C88 50.9298 84.9341 54 81.152 54H6.84798C3.06753 54 0 50.9304 0 47.1437V6.85626C0 3.07023 3.06594 0 6.84798 0ZM61.6342 12.7714H61.5491V27.5143H53.3307L66 41.3143L78.6697 27.4295H70.1128V12.7714H61.6342Z"
+						/>
+					</svg>
+				</div>
+
+				<h3 class="dark:text-white text-xl font-semibold pb-2">Effortless Markdown Formatting</h3>
+				<p>
+					Enhance the visual appeal and readability of your notes with effortless markdown
+					formatting. Say goodbye to plain text and hello to professional-looking, eye-catching
+					notes.
+					<!-- links to docs? -->
+				</p>
+			</li>
+			<li
+				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+			>
+				<div class="flex align-center justify-center pb-4">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="48"
+						height="48"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class=""
+					>
+						<line x1="4" y1="9" x2="20" y2="9" />
+						<line x1="4" y1="15" x2="20" y2="15" />
+						<line x1="10" y1="3" x2="8" y2="21" />
+						<line x1="16" y1="3" x2="14" y2="21" />
+					</svg>
+				</div>
+
+				<h3 class="dark:text-white text-xl font-semibold pb-2">Tagging & Sorting</h3>
+				<p>
+					Organize your notes with ease and stay on top of your information with advanced tagging
+					and sorting capabilities. Quickly find what you're looking for and keep your notes neatly
+					categorized and ready for use.
+				</p>
+			</li>
+			<li
+				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+			>
+				<div class="flex align-center justify-center pb-4">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="48"
+						height="48"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class=""
+					>
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+						<polyline points="7 10 12 15 17 10" />
+						<line x1="12" y1="15" x2="12" y2="3" />
+					</svg>
+				</div>
+
+				<h3 class="text-xl font-semibold pb-2">Seamless Installation</h3>
+				<p class="">
+					The app is available as a a Progressive Web App, making it easily installable on almost
+					any device. Enjoy all the benefits of a native app with the added convenience of being
+					accessible directly from your browser.
+				</p>
+			</li>
+		</ul>
 	</section>
 </main>
 
+<footer class="dark:bg-gray-900 border-t py-4 px-8 dark:text-white border-gray-500">
+	<!-- TODO: theme toggle and more links? -->
+	<div class="flex justify-between max-w-6xl mx-auto">
+		<span>Text Edit - MIT License</span>
+
+		<a href="https://github.com/vuurvos1/textedit">Github</a>
+	</div>
+</footer>
+
 <style lang="scss">
-	main {
+	.landing {
 		background-color: #101625;
+
+		border-color: rgba(241, 245, 249, 0.05);
 
 		@media (prefers-color-scheme: light) {
 			background: #f7f9ff;
@@ -36,19 +142,19 @@
 	}
 
 	.background {
-		--col: rgb(200 200 200/0.25);
-		--width: 2px;
+		--col: rgb(200 200 200/0.15);
+		--width: 1px;
 
 		background: #101625;
 		background-image: linear-gradient(var(--col) var(--width), #0000 var(--width)),
 			linear-gradient(90deg, var(--col) var(--width), #0000 var(--width));
 
 		background-size: 2rem 2rem;
-		background-position: center 0;
+		background-position: bottom 1px center;
 
-		--scale: 2;
+		--scale: 5;
 		mask-image: linear-gradient(
-			/* 90deg, */ rgba(255, 255, 255, 0) calc(var(--scale) * 0%),
+			rgba(255, 255, 255, 0) calc(var(--scale) * 0%),
 			rgba(255, 255, 255, 0.1) calc(var(--scale) * 6%),
 			rgba(255, 255, 255, 0.5) calc(var(--scale) * 22.5%),
 			rgba(255, 255, 255, 0.6) calc(var(--scale) * 25.5%),
