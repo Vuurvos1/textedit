@@ -91,64 +91,92 @@
 						<Filter size={24} />
 					</button>
 					<div class="flex flex-col w-max  py-4">
-						<h3 class="font-bold mb-1">Filter notes</h3>
-						<!-- TODO: Turn these into 3 buttons that switch the order -->
-						<!-- turn text into color if selected -->
-						<!-- TODO: refactor -->
+						<h3 class="font-bold mb-1 px-2">Sort by</h3>
 						<button
 							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
-								// rename to updated_at
-								$noteSort = 'date_modified_desc';
+								$noteSort = $noteSort === 'updated_at_desc' ? 'updated_at_asc' : 'updated_at_desc';
 							}}
 						>
-							Date modified Desc
-							<UpDownArrow size={20} />
+							Date modified
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'updated_at_asc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'updated_at_desc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
-						<button
-							class="px-2 hover:bg-slate-200 flex justify-between items-center gap-2"
-							on:click={() => {
-								$noteSort = 'date_modified_asc';
-							}}
-						>
-							Date modified Asc
-							<UpDownArrow size={20} />
-						</button>
-						<button
-							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
-							on:click={() => {
-								$noteSort = 'created_at_desc';
-							}}
-						>
-							Date created Desc
-							<UpDownArrow size={20} />
-						</button>
-						<button
-							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
-							on:click={() => {
-								$noteSort = 'created_at_asc';
-							}}
-						>
-							Date created Asc
-							<UpDownArrow size={20} />
-						</button>
+
 						<button
 							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
-								$noteSort = 'title_asc';
+								$noteSort = $noteSort === 'created_at_desc' ? 'created_at_asc' : 'created_at_desc';
 							}}
 						>
-							Title Desc
-							<UpDownArrow size={20} />
+							Date created
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'created_at_asc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'created_at_desc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
+
 						<button
 							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
-								$noteSort = 'title_desc';
+								$noteSort = $noteSort === 'title_asc' ? 'title_desc' : 'title_asc';
 							}}
 						>
-							Title Asc
-							<UpDownArrow size={20} />
+							Title
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'title_desc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'title_asc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
 					</div>
 				</PopoutMenu>
