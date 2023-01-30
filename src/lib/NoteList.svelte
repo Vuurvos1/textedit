@@ -1,6 +1,6 @@
 <script>
 	import NoteItem from './NoteItem.svelte';
-	import { Search, Filter, Plus } from './icons';
+	import { Search, Filter, Plus, UpDownArrow } from './icons';
 
 	import {
 		note as noteStore,
@@ -50,7 +50,6 @@
 	function openSidebar() {}
 </script>
 
-<!-- <div class="content flex flex-col hidden md:flex "> -->
 <div class="items h-full flex flex-col bg-slate-50 relative">
 	<div class="items__head flex flex-col px-4 py-2 border-b shadow-sm bg-slate-50">
 		<div class="flex justify-between items-center mb-2">
@@ -97,53 +96,59 @@
 						<!-- turn text into color if selected -->
 						<!-- TODO: refactor -->
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
 								// rename to updated_at
 								$noteSort = 'date_modified_desc';
 							}}
 						>
 							Date modified Desc
+							<UpDownArrow size={20} />
 						</button>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex justify-between items-center gap-2"
 							on:click={() => {
 								$noteSort = 'date_modified_asc';
 							}}
 						>
 							Date modified Asc
+							<UpDownArrow size={20} />
 						</button>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
 								$noteSort = 'created_at_desc';
 							}}
 						>
 							Date created Desc
+							<UpDownArrow size={20} />
 						</button>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
 								$noteSort = 'created_at_asc';
 							}}
 						>
 							Date created Asc
+							<UpDownArrow size={20} />
 						</button>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
 								$noteSort = 'title_asc';
 							}}
 						>
 							Title Desc
+							<UpDownArrow size={20} />
 						</button>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
 							on:click={() => {
 								$noteSort = 'title_desc';
 							}}
 						>
 							Title Asc
+							<UpDownArrow size={20} />
 						</button>
 					</div>
 				</PopoutMenu>
