@@ -21,7 +21,7 @@
 		// get first sentence / first line / first 50 characters rounded to the next wordt
 		if (!str) return '';
 
-		return str.slice(0, 50);
+		return str.trimStart().slice(0, 50);
 	}
 
 	/** @param {string} dateString  */
