@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 
 	// TODO: rewrite this stylesheet
-	import '$lib/easymde.css'; // recommend import css, @option improve common style
+	import '$lib/easymde.scss'; // @option improve common style
 	import { saveNote } from '$lib/utils';
 
 	export let easymde: EasyMDE;
