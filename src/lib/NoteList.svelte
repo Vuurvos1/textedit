@@ -213,9 +213,8 @@
 						<button
 							class="w-full p-4 border-b border-solid"
 							on:click={async () => {
-								// save current note
-
-								saveNote(); // await?
+								// save current note before switching to new one
+								saveNote();
 
 								// update note store
 								$noteStore = note;

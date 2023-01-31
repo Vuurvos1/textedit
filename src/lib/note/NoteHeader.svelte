@@ -194,15 +194,6 @@
 				<div class="flex flex-col py-2">
 					<!-- TODO: create icon button component -->
 					<!-- TODO: create save state indicator -->
-					<!-- <button
-								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-								title="Save note"
-								on:click={saveNote}
-							>
-								<Save />
-								<span>(Force) save</span>
-							</button> -->
-
 					<button
 						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200"
 						on:click={downloadNote}

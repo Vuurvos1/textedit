@@ -1,6 +1,5 @@
 import { get } from 'svelte/store';
-import type { Note } from './note/note';
-import { note, noteDirty } from './stores';
+import { note, noteDirty, notes } from './stores';
 
 /**
  * @param {function} func
@@ -18,18 +17,17 @@ export function debounce(func: Function, delay = 250) {
 }
 
 export async function saveNote() {
+	// only save if note is dirty
 	if (!get(noteDirty)) return;
 
 	// TODO: add error handling
 	// TODO: add loading state
 	// add note param?
 
-	// TODO only save if note has changed
-
 	// TODO: move this into the note store component?
 
 	console.log('saving note...');
-	const n = <Note>get(note);
+	const n = get(note);
 
 	const res = await fetch('/api/note', {
 		method: 'PATCH',

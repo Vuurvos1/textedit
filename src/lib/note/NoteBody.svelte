@@ -29,7 +29,11 @@
 		return (...args: any) => {
 			$note.content = easymde.value(); // always update store
 
-			if (!noteChanged) $noteDirty = true;
+			if (!noteChanged) {
+				$noteDirty = true;
+				$note.updated_at = new Date().toISOString();
+				$notes = $notes;
+			}
 
 			if (noteChanged) {
 				noteChanged = false;
