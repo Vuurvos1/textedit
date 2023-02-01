@@ -58,8 +58,7 @@
 	// Create file drag and drop for this
 </script>
 
-<footer class="md:flex items-center gap-2 h-8 px-2 bg-slate-500">
-	<!-- <pre>aaa</pre> -->
+<footer class="h-8 items-center gap-2 bg-slate-500 px-2 md:flex">
 	<PopoutMenu placement="top">
 		<UserIcon slot="icon" />
 		{#if $user && $user?.email}
@@ -81,7 +80,7 @@
 	<PopoutMenu placement="top">
 		<Sliders slot="icon" />
 
-		<button class="flex flex-row gap-2 w-max" on:click={downloadAll}>
+		<button class="flex w-max flex-row gap-2" on:click={downloadAll}>
 			<Download />
 			<span>Download all notes</span>
 		</button>

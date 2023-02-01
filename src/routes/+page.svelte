@@ -1,36 +1,36 @@
 <script>
 </script>
 
-<main class="min-h-screen relative dark:bg-gray-900">
-	<section class="landing relative flex flex-col justify-center px-4 min-h-screen border-b">
+<main class="relative min-h-screen dark:bg-gray-900">
+	<section class="landing relative flex min-h-screen flex-col justify-center border-b px-4">
 		<div
-			class="background absolute -z-10 inset-0 bottom-0 bg-bottom bg-no-repeat bg-slate-50 dark:bg-[#0B1120]"
+			class="background absolute inset-0 bottom-0 -z-10 bg-slate-50 bg-bottom bg-no-repeat dark:bg-[#0B1120]"
 		/>
 
-		<div class="max-w-2xl mx-auto flex flex-col justify-center">
+		<div class="mx-auto flex max-w-2xl flex-col justify-center">
 			<h1
-				class="text-slate-900 dark:text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-12"
+				class="mb-12 text-center text-4xl font-extrabold text-slate-900 dark:text-white sm:text-5xl lg:text-6xl"
 			>
 				A quicker way to take notes
 			</h1>
 
 			<a
-				class="bg-purple-500 px-4 py-2 rounded font-bold text-white mx-auto drop-shadow-md"
+				class="mx-auto rounded bg-purple-500 px-4 py-2 font-bold text-white drop-shadow-md"
 				href="/notes">Goto notes</a
 			>
 		</div>
 	</section>
 
 	<section
-		class="flex flex-col mx-auto sm:px-6 lg:px-8 px-4 max-w-7xl pt-24 pb-4 sm:pb-8 md:pb-12 lg:pb-20"
+		class="mx-auto flex max-w-7xl flex-col px-4 pt-24 pb-4 sm:px-6 sm:pb-8 md:pb-12 lg:px-8 lg:pb-20"
 	>
-		<h2 class="pb-6 dark:text-white font-bold text-4xl">Features</h2>
+		<h2 class="pb-6 text-4xl font-bold dark:text-white">Features</h2>
 
-		<ul class="lg:grid-cols-3 grid grid-cols-1 gap-8 sm:grid-cols-2">
+		<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 			<li
-				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+				class="rounded-xl border border-gray-500 px-4 py-6 transition-colors duration-300 hover:bg-slate-200 dark:text-white dark:hover:bg-slate-800"
 			>
-				<div class="flex align-center justify-center pb-4">
+				<div class="align-center flex justify-center pb-4">
 					<svg
 						width="88"
 						height="54"
@@ -46,7 +46,7 @@
 					</svg>
 				</div>
 
-				<h3 class="dark:text-white text-xl font-semibold pb-2">Effortless Markdown Formatting</h3>
+				<h3 class="pb-2 text-xl font-semibold dark:text-white">Effortless Markdown Formatting</h3>
 				<p>
 					Enhance the visual appeal and readability of your notes with effortless markdown
 					formatting. Say goodbye to plain text and hello to professional-looking, eye-catching
@@ -55,9 +55,9 @@
 				</p>
 			</li>
 			<li
-				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+				class="rounded-xl border border-gray-500 px-4 py-6 transition-colors duration-300 hover:bg-slate-200 dark:text-white dark:hover:bg-slate-800"
 			>
-				<div class="flex align-center justify-center pb-4">
+				<div class="align-center flex justify-center pb-4">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="48"
@@ -77,7 +77,7 @@
 					</svg>
 				</div>
 
-				<h3 class="dark:text-white text-xl font-semibold pb-2">Tagging & Sorting</h3>
+				<h3 class="pb-2 text-xl font-semibold dark:text-white">Tagging & Sorting</h3>
 				<p>
 					Organize your notes with ease and stay on top of your information with advanced tagging
 					and sorting capabilities. Quickly find what you're looking for and keep your notes neatly
@@ -85,9 +85,9 @@
 				</p>
 			</li>
 			<li
-				class="border border-gray-500 rounded-xl px-4 py-6 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-300"
+				class="rounded-xl border border-gray-500 px-4 py-6 transition-colors duration-300 hover:bg-slate-200 dark:text-white dark:hover:bg-slate-800"
 			>
-				<div class="flex align-center justify-center pb-4">
+				<div class="align-center flex justify-center pb-4">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="48"
@@ -106,7 +106,7 @@
 					</svg>
 				</div>
 
-				<h3 class="text-xl font-semibold pb-2">Seamless Installation</h3>
+				<h3 class="pb-2 text-xl font-semibold">Seamless Installation</h3>
 				<p class="">
 					The app is available as a a Progressive Web App, making it easily installable on almost
 					any device. Enjoy all the benefits of a native app with the added convenience of being
@@ -117,9 +117,9 @@
 	</section>
 </main>
 
-<footer class="dark:bg-gray-900 border-t py-4 px-8 dark:text-white border-gray-500">
+<footer class="border-t border-gray-500 py-4 px-8 dark:bg-gray-900 dark:text-white">
 	<!-- TODO: theme toggle and more links? -->
-	<div class="flex justify-between max-w-6xl mx-auto">
+	<div class="mx-auto flex max-w-6xl justify-between">
 		<span>Text Edit - MIT License</span>
 
 		<a href="https://github.com/vuurvos1/textedit">Github</a>

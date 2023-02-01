@@ -50,9 +50,9 @@
 	function openSidebar() {}
 </script>
 
-<div class="items h-full flex flex-col bg-slate-50 relative">
-	<div class="items__head flex flex-col px-4 py-2 border-b shadow-sm bg-slate-50">
-		<div class="flex justify-between items-center mb-2">
+<div class="items relative flex h-full flex-col bg-slate-50">
+	<div class="items__head flex flex-col border-b bg-slate-50 px-4 py-2 shadow-sm">
+		<div class="mb-2 flex items-center justify-between">
 			<div class="flex flex-row gap-4">
 				<button
 					class="md:hidden"
@@ -90,10 +90,10 @@
 					<button aria-label="Filter notes" slot="icon">
 						<Filter size={24} />
 					</button>
-					<div class="flex flex-col w-max  py-4">
-						<h3 class="font-bold mb-1 px-2">Sort by</h3>
+					<div class="flex w-max flex-col  py-4">
+						<h3 class="mb-1 px-2 font-bold">Sort by</h3>
 						<button
-							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
 								$noteSort = $noteSort === 'updated_at_desc' ? 'updated_at_asc' : 'updated_at_desc';
 							}}
@@ -122,7 +122,7 @@
 						</button>
 
 						<button
-							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
 								$noteSort = $noteSort === 'created_at_desc' ? 'created_at_asc' : 'created_at_desc';
 							}}
@@ -151,7 +151,7 @@
 						</button>
 
 						<button
-							class="px-2 hover:bg-slate-200 flex items-center justify-between gap-2"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
 								$noteSort = $noteSort === 'title_asc' ? 'title_desc' : 'title_asc';
 							}}
@@ -187,7 +187,7 @@
 			</div>
 		</div>
 
-		<div class="flex border rounded-full bg-white px-2 py-1">
+		<div class="flex rounded-full border bg-white px-2 py-1">
 			<label for="search" class="mr-2">
 				<Search />
 			</label>
@@ -201,9 +201,9 @@
 		</div>
 	</div>
 
-	<div class="items__list flex h-full max-h-full relative">
+	<div class="items__list relative flex h-full max-h-full">
 		{#if $filteredNotes.length > 0}
-			<ul class="flex flex-col h-full w-full">
+			<ul class="flex h-full w-full flex-col">
 				{#each $filteredNotes as note (note.id)}
 					<li
 						class="border-l-2 border-solid"
@@ -211,7 +211,7 @@
 						class:border-transparent={$noteStore.id !== note.id}
 					>
 						<button
-							class="w-full p-4 border-b border-solid"
+							class="w-full border-b border-solid p-4"
 							on:click={async () => {
 								// save current note before switching to new one
 								saveNote();
@@ -252,7 +252,7 @@
 			</ul>
 		{:else}
 			<!-- button to create note (0 state) -->
-			<div class="w-full h-full flex justify-center items-center">
+			<div class="flex h-full w-full items-center justify-center">
 				<p>no notes</p>
 			</div>
 		{/if}
