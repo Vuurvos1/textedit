@@ -201,9 +201,9 @@
 		</div>
 	</div>
 
-	<div class="items__list relative flex h-full max-h-full">
+	<div class="items__list relative flex h-full max-h-full overflow-hidden">
 		{#if $filteredNotes.length > 0}
-			<ul class="flex h-full w-full flex-col">
+			<ul class="flex h-full w-full flex-col overflow-y-auto">
 				{#each $filteredNotes as note (note.id)}
 					<li
 						class="border-l-2 border-solid"
@@ -241,8 +241,6 @@
 								$noteTags = data.map((dataTag) => {
 									return { name: dataTag.tag_id.tag, id: dataTag.id };
 								});
-
-								// console.log(data);
 							}}
 						>
 							<NoteItem note={$noteStore.id === note.id ? $noteStore : note} />
@@ -260,19 +258,4 @@
 </div>
 
 <style lang="scss">
-	.items {
-		// &__head {}
-
-		&__list {
-			overflow: hidden;
-
-			ul {
-				overflow-y: auto;
-			}
-		}
-	}
-
-	@media (min-width: 768px) {
-		//
-	}
 </style>

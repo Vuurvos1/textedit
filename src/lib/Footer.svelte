@@ -6,10 +6,10 @@
 	import { supabaseClient } from '$lib/db';
 	import JSZip from 'jszip';
 
-	let loading = false;
+	// let loading = false;
 	async function handleLogin() {
 		try {
-			loading = true;
+			// loading = true;
 			const { error } = await supabaseClient.auth.signInWithOAuth({
 				provider: 'github'
 			});
@@ -18,7 +18,7 @@
 		} catch (err) {
 			console.log(err);
 		} finally {
-			loading = false;
+			// loading = false;
 		}
 	}
 

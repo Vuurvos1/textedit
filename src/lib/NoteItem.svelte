@@ -1,12 +1,11 @@
-<script>
-	/** @type {import('./note/note').Note} */
-	export let note;
+<script lang="ts">
+	import type { Note } from './note/note';
+
+	export let note: Note;
 
 	let lines = note.content?.split('\n');
 
-	/** @type {number} */
 	let taskAmount = 0;
-	/** @type {number} */
 	let tasksDone = 0;
 
 	$: {
@@ -16,16 +15,13 @@
 		}
 	}
 
-	/** @param {string} str  */
-	function formatNote(str) {
-		// get first sentence / first line / first 50 characters rounded to the next wordt
+	/** get first sentence / first line / first 50 characters rounded to the next wordt */
+	function formatNote(str: string) {
 		if (!str) return '';
-
 		return str.trimStart().slice(0, 50);
 	}
 
-	/** @param {string} dateString  */
-	function formateDate(dateString) {
+	function formateDate(dateString: number | string) {
 		const date = new Date(dateString);
 
 		// week day, day date, month (short), year, time hh:mm
@@ -47,13 +43,26 @@
 		{formatNote(note.content)}
 	</p>
 
-	<!-- TODO only plural these when there is more than 1 task -->
-	{#if taskAmount > 0 && tasksDone == 0}
-		<p>{taskAmount} tasks</p>
-	{:else if taskAmount > 0 && taskAmount == tasksDone}
-		<p>{taskAmount} tasks done</p>
-	{:else if tasksDone > 0 && taskAmount > 0}
-		<p>{tasksDone} of {taskAmount} tasks</p>
+	{#if taskAmount > 0}
+		<!-- TODO: maybe convert the progress bar into a smaller radial progress indicator -->
+		<!-- in front of the task amount, like a little svg o with a stroke offset -->
+
+		{#if tasksDone == 0}
+			<p class="font-semibold">{taskAmount} {taskAmount > 1 ? 'tasks' : 'task'}</p>
+		{:else if taskAmount == tasksDone}
+			<p class="font-semibold">{taskAmount} {taskAmount > 1 ? 'tasks' : 'task'} done</p>
+		{:else if tasksDone > 0}
+			<p class="font-semibold">{tasksDone} of {taskAmount} tasks done</p>
+		{/if}
+
+		{#if tasksDone > 0}
+			<div class="my-1 h-1 w-full rounded-full bg-gray-200">
+				<div
+					class="h-full rounded-full bg-purple-500"
+					style={`width: ${Math.round((tasksDone / taskAmount) * 100)}%`}
+				/>
+			</div>
+		{/if}
 	{/if}
 
 	<time class="text-xs" datetime={new Date(note.updated_at).toISOString()}>

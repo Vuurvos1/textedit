@@ -73,8 +73,6 @@
 
 	async function downloadNote() {
 		// TODO: add metadata header on top > add tags to $note
-		// console.log($note);
-
 		const blob = new Blob([$note.content], { type: 'text/plain' });
 		const url = URL.createObjectURL(blob);
 		const link = document.createElement('a');
@@ -165,8 +163,8 @@
 	}
 </script>
 
-<div class="flex flex-row gap-2 justify-between items-center flex-wrap px-4 py-2">
-	<div class="flex flex-row items-center mb-2 w-full">
+<div class="flex flex-row flex-wrap items-center justify-between gap-2 px-4 py-2">
+	<div class="mb-2 flex w-full flex-row items-center">
 		<button
 			aria-label="Back"
 			class="back-button mr-2"
@@ -185,7 +183,7 @@
 				aria-label="title"
 				type="text"
 				bind:value={$note.title}
-				class="w-full text-2xl font-bold bg-transparent focus:outline-none"
+				class="w-full bg-transparent text-2xl font-bold focus:outline-none"
 			/>
 		{/if}
 
@@ -195,14 +193,14 @@
 					<!-- TODO: create icon button component -->
 					<!-- TODO: create save state indicator -->
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 hover:bg-slate-200"
 						on:click={downloadNote}
 					>
 						<Download size={16} />
 						<span>Export</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 text-yellow-400 hover:bg-slate-200"
 						on:click={() => {
 							if ($note.status == 'archived') {
 								updateNoteStatus('public'); // rename to 'active'?
@@ -215,7 +213,7 @@
 						<span>{$note.status === 'archived' ? 'Unarchive' : 'Archive'}</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-red-600"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 text-red-600 hover:bg-slate-200"
 						on:click={deleteNote}
 					>
 						<Trash size={16} />
@@ -245,7 +243,7 @@
 			id="title"
 			type="text"
 			placeholder="add tag"
-			class="bg-transparent border-b-2 border-transparent focus:outline-none focus:border-blue-400 "
+			class="border-b-2 border-transparent bg-transparent focus:border-blue-400 focus:outline-none "
 			use:popperRef
 			bind:value={searchString}
 			on:keyup={searchTags}
@@ -253,7 +251,7 @@
 
 		{#if searchResults.length > 0}
 			<ul
-				class="z-10 bg-white rounded shadow"
+				class="z-10 rounded bg-white shadow"
 				use:popperContent={extraOpts}
 				use:clickOutside
 				on:outclick={() => {
