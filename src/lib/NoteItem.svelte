@@ -1,21 +1,21 @@
 <script lang="ts">
+	import { note as noteStore } from '$lib/stores';
 	import type { Note } from './note/note';
 
 	export let note: Note;
 
-	let lines = note.content?.split('\n');
-
-	let taskAmount = 0;
-	let tasksDone = 0;
+	$: lines = note.content?.split('\n');
+	$: tasksDone = lines.filter((line) => line.startsWith('- [x]')).length;
+	$: taskAmount = tasksDone + lines.filter((line) => line.startsWith('- [ ]')).length;
 
 	$: {
-		if (note.content) {
-			tasksDone = lines.filter((item) => item.startsWith('- [x]')).length;
-			taskAmount = tasksDone + lines.filter((item) => item.startsWith('- [ ]')).length;
+		// only update the todos of the note you are currently editing
+		if (note.id === $noteStore.id) {
+			lines = note.content?.split('\n');
 		}
 	}
 
-	/** get first sentence / first line / first 50 characters rounded to the next wordt */
+	/** TODO: get first sentence / first line / first 50 characters rounded to the next wordt */
 	function formatNote(str: string) {
 		if (!str) return '';
 		return str.trimStart().slice(0, 50);
@@ -49,8 +49,6 @@
 
 		{#if tasksDone == 0}
 			<p class="font-semibold">{taskAmount} {taskAmount > 1 ? 'tasks' : 'task'}</p>
-		{:else if taskAmount == tasksDone}
-			<p class="font-semibold">{taskAmount} {taskAmount > 1 ? 'tasks' : 'task'} done</p>
 		{:else if tasksDone > 0}
 			<p class="font-semibold">{tasksDone} of {taskAmount} tasks done</p>
 		{/if}
