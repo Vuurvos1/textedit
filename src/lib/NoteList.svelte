@@ -5,15 +5,13 @@
 	import {
 		note as noteStore,
 		notes,
-		showNavigation,
-		showNotes,
-		showEditor,
 		noteTags,
 		user,
 		updateNote,
 		noteFilter,
 		filteredNotes,
-		noteSort
+		noteSort,
+		showWindow
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
@@ -41,9 +39,7 @@
 			$updateNote = Math.random();
 
 			// focus note mobile
-			$showNavigation = false;
-			$showNotes = false;
-			$showEditor = true;
+			$showWindow = 'editor';
 		}
 	}
 
@@ -59,9 +55,7 @@
 					aria-label="Open menu"
 					on:click={() => {
 						openSidebar();
-						$showNavigation = true;
-						$showNotes = false;
-						$showEditor = false;
+						$showWindow = 'navigation';
 					}}
 				>
 					<!-- Burger icon -->
@@ -220,11 +214,7 @@
 								$noteStore = note;
 								$updateNote = Math.random();
 
-								$showEditor = true;
-								$showNavigation = false;
-								$showNotes = false;
-
-								// TODO this needs to be done different if I want to filte notes on tags
+								$showWindow = 'editor';
 
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note

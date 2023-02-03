@@ -5,15 +5,13 @@
 	import Footer from '$lib/Footer.svelte';
 
 	import {
-		showNavigation,
-		showNotes,
-		showEditor,
 		tagFolders,
 		notes as notesStore,
 		note,
 		tags as tagsStore,
 		filteredNotes,
-		noteDirty
+		noteDirty,
+		showWindow
 	} from '$lib/stores';
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
@@ -55,14 +53,13 @@
 
 <div class="app h-screen min-h-screen">
 	<div class="layout h-full">
-		<div class:selected={$showNavigation} class="navigation bg-slate-300">
+		<div class:selected={$showWindow === 'navigation'} class="navigation bg-slate-300">
 			<Sidebar />
 		</div>
-		<div class:selected={$showNotes} class="items h-full">
+		<div class:selected={$showWindow === 'notes'} class="items h-full">
 			<NoteList />
 		</div>
-		<div class:selected={$showEditor} class="editor">
-			<!-- TODO if note is selected or select default note -->
+		<div class:selected={$showWindow === 'editor'} class="editor">
 			<Note />
 		</div>
 	</div>

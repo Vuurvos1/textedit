@@ -8,16 +8,7 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import {
-		filteredNotes,
-		note,
-		notes,
-		noteTags,
-		showEditor,
-		showNavigation,
-		showNotes,
-		tags
-	} from '$lib/stores';
+	import { filteredNotes, note, notes, noteTags, showWindow, tags } from '$lib/stores';
 
 	import type { NoteStatus } from './note';
 
@@ -169,9 +160,7 @@
 			aria-label="Back"
 			class="back-button mr-2 md:hidden"
 			on:click={() => {
-				$showNotes = true;
-				$showEditor = false;
-				$showNavigation = false;
+				$showWindow = 'notes';
 			}}
 		>
 			<Chevron rotation={270} />
