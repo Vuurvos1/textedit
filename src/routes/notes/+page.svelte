@@ -53,13 +53,16 @@
 
 <div class="app h-screen min-h-screen">
 	<div class="layout h-full">
-		<div class:selected={$showWindow === 'navigation'} class="navigation bg-slate-300">
+		<div
+			class:selected={$showWindow === 'navigation'}
+			class="navigation overflow-y-auto bg-slate-300"
+		>
 			<Sidebar />
 		</div>
 		<div class:selected={$showWindow === 'notes'} class="items h-full">
 			<NoteList />
 		</div>
-		<div class:selected={$showWindow === 'editor'} class="editor">
+		<div class:selected={$showWindow === 'editor'} class="editor overflow-hidden">
 			<Note />
 		</div>
 	</div>
