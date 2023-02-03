@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
 
-	import { Save, Download, Trash, Inbox, Chevron } from '$lib/icons';
+	import { Download, Trash, Inbox, Chevron } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import TagChip from '$lib/ui/TagChip.svelte';
 
@@ -167,7 +167,7 @@
 	<div class="mb-2 flex w-full flex-row items-center">
 		<button
 			aria-label="Back"
-			class="back-button mr-2"
+			class="back-button mr-2 md:hidden"
 			on:click={() => {
 				$showNotes = true;
 				$showEditor = false;
