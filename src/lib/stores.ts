@@ -98,7 +98,5 @@ export const tags = writable(<Tag[]>[]);
 export const tagFolders = writable(<Tags>[]);
 export const noteTags = writable([]);
 
-/**which part of the app to show on mobile
- * Maybe change to an enum?
- */
+/** which part of the app to show on mobile, maybe change to an enum? */
 export const showWindow = writable(<'navigation' | 'notes' | 'editor'>'notes');

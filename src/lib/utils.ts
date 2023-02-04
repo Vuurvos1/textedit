@@ -22,8 +22,7 @@ export async function saveNote() {
 
 	// TODO: add error handling
 	// TODO: add loading state
-	// add note param?
-
+	// TODO: add note as a param?
 	// TODO: move this into the note store component?
 
 	console.log('saving note...');

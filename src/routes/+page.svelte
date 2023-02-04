@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 </script>
 
 <main class="relative min-h-screen dark:bg-gray-900">

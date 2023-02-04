@@ -13,7 +13,6 @@
 			const { error } = await supabaseClient.auth.signInWithOAuth({
 				provider: 'github'
 			});
-			// console.log(error, user, session);
 			if (error) throw error;
 		} catch (err) {
 			console.log(err);
@@ -31,7 +30,7 @@
 		// clear all values
 		$user = {};
 		$notes = [];
-		$note = $notes[0]; // TODO: this should be a new note
+		$note = $notes[0]; // TODO: this should be an empty note
 	}
 
 	async function downloadAll() {
@@ -54,8 +53,7 @@
 		URL.revokeObjectURL(url); // Remove Object URL after use
 	}
 
-	// TODO: add option to import 1 or more notes
-	// Create file drag and drop for this
+	// TODO: add option to import 1 or more notes, create file drag and drop for this
 </script>
 
 <footer class="h-8 items-center gap-2 bg-slate-500 px-2 md:flex">
