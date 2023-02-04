@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { note, noteDirty, notes } from './stores';
+import { note, noteDirty } from './stores';
 
 /**
  * @param {function} func

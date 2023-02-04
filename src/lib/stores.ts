@@ -1,11 +1,11 @@
+import type { User } from '@supabase/supabase-js';
+import type { Note, NoteStatus } from './note/note';
+import type { Tag, Tags } from './sidebar/tags';
+
 import { writable, derived, get } from 'svelte/store';
 import { supabaseClient } from './db';
 
-import type { Note, NoteStatus } from './note/note';
-import type { Tag, Tags } from './sidebar/tags';
-// TODO: change to be read only?
-export const user = writable({});
-
+export const user = writable<User | {}>({}); // TODO: change to be read only?
 supabaseClient.auth.onAuthStateChange((event, session) => {
 	user.set(session?.user || {});
 });
@@ -71,9 +71,6 @@ export const filteredNotes = derived(
 		} else {
 			ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
 		}
-
-		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
-		// TODO: maybe switch parameters instead of calling reverse?
 
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {

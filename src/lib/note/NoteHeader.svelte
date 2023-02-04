@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
+	import type { Tag } from '$lib/sidebar/tags';
+	import type { NoteStatus } from './note';
 
 	import { Download, Trash, Inbox, Chevron } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
@@ -8,14 +10,11 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import { filteredNotes, note, notes, noteTags, showWindow, tags } from '$lib/stores';
-
-	import type { NoteStatus } from './note';
+	import { filteredNotes, note, notes, showWindow, tags } from '$lib/stores';
 
 	export let easymde: EasyMDE;
 
-	// TODO: add some id thing so that only 1 can be open at a time,
-	// like a global store thing
+	// TODO: add some id thing so that only 1 can be open at a time, like a global store thing
 	const [popperRef, popperContent] = createPopperActions({
 		placement: 'bottom-start'
 	});
@@ -74,9 +73,9 @@
 	}
 
 	let searchString = '';
-	let searchResults = [];
+	let searchResults: Tag[] = [];
 	let searchIndex = -1;
-	async function searchTags(ev) {
+	async function searchTags(ev: KeyboardEvent) {
 		if (searchString == '') {
 			searchResults = [];
 			return;
@@ -84,14 +83,11 @@
 
 		//  cancel search
 		if (ev.key === 'Escape') {
-			//reset values
-			searchString = '';
-			searchResults = [];
-			searchIndex = -1;
+			resetSearch();
 			return;
 		}
 
-		searchResults = $tags.filter((item) => item.tag.includes(searchString));
+		searchResults = $tags.filter((item) => item.name.includes(searchString));
 
 		if (ev.key === 'ArrowUp') {
 			searchIndex--;
@@ -142,12 +138,15 @@
 
 		const data = await res.json();
 
-		$note.tags.push({ id: data.id, name: searchResults[index].tag });
+		$note.tags.push({ id: data.id, name: searchResults[index].name });
 		$note = $note;
 
 		// TODO: still update the note tags after the post to ensure the note is up to date
 
-		// reset values
+		resetSearch();
+	}
+
+	function resetSearch() {
 		searchString = '';
 		searchResults = [];
 		searchIndex = -1;
@@ -166,7 +165,7 @@
 			<Chevron rotation={270} />
 		</button>
 
-		{#if $note?.title}
+		{#if $note.title}
 			<input
 				id="title"
 				aria-label="title"
@@ -243,8 +242,7 @@
 				class="z-10 rounded bg-white shadow"
 				use:popperContent={extraOpts}
 				use:clickOutside
-				on:outclick={() => {
-					searchResults = [];
+				on:outclick={(ev) => {
 					searchString = '';
 				}}
 			>
@@ -253,12 +251,11 @@
 						<button
 							class="px-4 py-1"
 							on:click={async () => {
-								// add tag to post
-								addTagToNote(i);
+								addTagToNote(i); // add tag to post
 							}}
 						>
 							<!-- bolds part of string that matches search -->
-							{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
+							{@html option.name.replace(searchString, `<b>${searchString}</b>`)}
 						</button>
 					</li>
 				{/each}

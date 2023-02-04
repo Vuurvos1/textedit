@@ -1,12 +1,11 @@
 <script>
 	import NoteItem from './NoteItem.svelte';
-	import { Search, Filter, Plus, UpDownArrow } from './icons';
+	import { Search, Filter, Plus } from './icons';
 
 	import {
 		note as noteStore,
 		notes,
 		noteTags,
-		user,
 		updateNote,
 		noteFilter,
 		filteredNotes,

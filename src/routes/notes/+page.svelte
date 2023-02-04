@@ -27,7 +27,7 @@
 
 	// change to an object for speed?
 	$tagFolders = tags
-		.map((path) => path.tag.split('/').filter((tag) => tag))
+		.map((path) => path.name.split('/').filter((tag: string | undefined) => tag))
 		.reduce((children, path) => insertTag(children, path), []);
 
 	$notesStore = notes;

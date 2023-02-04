@@ -34,7 +34,7 @@
 	}
 
 	async function downloadAll() {
-		// TODO add metadata on top
+		// TODO: add metadata on top
 		const zip = new JSZip();
 
 		for (let i = 0; i < $notes.length; i++) {

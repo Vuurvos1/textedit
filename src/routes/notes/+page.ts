@@ -16,8 +16,8 @@ export const load: PageLoad = async (event) => {
 
 	const [notes, tags, noteTags] = await Promise.all([
 		supabaseClient.from('notes').select(), // get all notes
-		supabaseClient.from('tags').select('tag, id'), // gets all the tags
-		supabaseClient.from('note_tags').select('note_id!inner(id), id, tag_id (tag, id)') // all tags that are associated with a note
+		supabaseClient.from('tags').select('name, id'), // gets all the tags
+		supabaseClient.from('note_tags').select('note_id!inner(id), id, tag_id (name, id)') // all tags that are associated with a note
 	]);
 
 	if (tags.error) {

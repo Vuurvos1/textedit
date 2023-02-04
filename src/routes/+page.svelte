@@ -1,8 +1,14 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		const iterations = 1_000;
+		const arr = Array.from({ length: 10_000 }, () => ~~(Math.random() * 10_000));
+	});
 </script>
 
 <main class="relative min-h-screen dark:bg-gray-900">
-	<section class="landing relative flex min-h-screen flex-col justify-center border-b px-4">
+	<section class="landing relative z-10 flex min-h-screen flex-col justify-center border-b px-4">
 		<div
 			class="background absolute inset-0 bottom-0 -z-10 bg-slate-50 bg-bottom bg-no-repeat dark:bg-[#0B1120]"
 		/>
@@ -16,8 +22,10 @@
 
 			<a
 				class="mx-auto rounded bg-purple-500 px-4 py-2 font-bold text-white drop-shadow-md"
-				href="/notes">Goto notes</a
+				href="/notes"
 			>
+				Goto notes
+			</a>
 		</div>
 	</section>
 
@@ -137,10 +145,6 @@
 		}
 	}
 
-	section {
-		z-index: 10;
-	}
-
 	.background {
 		--col: rgb(200 200 200/0.15);
 		--width: 1px;
@@ -168,9 +172,5 @@
 			--col: rgba(50, 50, 50, 0.1);
 			background-color: #f7f9ff;
 		}
-	}
-
-	h1 {
-		font-family: sans-serif;
 	}
 </style>
