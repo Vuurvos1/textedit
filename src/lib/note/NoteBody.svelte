@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 
 	// TODO: rewrite this stylesheet
-	import '$lib/easymde.css'; // recommend import css, @option improve common style
+	import '$lib/easymde.scss'; // @option improve common style
 	import { saveNote } from '$lib/utils';
 
 	export let easymde: EasyMDE;
@@ -29,7 +29,11 @@
 		return (...args: any) => {
 			$note.content = easymde.value(); // always update store
 
-			if (!noteChanged) $noteDirty = true;
+			if (!noteChanged) {
+				$noteDirty = true;
+				$note.updated_at = new Date().toISOString();
+				$notes = $notes;
+			}
 
 			if (noteChanged) {
 				noteChanged = false;

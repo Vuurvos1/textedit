@@ -10,5 +10,3 @@ export type Note = {
 	status: NoteStatus; // TODO change/remove notes status
 	tags: stirng[]; // TODO figure out how this works
 };
-
-export type Notes = Note[];

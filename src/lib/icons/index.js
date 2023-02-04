@@ -12,4 +12,5 @@ export { default as Save } from './Save.svelte';
 export { default as Search } from './Search.svelte';
 export { default as Sliders } from './Sliders.svelte';
 export { default as Trash } from './Trash.svelte';
+export { default as UpDownArrow } from './UpDownArrow.svelte';
 export { default as User } from './User.svelte';

@@ -5,15 +5,12 @@
 	import {
 		note as noteStore,
 		notes,
-		showNavigation,
-		showNotes,
-		showEditor,
 		noteTags,
-		user,
 		updateNote,
 		noteFilter,
 		filteredNotes,
-		noteSort
+		noteSort,
+		showWindow
 	} from '$lib/stores';
 	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
@@ -41,28 +38,23 @@
 			$updateNote = Math.random();
 
 			// focus note mobile
-			$showNavigation = false;
-			$showNotes = false;
-			$showEditor = true;
+			$showWindow = 'editor';
 		}
 	}
 
 	function openSidebar() {}
 </script>
 
-<!-- <div class="content flex flex-col hidden md:flex "> -->
-<div class="items h-full flex flex-col bg-slate-50 relative">
-	<div class="items__head flex flex-col px-4 py-2 border-b shadow-sm bg-slate-50">
-		<div class="flex justify-between items-center mb-2">
+<div class="items relative flex h-full flex-col bg-slate-50">
+	<div class="items__head flex flex-col border-b bg-slate-50 px-4 py-2 shadow-sm">
+		<div class="mb-2 flex items-center justify-between">
 			<div class="flex flex-row gap-4">
 				<button
 					class="md:hidden"
 					aria-label="Open menu"
 					on:click={() => {
 						openSidebar();
-						$showNavigation = true;
-						$showNotes = false;
-						$showEditor = false;
+						$showWindow = 'navigation';
 					}}
 				>
 					<!-- Burger icon -->
@@ -91,59 +83,93 @@
 					<button aria-label="Filter notes" slot="icon">
 						<Filter size={24} />
 					</button>
-					<div class="flex flex-col w-max  py-4">
-						<h3 class="font-bold mb-1">Filter notes</h3>
-						<!-- TODO: Turn these into 3 buttons that switch the order -->
-						<!-- turn text into color if selected -->
-						<!-- TODO: refactor -->
+					<div class="flex w-max flex-col  py-4">
+						<h3 class="mb-1 px-2 font-bold">Sort by</h3>
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
-								// rename to updated_at
-								$noteSort = 'date_modified_desc';
+								$noteSort = $noteSort === 'updated_at_desc' ? 'updated_at_asc' : 'updated_at_desc';
 							}}
 						>
-							Date modified Desc
+							Date modified
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'updated_at_asc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'updated_at_desc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
+
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
-								$noteSort = 'date_modified_asc';
+								$noteSort = $noteSort === 'created_at_desc' ? 'created_at_asc' : 'created_at_desc';
 							}}
 						>
-							Date modified Asc
+							Date created
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'created_at_asc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'created_at_desc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
+
 						<button
-							class="px-2 hover:bg-slate-200"
+							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
 							on:click={() => {
-								$noteSort = 'created_at_desc';
+								$noteSort = $noteSort === 'title_asc' ? 'title_desc' : 'title_asc';
 							}}
 						>
-							Date created Desc
-						</button>
-						<button
-							class="px-2 hover:bg-slate-200"
-							on:click={() => {
-								$noteSort = 'created_at_asc';
-							}}
-						>
-							Date created Asc
-						</button>
-						<button
-							class="px-2 hover:bg-slate-200"
-							on:click={() => {
-								$noteSort = 'title_asc';
-							}}
-						>
-							Title Desc
-						</button>
-						<button
-							class="px-2 hover:bg-slate-200"
-							on:click={() => {
-								$noteSort = 'title_desc';
-							}}
-						>
-							Title Asc
+							Title
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									class:stroke-purple-600={$noteSort === 'title_desc'}
+									d="M16 3V17M16 3L13 6M16 3L19 6"
+								/>
+								<path
+									class:stroke-purple-600={$noteSort === 'title_asc'}
+									d="M8 7L8 21M8 21L5 18M8 21L11 18"
+								/>
+							</svg>
 						</button>
 					</div>
 				</PopoutMenu>
@@ -154,7 +180,7 @@
 			</div>
 		</div>
 
-		<div class="flex border rounded-full bg-white px-2 py-1">
+		<div class="flex rounded-full border bg-white px-2 py-1">
 			<label for="search" class="mr-2">
 				<Search />
 			</label>
@@ -168,9 +194,9 @@
 		</div>
 	</div>
 
-	<div class="items__list flex h-full max-h-full relative">
+	<div class="items__list relative flex h-full max-h-full overflow-hidden">
 		{#if $filteredNotes.length > 0}
-			<ul class="flex flex-col h-full w-full">
+			<ul class="flex h-full w-full flex-col overflow-y-auto">
 				{#each $filteredNotes as note (note.id)}
 					<li
 						class="border-l-2 border-solid"
@@ -178,21 +204,16 @@
 						class:border-transparent={$noteStore.id !== note.id}
 					>
 						<button
-							class="w-full p-4 border-b border-solid"
+							class="w-full border-b border-solid p-4"
 							on:click={async () => {
-								// save current note
-
-								saveNote(); // await?
+								// save current note before switching to new one
+								saveNote();
 
 								// update note store
 								$noteStore = note;
 								$updateNote = Math.random();
 
-								$showEditor = true;
-								$showNavigation = false;
-								$showNotes = false;
-
-								// TODO this needs to be done different if I want to filte notes on tags
+								$showWindow = 'editor';
 
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
@@ -209,8 +230,6 @@
 								$noteTags = data.map((dataTag) => {
 									return { name: dataTag.tag_id.tag, id: dataTag.id };
 								});
-
-								// console.log(data);
 							}}
 						>
 							<NoteItem note={$noteStore.id === note.id ? $noteStore : note} />
@@ -220,7 +239,7 @@
 			</ul>
 		{:else}
 			<!-- button to create note (0 state) -->
-			<div class="w-full h-full flex justify-center items-center">
+			<div class="flex h-full w-full items-center justify-center">
 				<p>no notes</p>
 			</div>
 		{/if}
@@ -228,19 +247,4 @@
 </div>
 
 <style lang="scss">
-	.items {
-		// &__head {}
-
-		&__list {
-			overflow: hidden;
-
-			ul {
-				overflow-y: auto;
-			}
-		}
-	}
-
-	@media (min-width: 768px) {
-		//
-	}
 </style>

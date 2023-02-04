@@ -1,30 +1,20 @@
 <script lang="ts">
 	import type EasyMDE from 'easymde';
+	import type { Tag } from '$lib/sidebar/tags';
+	import type { NoteStatus } from './note';
 
-	import { Save, Download, Trash, Inbox, Chevron } from '$lib/icons';
+	import { Download, Trash, Inbox, Chevron } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 	import TagChip from '$lib/ui/TagChip.svelte';
 
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 
-	import {
-		filteredNotes,
-		note,
-		notes,
-		noteTags,
-		showEditor,
-		showNavigation,
-		showNotes,
-		tags
-	} from '$lib/stores';
-
-	import type { NoteStatus } from './note';
+	import { filteredNotes, note, notes, showWindow, tags } from '$lib/stores';
 
 	export let easymde: EasyMDE;
 
-	// TODO: add some id thing so that only 1 can be open at a time,
-	// like a global store thing
+	// TODO: add some id thing so that only 1 can be open at a time, like a global store thing
 	const [popperRef, popperContent] = createPopperActions({
 		placement: 'bottom-start'
 	});
@@ -73,8 +63,6 @@
 
 	async function downloadNote() {
 		// TODO: add metadata header on top > add tags to $note
-		// console.log($note);
-
 		const blob = new Blob([$note.content], { type: 'text/plain' });
 		const url = URL.createObjectURL(blob);
 		const link = document.createElement('a');
@@ -85,9 +73,9 @@
 	}
 
 	let searchString = '';
-	let searchResults = [];
+	let searchResults: Tag[] = [];
 	let searchIndex = -1;
-	async function searchTags(ev) {
+	async function searchTags(ev: KeyboardEvent) {
 		if (searchString == '') {
 			searchResults = [];
 			return;
@@ -95,14 +83,11 @@
 
 		//  cancel search
 		if (ev.key === 'Escape') {
-			//reset values
-			searchString = '';
-			searchResults = [];
-			searchIndex = -1;
+			resetSearch();
 			return;
 		}
 
-		searchResults = $tags.filter((item) => item.tag.includes(searchString));
+		searchResults = $tags.filter((item) => item.name.includes(searchString));
 
 		if (ev.key === 'ArrowUp') {
 			searchIndex--;
@@ -153,39 +138,40 @@
 
 		const data = await res.json();
 
-		$note.tags.push({ id: data.id, name: searchResults[index].tag });
+		$note.tags.push({ id: data.id, name: searchResults[index].name });
 		$note = $note;
 
 		// TODO: still update the note tags after the post to ensure the note is up to date
 
-		// reset values
+		resetSearch();
+	}
+
+	function resetSearch() {
 		searchString = '';
 		searchResults = [];
 		searchIndex = -1;
 	}
 </script>
 
-<div class="flex flex-row gap-2 justify-between items-center flex-wrap px-4 py-2">
-	<div class="flex flex-row items-center mb-2 w-full">
+<div class="flex flex-row flex-wrap items-center justify-between gap-2 px-4 py-2">
+	<div class="mb-2 flex w-full flex-row items-center">
 		<button
 			aria-label="Back"
-			class="back-button mr-2"
+			class="back-button mr-2 md:hidden"
 			on:click={() => {
-				$showNotes = true;
-				$showEditor = false;
-				$showNavigation = false;
+				$showWindow = 'notes';
 			}}
 		>
 			<Chevron rotation={270} />
 		</button>
 
-		{#if $note?.title}
+		{#if $note.title}
 			<input
 				id="title"
 				aria-label="title"
 				type="text"
 				bind:value={$note.title}
-				class="w-full text-2xl font-bold bg-transparent focus:outline-none"
+				class="w-full bg-transparent text-2xl font-bold focus:outline-none"
 			/>
 		{/if}
 
@@ -194,24 +180,15 @@
 				<div class="flex flex-col py-2">
 					<!-- TODO: create icon button component -->
 					<!-- TODO: create save state indicator -->
-					<!-- <button
-								class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-400"
-								title="Save note"
-								on:click={saveNote}
-							>
-								<Save />
-								<span>(Force) save</span>
-							</button> -->
-
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 hover:bg-slate-200"
 						on:click={downloadNote}
 					>
 						<Download size={16} />
 						<span>Export</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-yellow-400"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 text-yellow-400 hover:bg-slate-200"
 						on:click={() => {
 							if ($note.status == 'archived') {
 								updateNoteStatus('public'); // rename to 'active'?
@@ -224,7 +201,7 @@
 						<span>{$note.status === 'archived' ? 'Unarchive' : 'Archive'}</span>
 					</button>
 					<button
-						class="flex flex-row items-center gap-2 w-full px-4 py-1 hover:bg-slate-200 text-red-600"
+						class="flex w-full flex-row items-center gap-2 px-4 py-1 text-red-600 hover:bg-slate-200"
 						on:click={deleteNote}
 					>
 						<Trash size={16} />
@@ -254,7 +231,7 @@
 			id="title"
 			type="text"
 			placeholder="add tag"
-			class="bg-transparent border-b-2 border-transparent focus:outline-none focus:border-blue-400 "
+			class="border-b-2 border-transparent bg-transparent focus:border-blue-400 focus:outline-none "
 			use:popperRef
 			bind:value={searchString}
 			on:keyup={searchTags}
@@ -262,11 +239,10 @@
 
 		{#if searchResults.length > 0}
 			<ul
-				class="z-10 bg-white rounded shadow"
+				class="z-10 rounded bg-white shadow"
 				use:popperContent={extraOpts}
 				use:clickOutside
-				on:outclick={() => {
-					searchResults = [];
+				on:outclick={(ev) => {
 					searchString = '';
 				}}
 			>
@@ -275,12 +251,11 @@
 						<button
 							class="px-4 py-1"
 							on:click={async () => {
-								// add tag to post
-								addTagToNote(i);
+								addTagToNote(i); // add tag to post
 							}}
 						>
 							<!-- bolds part of string that matches search -->
-							{@html option.tag.replace(searchString, `<b>${searchString}</b>`)}
+							{@html option.name.replace(searchString, `<b>${searchString}</b>`)}
 						</button>
 					</li>
 				{/each}

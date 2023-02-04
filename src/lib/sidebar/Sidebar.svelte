@@ -4,15 +4,13 @@
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
 	import {
-		showNavigation,
-		showNotes,
-		showEditor,
 		user,
 		notes,
 		note,
 		updateNote,
 		noteFilter,
-		filteredNotes
+		filteredNotes,
+		showWindow
 	} from '$lib/stores';
 	import { supabaseClient } from '$lib/db';
 
@@ -45,15 +43,13 @@
 	}
 
 	function closeSidebar() {
-		$showNotes = true;
-		$showNavigation = false;
-		$showEditor = false;
+		$showWindow = 'notes';
 	}
 </script>
 
 <!-- navigation, change to an asside? -->
 <div class="h-full py-4">
-	<h3 class="font-bold font-lg px-4 mb-2">Views</h3>
+	<h3 class="font-lg mb-2 px-4 font-bold">Views</h3>
 
 	<ul class="flex flex-col">
 		<li>
@@ -78,21 +74,12 @@
 				class="w-full px-4 py-1 hover:bg-slate-400"
 				on:click={() => {
 					// filter notes that don't have a tag
-					console.log('not implemented yet');
-
-					$noteFilter.status = 'public';
+					$noteFilter.status = 'untagged';
 					$noteFilter.text = '';
 					$noteFilter.tag = '';
 
-					// $noteFilter.tags = [];
 					$note = $filteredNotes[0]; // these 2 lines should always be run when a filter is changed?
 					$updateNote = Math.random();
-
-					// const noTags = $notes.filter((note) => {
-					// 	// return note.tags.length === 0;
-					// });
-
-					// if note has 'notes/public' status and has no tags
 
 					closeSidebar();
 				}}

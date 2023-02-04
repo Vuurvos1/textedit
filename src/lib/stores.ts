@@ -1,11 +1,11 @@
+import type { User } from '@supabase/supabase-js';
+import type { Note, NoteStatus } from './note/note';
+import type { Tag, Tags } from './sidebar/tags';
+
 import { writable, derived, get } from 'svelte/store';
 import { supabaseClient } from './db';
 
-import type { Note, NoteStatus } from './note/note';
-import type { Tag, Tags } from './sidebar/tags';
-// TODO: change to be read only?
-export const user = writable({});
-
+export const user = writable<User | {}>({}); // TODO: change to be read only?
 supabaseClient.auth.onAuthStateChange((event, session) => {
 	user.set(session?.user || {});
 });
@@ -32,7 +32,7 @@ export const note = writable(<Note>{
 export const noteFilter = writable({
 	text: '',
 	tag: '',
-	status: 'public' as NoteStatus // TODO change/remove notes status
+	status: 'public' as NoteStatus | 'untagged' // TODO change/remove notes status
 });
 export const noteSort = writable('updated_at_desc');
 
@@ -64,10 +64,13 @@ const sortTextDesc = (a: string, b: string) => {
 export const filteredNotes = derived(
 	[noteFilter, noteSort, notes],
 	([$noteFilter, $noteSort, $notes]) => {
-		const ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+		let ns: Note[] = [];
 
-		// TODO: note updated times are acting kinda funky, maybe they are saved/updated to often?
-		// TODO: maybe switch parameters instead of calling reverse?
+		if ($noteFilter.status === 'untagged') {
+			ns = $notes.filter((n) => n.tags.length === 0).filter(filterText);
+		} else {
+			ns = $notes.filter(filterStatus).filter(filterTags).filter(filterText);
+		}
 
 		// sort notes
 		if ($noteSort === 'updated_at_desc') {
@@ -92,7 +95,5 @@ export const tags = writable(<Tag[]>[]);
 export const tagFolders = writable(<Tags>[]);
 export const noteTags = writable([]);
 
-// TODO: make this more dry?
-export const showNavigation = writable(false);
-export const showNotes = writable(true);
-export const showEditor = writable(false);
+/** which part of the app to show on mobile, maybe change to an enum? */
+export const showWindow = writable(<'navigation' | 'notes' | 'editor'>'notes');
