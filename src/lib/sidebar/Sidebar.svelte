@@ -37,7 +37,7 @@
 		}
 
 		// clear all values
-		$user = {};
+		$user = undefined;
 		$notes = [];
 		$note = $notes[0];
 	}
@@ -146,7 +146,7 @@
 					<h3>Account</h3>
 					<p>You are signed in as:</p>
 					<p>{$user.email}</p>
-					<p>Using: {$user?.app_metadata?.provider}</p>
+					<p>Using: {$user.app_metadata?.provider}</p>
 
 					<button class="hover:text-purple-600" on:click={logout}>Logout</button>
 				{:else}

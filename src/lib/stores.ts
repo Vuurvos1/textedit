@@ -1,13 +1,13 @@
 import type { User } from '@supabase/supabase-js';
 import type { Note, NoteStatus } from './note/note';
-import type { Tag, Tags } from './sidebar/tags';
+import type { Tag, TagFolder } from './sidebar/tags';
 
 import { writable, derived, get } from 'svelte/store';
 import { supabaseClient } from './db';
 
-export const user = writable<User | {}>({}); // TODO: change to be read only?
+export const user = writable<User | undefined>(undefined); // TODO: change to be read only?
 supabaseClient.auth.onAuthStateChange((event, session) => {
-	user.set(session?.user || {});
+	user.set(session?.user || undefined);
 });
 
 export const updateNote = writable(0);
@@ -91,9 +91,8 @@ export const filteredNotes = derived(
 	}
 );
 
-export const tags = writable(<Tag[]>[]);
-export const tagFolders = writable(<Tags>[]);
-export const noteTags = writable([]);
+export const tags = writable(<Tag[]>[]); // list of all tags
+export const tagFolders = writable(<TagFolder[]>[]);
 
 /** which part of the app to show on mobile, maybe change to an enum? */
 export const showWindow = writable(<'navigation' | 'notes' | 'editor'>'notes');

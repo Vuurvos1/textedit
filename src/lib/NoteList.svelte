@@ -5,7 +5,6 @@
 	import {
 		note as noteStore,
 		notes,
-		noteTags,
 		updateNote,
 		noteFilter,
 		filteredNotes,
@@ -29,7 +28,7 @@
 			const data = await res.json();
 
 			// clear and update stores with new note
-			$noteTags = [];
+			$noteStore.tags = [];
 			$noteStore = data;
 			$notes.unshift(data); // faster than concat
 			$notes = $notes; // trigger rerender
@@ -220,15 +219,15 @@
 								// this should be done in the intial query
 								const { data, error } = await supabaseClient
 									.from('note_tags')
-									.select('note_id!inner(id), id, tag_id (tag, id)')
+									.select('note_id!inner(id), id, tag_id (name, id)')
 									.eq('note_id.id', note.id);
 
 								if (error) {
 									console.error(error);
 								}
 
-								$noteTags = data.map((dataTag) => {
-									return { name: dataTag.tag_id.tag, id: dataTag.id };
+								$noteStore.tags = data.map((dataTag) => {
+									return { name: dataTag.tag_id?.name, id: dataTag.id };
 								});
 							}}
 						>

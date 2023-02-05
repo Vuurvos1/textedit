@@ -1,7 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import type { Note } from '$lib/note/note';
 
 export const load: PageLoad = async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);

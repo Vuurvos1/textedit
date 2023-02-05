@@ -1,19 +1,18 @@
-<script>
+<script lang="ts">
 	import { Chevron } from '$lib/icons';
 	import Hash from '$lib/icons/Hash.svelte';
 	import { filteredNotes, note, noteFilter } from '$lib/stores';
 	import Tag from './Tag.svelte';
 
+	import type { TagFolder } from '$lib/sidebar/tags';
+
 	export let expanded = true;
 
-	/** @type {string} */
-	export let name;
+	export let name: string;
 
-	/** @type {string} */
 	export let before = '';
 
-	/** @type {import('./tags').Tag[]} */
-	export let tags;
+	export let tags: TagFolder[];
 
 	function toggle() {
 		expanded = !expanded;
@@ -22,7 +21,7 @@
 
 <span
 	class:expanded
-	class="flex flex-row items-center pl-4 font-bold cursor-pointer hover:bg-indigo-600"
+	class="flex cursor-pointer flex-row items-center pl-4 font-bold hover:bg-indigo-600"
 	on:click|stopPropagation={() => {
 		$noteFilter.tag = name;
 		$note = $filteredNotes[0];
@@ -43,7 +42,7 @@
 	<ul class="ml-5 border-l border-solid border-slate-100">
 		{#each tags as tag}
 			<li class="py-0.5">
-				{#if tag.tags && tag.tags.length > 0}
+				{#if tag.children && tag.children.length > 0}
 					<svelte:self {...tag} before={before === '' ? name : before + '/' + name} />
 				{:else}
 					<Tag {...tag} before={before === '' ? name : before + '/' + name} />

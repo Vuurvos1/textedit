@@ -28,7 +28,7 @@
 		}
 
 		// clear all values
-		$user = {};
+		$user = undefined;
 		$notes = [];
 		$note = $notes[0]; // TODO: this should be an empty note
 	}

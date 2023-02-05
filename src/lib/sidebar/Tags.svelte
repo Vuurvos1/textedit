@@ -50,7 +50,7 @@
 
 <div class="w-64">
 	<div class="flex flex-row justify-between px-4">
-		<h3 class="font-bold font-lg">Tags</h3>
+		<h3 class="font-lg font-bold">Tags</h3>
 
 		<button
 			title="Add new tag"
@@ -71,7 +71,7 @@
 				<input
 					type="text"
 					name="tag"
-					class="w-full outline-none bg-transparent"
+					class="w-full bg-transparent outline-none"
 					bind:this={tagInput}
 					bind:value={tag}
 					on:keydown={tagKeydown}
@@ -86,8 +86,8 @@
 		{#each $tagFolders as tag}
 			<li>
 				<!-- this logic seems a bit double and it also in the tag folder -->
-				{#if tag.tags && tag.tags.length > 0}
-					<TagFolder name={tag.name} tags={tag.tags} expanded />
+				{#if tag.children && tag.children.length > 0}
+					<TagFolder name={tag.name} tags={tag.children} expanded />
 				{:else}
 					<Tag name={tag.name} />
 				{/if}
