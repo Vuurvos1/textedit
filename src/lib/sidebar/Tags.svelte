@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	import { Hash, Plus } from '$lib/icons';
 	import { insertTagBefore } from '$lib/tags/tagUtils';
 	import Tag from './Tag.svelte';
 	import TagFolder from './TagFolder.svelte';
 
-	import { noteFilter, tagFolders, user } from '$lib/stores';
+	import { tagFolders, user } from '$lib/stores';
 	import { tick } from 'svelte';
 	import { supabaseClient } from '$lib/db';
 
@@ -13,11 +13,9 @@
 	let addingTag = false;
 
 	let tag = '';
-	/** @type {HTMLInputElement} */
-	let tagInput;
+	let tagInput: HTMLInputElement;
 
-	/** @param {KeyboardEvent} ev */
-	function tagKeydown(ev) {
+	function tagKeydown(ev: KeyboardEvent) {
 		if (ev.key === 'Enter') {
 			addTag();
 		}
@@ -56,7 +54,7 @@
 			title="Add new tag"
 			on:click={async () => {
 				addingTag = true;
-				await tick;
+				await tick();
 				tagInput.focus();
 			}}
 		>
@@ -85,9 +83,9 @@
 
 		{#each $tagFolders as tag}
 			<li>
-				<!-- this logic seems a bit double and it also in the tag folder -->
+				<!-- TODO: this logic seems a bit double and it also in the tag folder -->
 				{#if tag.children && tag.children.length > 0}
-					<TagFolder name={tag.name} tags={tag.children} expanded />
+					<TagFolder name={tag.name} children={tag.children} expanded />
 				{:else}
 					<Tag name={tag.name} />
 				{/if}

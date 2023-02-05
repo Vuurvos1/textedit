@@ -3,7 +3,6 @@
 	import { filteredNotes, note, noteFilter } from '$lib/stores';
 
 	export let name: string;
-
 	export let before = '';
 </script>
 

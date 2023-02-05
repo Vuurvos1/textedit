@@ -165,7 +165,7 @@
 			<Chevron rotation={270} />
 		</button>
 
-		{#if $note.title}
+		{#if $note}
 			<input
 				id="title"
 				aria-label="title"

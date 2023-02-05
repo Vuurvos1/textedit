@@ -7,12 +7,9 @@
 	import type { TagFolder } from '$lib/sidebar/tags';
 
 	export let expanded = true;
-
 	export let name: string;
-
 	export let before = '';
-
-	export let tags: TagFolder[];
+	export let children: TagFolder[];
 
 	function toggle() {
 		expanded = !expanded;
@@ -23,7 +20,7 @@
 	class:expanded
 	class="flex cursor-pointer flex-row items-center pl-4 font-bold hover:bg-indigo-600"
 	on:click|stopPropagation={() => {
-		$noteFilter.tag = name;
+		$noteFilter.tag = before === '' ? name : before + '/' + name;
 		$note = $filteredNotes[0];
 	}}
 	on:keydown={(ev) => {
@@ -40,12 +37,12 @@
 
 {#if expanded}
 	<ul class="ml-5 border-l border-solid border-slate-100">
-		{#each tags as tag}
+		{#each children as tag}
 			<li class="py-0.5">
 				{#if tag.children && tag.children.length > 0}
 					<svelte:self {...tag} before={before === '' ? name : before + '/' + name} />
 				{:else}
-					<Tag {...tag} before={before === '' ? name : before + '/' + name} />
+					<Tag name={tag.name} before={before === '' ? name : before + '/' + name} />
 				{/if}
 			</li>
 		{/each}

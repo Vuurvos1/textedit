@@ -47,7 +47,7 @@ const filterStatus = (n: Note) => {
 
 const filterTags = (n: Note) => {
 	if (get(noteFilter).tag === '') return true;
-	return n.tags.filter((t) => t.name === get(noteFilter).tag).length > 0;
+	return n.tags.some((t) => t.name === get(noteFilter).tag);
 };
 
 // Add param for asc/desc that reverses the array?
