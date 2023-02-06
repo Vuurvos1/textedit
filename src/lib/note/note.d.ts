@@ -1,3 +1,5 @@
+import type { Tag } from '$lib/sidebar/tags';
+
 export type NoteStatus = 'notes' | 'public' | 'archived' | 'deleted';
 
 export type Note = {
@@ -8,5 +10,5 @@ export type Note = {
 	content: string; // actual note
 	data: { [key: string]: any }; // TODO figure out how to implement
 	status: NoteStatus; // TODO change/remove notes status
-	tags: stirng[]; // TODO figure out how this works
+	tags: Tag[]; // TODO figure out how this works
 };

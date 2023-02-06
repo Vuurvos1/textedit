@@ -165,7 +165,7 @@
 			<Chevron rotation={270} />
 		</button>
 
-		{#if $note.title}
+		{#if $note}
 			<input
 				id="title"
 				aria-label="title"
@@ -219,9 +219,11 @@
 		<ul class="flex flex-row flex-wrap gap-2">
 			{#if $note}
 				{#each $note.tags as tag}
-					<li>
-						<TagChip {tag} />
-					</li>
+					{#if tag.name}
+						<li>
+							<TagChip {tag} />
+						</li>
+					{/if}
 				{/each}
 			{/if}
 		</ul>

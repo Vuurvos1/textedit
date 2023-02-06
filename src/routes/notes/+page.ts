@@ -1,7 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import type { Note } from '$lib/note/note';
 
 export const load: PageLoad = async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
@@ -36,7 +35,7 @@ export const load: PageLoad = async (event) => {
 	notes.data = notes.data.map((n) => {
 		const nts = noteTags.data.filter((nt) => nt.note_id.id === n.id);
 		n.tags = nts.map((nt) => {
-			return { id: nt.id, name: nt.tag_id.tag, tag_id: nt.tag_id.id };
+			return { id: nt.id, name: nt.tag_id.name, tag_id: nt.tag_id.id };
 		});
 		return n;
 	});
