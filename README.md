@@ -25,6 +25,10 @@ You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 
+### Inspector
+
+To enable the Svelte inspector while in development mode you can press `windows + shift` now you can easily inspect elements and move to the coresponding files inside the editor
+
 ## Database (supabase stuff)
 
 notes
