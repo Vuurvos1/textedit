@@ -31,6 +31,21 @@ const config = {
 		// 	}
 		// 	return true;
 		// }
+	},
+
+	vitePlugin: {
+		experimental: {
+			inspector: {
+				// change shortcut
+				toggleKeyCombo: 'meta-shift',
+				// hold and release key to toggle inspector mode
+				holdMode: false,
+				// show or hide the inspector option
+				// showToggleButton: 'always',
+				// inspector position
+				toggleButtonPos: 'top-right'
+			}
+		}
 	}
 };
 
