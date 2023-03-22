@@ -130,7 +130,7 @@
 	<div class="mx-auto flex max-w-6xl justify-between">
 		<span>Text Edit - MIT License</span>
 
-		<a href="https://github.com/vuurvos1/textedit">Github</a>
+		<a class="hover:text-indigo-300" href="https://github.com/vuurvos1/textedit">Github</a>
 	</div>
 </footer>
 
