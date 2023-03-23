@@ -3,22 +3,20 @@
 
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
-	import { createMarkdownEditor } from 'tiptap-markdown';
+	// import { createMarkdownEditor } from 'tiptap-markdown';
 
 	import Heading from '@tiptap/extension-heading';
-	// import Heading from 'tiptap';
+	import Bold from '@tiptap/extension-bold';
 
 	// import { keymap } from 'prosemirror-commands';
-	import {} from '@tiptap/pm/keymap';
-	import {} from '@tiptap/pm/markdown';
-	// import {setBlockType, } from '@tiptap/pm/commands';
+	// import {} from '@tiptap/pm/keymap';
+	// import {} from '@tiptap/pm/markdown';
+	// import {setBlockType } from '@tiptap/pm/commands';
 
 	/** @type {HTMLDivElement | undefined} */
 	let element;
 	/** @type {Editor} */
 	let editor;
-
-	//   import { keymap } from 'prosemirror-commands'
 
 	// const myKeymap = keymap({
 	//   // Map Ctrl+Alt+L to insert a link
@@ -92,24 +90,43 @@
 	// 				};
 	// 			}
 
+	const CustomBold = Bold.extend({
+		addCommands() {
+			return {
+				customBold: (attributes) => (editor) => {
+					const { state, commands } = editor;
+
+					const { from, to } = state.selection; // selected range
+
+					const text = state.doc.textBetween(from, to); // selected text
+
+					const tr = state.tr.replaceRangeWith(from, to, state.schema.text(`**${text}**`));
+					editor.dispatch(tr);
+
+					return commands.toggleBold();
+				}
+			};
+		},
+		addKeyboardShortcuts() {
+			return {
+				'Mod-Alt-b': () => this.editor.commands.customBold()
+			};
+		}
+	});
+
 	const CustomHeading = Heading.extend({
 		addCommands() {
 			return {
-				cycleHeading: (attributes) => (foo) => {
-					const { state, commands } = foo;
+				cycleHeading: (attributes) => (editor) => {
+					const { state, commands } = editor;
 
 					// console.log(
-					// 	state
-					// 	// attributes,
-					// 	// this.options.levels.includes(attributes.level),
-					// 	// attributes.level,
-					// 	// attributes,
-
-					// 	// this.name,
-					// 	// this.options,
-					// 	// this.options.levels,
-					// 	// commands,
-					// 	// this
+					// state
+					// attributes,
+					// this.name,
+					// this.options,
+					// commands,
+					// this
 					// );
 
 					const { $from } = state.selection;
@@ -147,12 +164,6 @@
 					// 	console.log('Selection is not a heading block');
 					// }
 
-					// get current node state
-					// const { state } = this.editor.view;
-					// const { $from, $to } = state.selection;
-					// console.log($from, $to);
-					// const range = $from.blockRange($to);
-
 					// return commands.cycleHeading(attributes);
 					// if (!this.options.levels.includes(attributes.level)) {
 					// 	return false;
@@ -170,18 +181,12 @@
 		}
 	});
 
-	// const CustomStarterKit = StarterKit.extend({
-	// 	addKeyboardShortcuts() {
-	// 		return {
-	// 			'Mod-l': () => this.editor.commands.toggleBulletList()
-	// 		};
-	// 	}
-	// });
+	// console.log(CustomHeading);
 
 	onMount(() => {
 		editor = new Editor({
 			element: element,
-			extensions: [CustomHeading, StarterKit],
+			extensions: [CustomHeading, CustomBold, StarterKit],
 			content: `
       <p>Hello World! 🌍️ </p>
       <h1>Heading 1</h1>
@@ -195,6 +200,8 @@
 			}
 		});
 	});
+
+	console.log(editor?.commands, editor);
 
 	onDestroy(() => {
 		if (editor) {
