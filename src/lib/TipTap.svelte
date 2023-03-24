@@ -96,9 +96,40 @@
 				customBold: (attributes) => (editor) => {
 					const { state, commands } = editor;
 
-					const { from, to } = state.selection; // selected range
+					const { from, to, ranges } = state.selection; // selected range
+					console.log(state.selection, from, to);
 
+					/** @type {string} */
 					const text = state.doc.textBetween(from, to); // selected text
+
+					// TODO: handle selection of multiple nodes
+					// console.log(ranges.length);
+
+					// ranges.forEach((range) => {
+					// 	const { $from: from, $to: to } = range;
+
+					// 	console.log(from, to);
+
+					// 	const text = state.doc.textBetween(from.pos, to.pos);
+
+					// 	console.log(text);
+
+					// 	if (!text.startsWith('**') || !text.endsWith('**')) {
+					// 		const boldText = `**${text}**`;
+					// 		const tr = editor.state.tr.replaceWith(from.pos, to.pos, state.schema.text(boldText));
+					// 		editor.dispatch(tr);
+					// 	}
+					// });
+
+					// return commands.toggleBold();
+					// },
+
+					if (text.startsWith('**') && text.endsWith('**')) {
+						const tr = state.tr.replaceWith(from, to, state.schema.text(text.slice(2, -2)));
+						editor.dispatch(tr);
+
+						return commands.toggleBold();
+					}
 
 					const tr = state.tr.replaceRangeWith(from, to, state.schema.text(`**${text}**`));
 					editor.dispatch(tr);
@@ -119,15 +150,6 @@
 			return {
 				cycleHeading: (attributes) => (editor) => {
 					const { state, commands } = editor;
-
-					// console.log(
-					// state
-					// attributes,
-					// this.name,
-					// this.options,
-					// commands,
-					// this
-					// );
 
 					const { $from } = state.selection;
 					const node = $from.node();
