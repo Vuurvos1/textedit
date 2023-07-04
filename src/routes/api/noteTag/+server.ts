@@ -1,8 +1,8 @@
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-export async function POST(event) {
+export const POST = (async (event) => {
 	// TODO: move this logic into the patch method of a note?
 
 	const { session, supabaseClient } = await getSupabase(event);
@@ -25,4 +25,4 @@ export async function POST(event) {
 	}
 
 	return new Response(JSON.stringify(data[0]));
-}
+}) satisfies RequestHandler;

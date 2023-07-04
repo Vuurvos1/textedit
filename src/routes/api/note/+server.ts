@@ -1,8 +1,10 @@
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function POST(event) {
+
+export const POST = (async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
 
 	if (!session) {
@@ -24,10 +26,9 @@ export async function POST(event) {
 	}
 
 	return new Response(JSON.stringify(data[0]));
-}
+}) satisfies RequestHandler;
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-export async function PATCH(event) {
+export const PATCH = (async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
 
 	if (!session) {
@@ -52,10 +53,9 @@ export async function PATCH(event) {
 	}
 
 	return new Response('note updated successfully');
-}
+}) satisfies RequestHandler;
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-export async function DELETE(event) {
+export const DELETE = (async (event) => {
 	const { session, supabaseClient } = await getSupabase(event);
 
 	if (!session) {
@@ -79,4 +79,4 @@ export async function DELETE(event) {
 	}
 
 	return new Response('great success');
-}
+}) satisfies RequestHandler;

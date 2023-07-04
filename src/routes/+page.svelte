@@ -1,10 +1,24 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	onMount(() => {
-		const iterations = 1_000;
-		const arr = Array.from({ length: 10_000 }, () => ~~(Math.random() * 10_000));
-	});
+	// import { enhance, type SubmitFunction } from '$app/forms';
+	// import { supabaseClient } from '$lib/supabase';
+	// import type { PageData } from './$types';
+
+	// export let data: PageData;
+
+	// const submitLogout: SubmitFunction = async ({ cancel }) => {
+	// 	const { error } = await supabaseClient.auth.signOut();
+	// 	if (error) {
+	// 		console.log(error);
+	// 	}
+	// 	cancel();
+	// };
+
+	// onMount(() => {
+	// 	const iterations = 1_000;
+	// 	const arr = Array.from({ length: 10_000 }, () => ~~(Math.random() * 10_000));
+	// });
 </script>
 
 <main class="relative min-h-screen dark:bg-gray-900">
@@ -30,7 +44,7 @@
 	</section>
 
 	<section
-		class="mx-auto flex max-w-7xl flex-col px-4 pt-24 pb-4 sm:px-6 sm:pb-8 md:pb-12 lg:px-8 lg:pb-20"
+		class="mx-auto flex max-w-7xl flex-col px-4 pb-4 pt-24 sm:px-6 sm:pb-8 md:pb-12 lg:px-8 lg:pb-20"
 	>
 		<h2 class="pb-6 text-4xl font-bold dark:text-white">Features</h2>
 
@@ -125,7 +139,7 @@
 	</section>
 </main>
 
-<footer class="border-t border-gray-500 py-4 px-8 dark:bg-gray-900 dark:text-white">
+<footer class="border-t border-gray-500 px-8 py-4 dark:bg-gray-900 dark:text-white">
 	<!-- TODO: theme toggle and more links? -->
 	<div class="mx-auto flex max-w-6xl justify-between">
 		<span>Text Edit - MIT License</span>
