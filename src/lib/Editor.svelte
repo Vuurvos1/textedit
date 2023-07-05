@@ -1,35 +1,16 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor } from '@tiptap/core';
-	import CodeBlockComponent from '$lib/CodeBlock.svelte';
-
-	// import 'highlight.js/styles/github.css';
-
-	import { NodeViewWrapper, NodeViewContent } from 'svelte-tiptap';
-
-	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-
 	import { SvelteNodeViewRenderer } from 'svelte-tiptap';
-
-	// import StarterKit from '@tiptap/starter-kit';
-	// import Code from '@tiptap/extension-code';
 	import Code from '@tiptap/extension-code';
 	import Document from '@tiptap/extension-document';
 	import Paragraph from '@tiptap/extension-paragraph';
 	import Text from '@tiptap/extension-text';
-	import CodeBlock from '@tiptap/extension-code-block';
-
-	import css from 'highlight.js/lib/languages/css';
-	import js from 'highlight.js/lib/languages/javascript';
-	import ts from 'highlight.js/lib/languages/typescript';
-	import html from 'highlight.js/lib/languages/xml';
-
+	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
 
-	// lowlight.registerLanguage('html', html);
-	// lowlight.registerLanguage('css', css);
-	// lowlight.registerLanguage('js', js);
-	// lowlight.registerLanguage('ts', ts);
+	// import 'highlight.js/styles/github.css';
 
 	let element: HTMLDivElement;
 	let editor: Editor;
@@ -37,21 +18,23 @@
 	onMount(() => {
 		editor = new Editor({
 			element: element,
-			// extensions: [Document, Paragraph, Text, Code],
 			extensions: [
 				Document,
 				Paragraph,
 				Text,
 				Code,
-				// CodeBlock,
 				CodeBlockLowlight.extend({
 					addNodeView() {
 						return SvelteNodeViewRenderer(CodeBlockComponent);
 					}
 				}).configure({ lowlight })
 			],
-
-			// extensions: [, Code],
+			editorProps: {
+				attributes: {
+					// prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5
+					class: 'prose lg:prose-lg focus:outline-none'
+				}
+			},
 			content: `<p>Hello World! 🌍️ </p>
 			<pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
@@ -134,7 +117,7 @@
 		</button>
 	{/if}
 
-	<div class="editor prose lg:prose-lg">
+	<div class="editor">
 		<div bind:this={element} />
 	</div>
 </section>
@@ -145,9 +128,9 @@
 		color: white;
 	}
 
-	.editor :global(.ProseMirror-focused) {
+	/* .editor :global(.ProseMirror-focused) {
 		outline: none;
-	}
+	} */
 
 	/* Basic editor styles */
 	.editor :global(.ProseMirror > * + *) {
@@ -155,11 +138,11 @@
 	}
 
 	.editor :global(.ProseMirror code) {
-		background-color: rgba(#616161, 0.1);
+		/* background-color: rgba(#616161, 0.1);
 		border-radius: 0.25em;
 		box-decoration-break: clone;
 		color: #616161;
 		font-size: 0.9rem;
-		padding: 0.25em;
+		padding: 0.25em; */
 	}
 </style>
