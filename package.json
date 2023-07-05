@@ -47,11 +47,20 @@
 		"@supabase/supabase-js": "^2.26.0",
 		"@tailwindcss/typography": "^0.5.9",
 		"@tiptap/core": "^2.0.3",
+		"@tiptap/extension-code": "^2.0.3",
+		"@tiptap/extension-code-block": "^2.0.3",
+		"@tiptap/extension-code-block-lowlight": "^2.0.3",
+		"@tiptap/extension-document": "^2.0.3",
+		"@tiptap/extension-paragraph": "^2.0.3",
+		"@tiptap/extension-text": "^2.0.3",
 		"@tiptap/pm": "^2.0.3",
 		"@tiptap/starter-kit": "^2.0.3",
 		"cookie": "0.5.0",
 		"dotenv": "^16.3.1",
 		"easymde": "^2.18.0",
-		"jszip": "^3.10.1"
+		"highlight.js": "^11.8.0",
+		"jszip": "^3.10.1",
+		"lowlight": "^2.9.0",
+		"svelte-tiptap": "^1.1.0"
 	}
 }
