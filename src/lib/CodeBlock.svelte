@@ -24,18 +24,37 @@
 	// 	}
 	// }
 
+	let apiLanguages: any[] = [];
+
+	async function getApiLanguages() {
+		const res = await fetch('https://emkc.org/api/v2/piston/runtimes');
+		const apiLanguages = await res.json();
+		return apiLanguages;
+	}
+
 	async function runCode() {
-		// const a = await fetch('https://emkc.org/api/v2/piston/runtimes');
-		// const b = await a.json();
-		// console.log(b);
+		if (apiLanguages.length === 0) {
+			apiLanguages = await getApiLanguages();
+		}
+
+		// if (!supportLanguages.includes(selectedLanguage)) {
+		// 	return;
+		// }
 
 		const url = 'https://emkc.org/api/v2/piston/execute';
+
+		// console.log;
+		const language = apiLanguages.find((lang) => lang.aliases.includes(selectedLanguage));
+
+		if (!language) {
+			return;
+		}
 
 		const res = await fetch(url, {
 			method: 'POST',
 			body: JSON.stringify({
-				language: 'javascript',
-				version: '18.15.0',
+				language: language.language,
+				version: language.version,
 				files: [
 					{
 						name: 'main.js',
@@ -60,6 +79,7 @@
 <NodeViewWrapper class="code-block relative leading-relaxed">
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="absolute right-2 top-2 flex flex-row items-center gap-4">
+		<!-- TODO: base this on api value -->
 		{#if supportLanguages.includes(selectedLanguage)}
 			<button
 				on:click={runCode}
@@ -70,15 +90,13 @@
 				<!-- could turn into a loading spinner while running or something -->
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
 					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					class="ml-1.5"
+					class="ml-1.5 h-5 w-5"
 				>
 					<polygon points="5 3 19 12 5 21 5 3" />
 				</svg>

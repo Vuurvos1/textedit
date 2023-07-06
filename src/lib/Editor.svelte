@@ -137,12 +137,12 @@
 		margin-top: 0.75em;
 	}
 
-	.editor :global(.ProseMirror code) {
+	/* .editor :global(.ProseMirror code) { */
 		/* background-color: rgba(#616161, 0.1);
 		border-radius: 0.25em;
 		box-decoration-break: clone;
 		color: #616161;
 		font-size: 0.9rem;
 		padding: 0.25em; */
-	}
+	/* } */
 </style>
