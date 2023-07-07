@@ -115,17 +115,30 @@
 		</select>
 	</div>
 
-	<pre class="leading-[0] md:leading-[0]">
+	<pre class="">
     <NodeViewContent as="code" class="leading-relaxed language-{selectedLanguage}" />
 
-    {#if output}
-			<div class="my-4 border-t pt-4 leading-[0] text-white">
-        <h4 class="text-md mt-0 text-white lg:mt-0">Output:</h4>
-        <p class="text-sm">{output}</p>
+		<div class:border-t={output} class="output max-h-48 overflow-y-auto text-white dark:text-white">
+				{#if output}
+				<h4
+					class="text-md sticky top-0 my-0 bg-[#0d0d0d] py-2 text-white lg:my-0">Output:</h4>
+        <p
+					class="text-sm">{output}</p>
+			{/if}
       </div>
-		{/if}
   </pre>
 </NodeViewWrapper>
 
-<style>
+<style lang="postcss">
+	:global(.code-block) pre {
+		@apply px-0 pb-0 pt-4 leading-[0];
+	}
+
+	:global(.code-block) .output {
+		@apply px-4 pb-4 pt-0;
+	}
+
+	:global(.code-block pre code > div) {
+		@apply px-4;
+	}
 </style>
