@@ -2,10 +2,11 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import { SvelteNodeViewRenderer } from 'svelte-tiptap';
+	import StarterKit from '@tiptap/starter-kit';
 	import Code from '@tiptap/extension-code';
 	import Document from '@tiptap/extension-document';
-	import Paragraph from '@tiptap/extension-paragraph';
-	import Text from '@tiptap/extension-text';
+	// import Paragraph from '@tiptap/extension-paragraph';
+	// import Text from '@tiptap/extension-text';
 	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
@@ -19,9 +20,10 @@
 		editor = new Editor({
 			element: element,
 			extensions: [
+				StarterKit,
 				Document,
-				Paragraph,
-				Text,
+				// Paragraph,
+				// Text,
 				Code,
 				CodeBlockLowlight.extend({
 					addNodeView() {
@@ -35,8 +37,7 @@
 					class: 'prose lg:prose-lg focus:outline-none'
 				}
 			},
-			content: `<p>Hello World! 🌍️ </p>
-			<pre><code class="language-javascript">for (var i=1; i <= 20; i++)
+			content: `<p>Hello World! 🌍️ </p><pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
   if (i % 15 == 0)
     console.log("FizzBuzz");
@@ -47,6 +48,7 @@
   else
     console.log(i);
 }</code></pre>
+<p>End of the code</p>
 			
 			`,
 			onTransaction: () => {
@@ -122,15 +124,11 @@
 	</div>
 </section>
 
-<style>
+<style lang="postcss">
 	button.active {
 		background: black;
 		color: white;
 	}
-
-	/* .editor :global(.ProseMirror-focused) {
-		outline: none;
-	} */
 
 	/* Basic editor styles */
 	.editor :global(.ProseMirror > * + *) {
@@ -138,7 +136,7 @@
 	}
 
 	/* .editor :global(.ProseMirror code) { */
-		/* background-color: rgba(#616161, 0.1);
+	/* background-color: rgba(#616161, 0.1);
 		border-radius: 0.25em;
 		box-decoration-break: clone;
 		color: #616161;

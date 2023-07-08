@@ -78,7 +78,7 @@
 
 <NodeViewWrapper class="code-block relative leading-relaxed">
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="absolute right-2 top-2 flex flex-row items-center gap-4">
+	<div class="absolute right-2 top-2 flex flex-row items-center gap-4" contentEditable="false">
 		<!-- TODO: base this on api value -->
 		{#if supportLanguages.includes(selectedLanguage)}
 			<button
@@ -103,7 +103,7 @@
 			</button>
 		{/if}
 
-		<select class="text-base text-black" bind:value={selectedLanguage} contentEditable={false}>
+		<select class="text-base text-black" bind:value={selectedLanguage}>
 			<option value="null">auto</option>
 			<option disabled> — </option>
 
@@ -115,30 +115,33 @@
 		</select>
 	</div>
 
-	<pre class="">
-    <NodeViewContent as="code" class="leading-relaxed language-{selectedLanguage}" />
-
-		<div class:border-t={output} class="output max-h-48 overflow-y-auto text-white dark:text-white">
+	<!-- elements need to be like this to prevent cursor grabbing jank -->
+	<pre><NodeViewContent as="code" class="leading-relaxed language-{selectedLanguage}" /><div
+			contentEditable="false"
+			class:border-t={output}
+			class:pb-4={output}
+			class="output max-h-48 overflow-y-auto px-4 text-white dark:text-white">
 				{#if output}
 				<h4
 					class="text-md sticky top-0 my-0 bg-[#0d0d0d] py-2 text-white lg:my-0">Output:</h4>
-        <p
-					class="text-sm">{output}</p>
+        <pre
+					class="mb-0 text-sm leading-relaxed">{output}</pre>
 			{/if}
-      </div>
-  </pre>
-</NodeViewWrapper>
+      </div></pre></NodeViewWrapper
+>
 
 <style lang="postcss">
-	:global(.code-block) pre {
-		@apply px-0 pb-0 pt-4 leading-[0];
-	}
+	:global(.code-block) {
+		> pre {
+			@apply px-0 pb-0;
 
-	:global(.code-block) .output {
-		@apply px-4 pb-4 pt-0;
-	}
+			:global(code > div) {
+				@apply px-4 pb-4;
+			}
+		}
 
-	:global(.code-block pre code > div) {
-		@apply px-4;
+		.output pre {
+			@apply px-0;
+		}
 	}
 </style>
