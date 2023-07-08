@@ -3,7 +3,7 @@
 	import { supabaseClient } from '$lib/db';
 	import { onMount } from 'svelte';
 
-	import '../app.scss';
+	import '../app.css';
 
 	onMount(() => {
 		const {
@@ -20,5 +20,5 @@
 
 <slot />
 
-<style lang="scss">
+<style lang="postcss">
 </style>

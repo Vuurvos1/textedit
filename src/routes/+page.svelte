@@ -148,7 +148,7 @@
 	</div>
 </footer>
 
-<style lang="scss">
+<style lang="postcss">
 	.landing {
 		background-color: #101625;
 

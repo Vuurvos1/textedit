@@ -85,7 +85,7 @@
 	</PopoutMenu>
 </footer>
 
-<style lang="scss">
+<style lang="postcss">
 	footer {
 		display: none;
 	}

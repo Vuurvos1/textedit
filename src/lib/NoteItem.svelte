@@ -68,7 +68,7 @@
 	</time>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 	p {
 		white-space: nowrap;
 		overflow: hidden;

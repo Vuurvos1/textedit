@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import { PlayIcon } from 'svelte-feather-icons';
 	import { NodeViewWrapper, NodeViewContent } from 'svelte-tiptap';
 	import type { NodeViewProps } from '@tiptap/core';
 
@@ -9,12 +8,10 @@
 	export let extension: NodeViewProps['extension'];
 
 	let selectedLanguage: string = node.attrs.language;
-
-	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
-
+	let output = '';
 	const supportLanguages: string[] = ['javascript'];
 
-	let output = '';
+	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
 
 	// function keyDown(ev: KeyboardEvent) {
 	// 	console.log(ev.key);

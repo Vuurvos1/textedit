@@ -11,7 +11,7 @@
 	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
 
-	// import 'highlight.js/styles/github.css';
+	import 'highlight.js/styles/github-dark.css';
 
 	let element: HTMLDivElement;
 	let editor: Editor;

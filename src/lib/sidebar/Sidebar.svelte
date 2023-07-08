@@ -138,7 +138,7 @@
 			<span>back</span>
 		</button>
 
-		<div class="flex flex-row ">
+		<div class="flex flex-row">
 			<!-- profile -->
 			<PopoutMenu placement="top-start" extraOpts={{ modifiers: [] }}>
 				<UserIcon slot="icon" />
@@ -163,7 +163,7 @@
 	</div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 	ul {
 		margin-bottom: 1.25rem;
 	}

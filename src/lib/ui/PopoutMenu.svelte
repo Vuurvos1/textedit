@@ -38,7 +38,7 @@
 
 	{#if showTooltip}
 		<div
-			class="z-10 leading-normal bg-white shadow rounded"
+			class="z-10 rounded bg-white leading-normal shadow"
 			use:popperContent={extraOpts}
 			use:clickOutside
 			on:outclick={() => {
@@ -57,5 +57,5 @@
 	{/if}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>

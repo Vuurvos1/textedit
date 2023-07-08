@@ -94,4 +94,4 @@
 	</ul>
 </div>
 
-<style lang="scss"></style>
+<style lang="postcss"></style>

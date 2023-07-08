@@ -7,7 +7,7 @@
 	let easymde: EasyMDE;
 </script>
 
-<div class="h-full max-h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
+<div class="note flex h-full max-h-full w-full flex-col overflow-y-hidden bg-gray-100">
 	{#if $note !== undefined}
 		<NoteHeader {easymde} />
 
@@ -15,5 +15,5 @@
 	{/if}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>
