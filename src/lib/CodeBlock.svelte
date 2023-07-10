@@ -53,17 +53,12 @@
 
 		const data = await res.json();
 
-		if (data.compile.stderr) {
-			output = data.compile.stderr;
+		if (data?.compile?.stderr) {
+			output = data.compile.output;
 			return;
 		}
 
-		if (data.run.stderr) {
-			output = data.run.stdout;
-			return;
-		}
-
-		output = data.run.stdout;
+		output = data.run.output;
 	}
 </script>
 

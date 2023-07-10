@@ -103,17 +103,12 @@ type Runtime = {
 	aliases: string[];
 };
 
-async function createExecutionEngines() {
-	const res = await fetch('https://emkc.org/api/v2/piston/runtimes');
-	const apiLanguages = ((await res.json()) as Runtime[]) || [];
+function createExecutionEngines() {
+	const { subscribe, set, update } = writable<Runtime[]>([]);
 
-	const { subscribe, set, update } = writable(<Runtime[]>[]);
-	set(apiLanguages);
-
-	// const apiLanguages = fetch('https://emkc.org/api/v2/piston/runtimes')
-	// 	.then((res) => res.json())
-	// 	.then((data) => set(data));
-	// as Promise<Runtime[]
+	fetch('https://emkc.org/api/v2/piston/runtimes')
+		.then((res) => res.json())
+		.then((data) => set(data as Runtime[]));
 
 	return {
 		subscribe,
@@ -122,21 +117,6 @@ async function createExecutionEngines() {
 	};
 }
 
-// function createExecutionEngines() {
-// 	// const res = await fetch('https://emkc.org/api/v2/piston/runtimes');
-// 	// const apiLanguages = await res.json();
-
-// 	// const { subscribe, set, update } = writable(<any>[]);
-
-// 	// const;
-
-// 	return {
-// 		subscribe,
-// 		set,
-// 		update
-// 	};
-// }
-
-export const engineRuntimes = await createExecutionEngines();
+export const engineRuntimes = createExecutionEngines();
 
 // code execution engine
