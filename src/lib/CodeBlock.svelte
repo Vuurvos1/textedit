@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { NodeViewWrapper, NodeViewContent } from 'svelte-tiptap';
 	import type { NodeViewProps } from '@tiptap/core';
+	import { engineRuntimes } from '$lib/stores';
 
 	export let node: NodeViewProps['node'];
 	export let updateAttributes: NodeViewProps['updateAttributes'];
@@ -9,9 +10,12 @@
 
 	let selectedLanguage: string = node.attrs.language;
 	let output = '';
-	const supportLanguages: string[] = ['javascript'];
 
 	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
+	$: executable = $engineRuntimes.find((engine) => engine.aliases.includes(selectedLanguage));
+
+	// get intersection of
+	// extension.options.lowlight.listLanguages() and engineRuntimes
 
 	// function keyDown(ev: KeyboardEvent) {
 	// 	console.log(ev.key);
@@ -23,38 +27,18 @@
 
 	let apiLanguages: any[] = [];
 
-	async function getApiLanguages() {
-		const res = await fetch('https://emkc.org/api/v2/piston/runtimes');
-		const apiLanguages = await res.json();
-		return apiLanguages;
-	}
-
 	async function runCode() {
-		if (apiLanguages.length === 0) {
-			apiLanguages = await getApiLanguages();
-		}
-
-		// if (!supportLanguages.includes(selectedLanguage)) {
-		// 	return;
-		// }
-
-		const url = 'https://emkc.org/api/v2/piston/execute';
-
-		// console.log;
-		const language = apiLanguages.find((lang) => lang.aliases.includes(selectedLanguage));
-
-		if (!language) {
+		if (!executable) {
 			return;
 		}
 
-		const res = await fetch(url, {
+		const res = await fetch('https://emkc.org/api/v2/piston/execute', {
 			method: 'POST',
 			body: JSON.stringify({
-				language: language.language,
-				version: language.version,
+				language: executable.language,
+				version: executable.version,
 				files: [
 					{
-						name: 'main.js',
 						content: node.textContent
 					}
 				],
@@ -69,7 +53,17 @@
 
 		const data = await res.json();
 
-		output = data.run.output;
+		if (data.compile.stderr) {
+			output = data.compile.stderr;
+			return;
+		}
+
+		if (data.run.stderr) {
+			output = data.run.stdout;
+			return;
+		}
+
+		output = data.run.stdout;
 	}
 </script>
 
@@ -77,7 +71,7 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="absolute right-2 top-2 flex flex-row items-center gap-4" contentEditable="false">
 		<!-- TODO: base this on api value -->
-		{#if supportLanguages.includes(selectedLanguage)}
+		{#if executable}
 			<button
 				on:click={runCode}
 				class="grid h-8 w-8 items-center rounded-full text-green-500 hover:bg-white/10"
@@ -120,7 +114,7 @@
 			class="output max-h-48 overflow-y-auto px-4 text-white dark:text-white">
 				{#if output}
 				<h4
-					class="text-md sticky top-0 my-0 bg-[#0d0d0d] py-2 text-white lg:my-0">Output:</h4>
+					class="text-md sticky top-0 my-0 bg-inherit py-2 text-white backdrop-blur lg:my-0">Output:</h4>
         <pre
 					class="mb-0 text-sm leading-relaxed">{output}</pre>
 			{/if}

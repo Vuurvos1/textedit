@@ -48,9 +48,7 @@
   else
     console.log(i);
 }</code></pre>
-<p>End of the code</p>
-			
-			`,
+<p>End of the code</p>`,
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
