@@ -12,7 +12,9 @@
 	let output = '';
 
 	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
-	$: executable = $engineRuntimes.find((engine) => engine.aliases.includes(selectedLanguage));
+	$: executable =
+		$engineRuntimes.find((engine) => engine.aliases.includes(selectedLanguage)) ||
+		$engineRuntimes.find((engine) => engine.language === selectedLanguage);
 
 	// function keyDown(ev: KeyboardEvent) {
 	// 	console.log(ev.key);
