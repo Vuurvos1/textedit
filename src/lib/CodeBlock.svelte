@@ -14,9 +14,6 @@
 	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
 	$: executable = $engineRuntimes.find((engine) => engine.aliases.includes(selectedLanguage));
 
-	// get intersection of
-	// extension.options.lowlight.listLanguages() and engineRuntimes
-
 	// function keyDown(ev: KeyboardEvent) {
 	// 	console.log(ev.key);
 	// 	if (ev.key === 'Tab') {
@@ -24,8 +21,6 @@
 	// 		ev.stopPropagation();
 	// 	}
 	// }
-
-	let apiLanguages: any[] = [];
 
 	async function runCode() {
 		if (!executable) {

@@ -12,7 +12,8 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"drizzle": "drizzle-kit"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.35.1",
@@ -23,6 +24,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.61.0",
 		"@typescript-eslint/parser": "^5.61.0",
 		"autoprefixer": "^10.4.14",
+		"drizzle-kit": "^0.19.3",
 		"eslint": "^8.44.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte": "^2.32.2",
@@ -54,12 +56,13 @@
 		"@tiptap/extension-text": "^2.0.3",
 		"@tiptap/pm": "^2.0.3",
 		"@tiptap/starter-kit": "^2.0.3",
-		"cookie": "0.5.0",
 		"dotenv": "^16.3.1",
+		"drizzle-orm": "^0.27.1",
 		"easymde": "^2.18.0",
 		"highlight.js": "^11.8.0",
 		"jszip": "^3.10.1",
 		"lowlight": "^2.9.0",
+		"postgres": "^3.3.5",
 		"svelte-tiptap": "^1.1.0"
 	}
 }
