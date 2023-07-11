@@ -5,6 +5,8 @@
 	import StarterKit from '@tiptap/starter-kit';
 	import Code from '@tiptap/extension-code';
 	import Document from '@tiptap/extension-document';
+	import TaskItem from '@tiptap/extension-task-item';
+	import TaskList from '@tiptap/extension-task-list';
 	// import Paragraph from '@tiptap/extension-paragraph';
 	// import Text from '@tiptap/extension-text';
 	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
@@ -22,14 +24,17 @@
 			extensions: [
 				StarterKit,
 				Document,
-				// Paragraph,
-				// Text,
 				Code,
 				CodeBlockLowlight.extend({
 					addNodeView() {
 						return SvelteNodeViewRenderer(CodeBlockComponent);
 					}
-				}).configure({ lowlight })
+				}).configure({ lowlight }),
+				TaskList,
+				TaskItem
+				// .configure({
+				// 	nested: true
+				// })
 			],
 			editorProps: {
 				attributes: {
@@ -48,7 +53,13 @@
   else
     console.log(i);
 }</code></pre>
-<p>End of the code</p>`,
+<p>End of the code</p>
+
+<ul data-type="taskList">
+		<li data-type="taskItem" data-checked="true">A list item</li>
+		<li data-type="taskItem" data-checked="false">And another one</li>
+</ul>
+`,
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
@@ -124,13 +135,32 @@
 
 <style lang="postcss">
 	button.active {
-		background: black;
-		color: white;
+		@apply bg-gray-200 text-gray-900;
 	}
 
 	/* Basic editor styles */
 	.editor :global(.ProseMirror > * + *) {
-		margin-top: 0.75em;
+		@apply mt-3;
+	}
+
+	.editor :global(ul[data-type='taskList']) {
+		@apply list-none p-0;
+	}
+
+	.editor :global(ul[data-type='taskList'] p) {
+		@apply m-0;
+	}
+	.editor :global(ul[data-type='taskList'] li) {
+		@apply flex items-center leading-none;
+	}
+
+	.editor :global(ul[data-type='taskList'] li > label) {
+		flex: 0 0 auto;
+		@apply m-0 mr-2 select-none;
+	}
+
+	.editor :global(ul[data-type='taskList'] li > div) {
+		@apply mb-0 flex-1;
 	}
 
 	/* .editor :global(.ProseMirror code) { */
