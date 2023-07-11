@@ -7,6 +7,8 @@
 	import Document from '@tiptap/extension-document';
 	import TaskItem from '@tiptap/extension-task-item';
 	import TaskList from '@tiptap/extension-task-list';
+	import Image from '@tiptap/extension-image';
+
 	// import Paragraph from '@tiptap/extension-paragraph';
 	// import Text from '@tiptap/extension-text';
 	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
@@ -31,10 +33,12 @@
 					}
 				}).configure({ lowlight }),
 				TaskList,
-				TaskItem
+				TaskItem,
+
 				// .configure({
 				// 	nested: true
 				// })
+				Image
 			],
 			editorProps: {
 				attributes: {
