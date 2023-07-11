@@ -10,5 +10,3 @@ electron/dist
 dist
 
 .vercel/
-
-drizzle/meta
