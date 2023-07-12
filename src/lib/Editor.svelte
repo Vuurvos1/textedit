@@ -12,6 +12,9 @@
 	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
 	import { Markdown } from 'tiptap-markdown';
+	import { note, noteDirty, notes, updateNote } from '$lib/stores';
+
+	import { saveNote } from '$lib/utils';
 
 	import 'highlight.js/styles/github-dark.css';
 
@@ -26,7 +29,47 @@
 		outputData = editor.storage.markdown.getMarkdown();
 	}
 
-	onMount(() => {
+	// TODO: there might be a better way to do this
+	let noteChanged = true;
+
+	const unsubscribe = updateNote.subscribe(() => {
+		if (editor && $note !== undefined) {
+			// this shouldn't trigger a save
+			noteChanged = true;
+			editor.commands.setContent($note.content);
+		}
+	});
+
+	function debounce(func: Function, delay = 250) {
+		let timeout: NodeJS.Timeout;
+
+		return (...args: any) => {
+			$note.content = editor.storage.markdown.getMarkdown(); // always update store
+
+			if (!noteChanged) {
+				$noteDirty = true;
+				$note.updated_at = new Date().toISOString();
+				$notes = $notes;
+			}
+
+			if (noteChanged) {
+				noteChanged = false;
+			}
+
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				func(...args);
+			}, delay);
+		};
+	}
+
+	function save() {
+		console.info('Saving...');
+		saveNote();
+		localStorage.setItem('note-data', JSON.stringify($notes));
+	}
+
+	onMount(async () => {
 		editor = new Editor({
 			element: element,
 			extensions: [
@@ -48,40 +91,12 @@
 			editorProps: {
 				attributes: {
 					// prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5
-					class: 'prose lg:prose-lg focus:outline-none'
+					class: 'prose lg:prose-lg focus:outline-none w-full max-w-[initial]'
 				}
 			},
-			content: `# Hello World! 🌍️
-
-End of the code
-A list item
-And another one 
-
-## Hello World! 🌍️
-
-# foo bar
-
-\`\`\`javascript
-for (var i=1; i <= 20; i++)
-{
-  if (i % 15 == 0)
-    console.log("FizzBuzz");
-  else if (i % 3 == 0)
-    console.log("Fizz");
-  else if (i % 5 == 0)
-    console.log("Buzz");
-  else
-    console.log(i);
-}
-\`\`\`
-
-End of the code
-
-- [x] A list item
-
-- [ ] And another one`,
+			onUpdate: debounce(save, 3500),
+			content: $note.content || '',
 			onTransaction: () => {
-				// force re-render so `editor.isActive` works as expected
 				editor = editor;
 			}
 		});
@@ -91,26 +106,18 @@ End of the code
 		if (editor) {
 			editor.destroy();
 		}
+		unsubscribe();
 	});
 </script>
 
-<section class="px-4">
-	<button on:click={updateOutputData}>output data</button>
-
-	<div class="editor">
-		<div bind:this={element} />
-	</div>
-
-	<pre>
-{JSON.stringify(outputData).length}
-{outputData}
-	</pre>
-</section>
+<div class="editor h-full overflow-y-auto bg-white p-4">
+	<div bind:this={element} />
+</div>
 
 <style lang="postcss">
-	button.active {
+	/* button.active {
 		@apply bg-gray-200 text-gray-900;
-	}
+	} */
 
 	/* Basic editor styles */
 	.editor :global(.ProseMirror > * + *) {
