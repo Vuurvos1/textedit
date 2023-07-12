@@ -66,6 +66,7 @@
 		"jszip": "^3.10.1",
 		"lowlight": "^2.9.0",
 		"postgres": "^3.3.5",
-		"svelte-tiptap": "^1.1.0"
+		"svelte-tiptap": "^1.1.0",
+		"tiptap-markdown": "^0.8.1"
 	}
 }

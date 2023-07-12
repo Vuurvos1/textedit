@@ -8,17 +8,23 @@
 	import TaskItem from '@tiptap/extension-task-item';
 	import TaskList from '@tiptap/extension-task-list';
 	import Image from '@tiptap/extension-image';
-
-	// import Paragraph from '@tiptap/extension-paragraph';
-	// import Text from '@tiptap/extension-text';
 	import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
+	import { Markdown } from 'tiptap-markdown';
 
 	import 'highlight.js/styles/github-dark.css';
 
 	let element: HTMLDivElement;
 	let editor: Editor;
+
+	let outputData: any = '';
+
+	function updateOutputData() {
+		console.info('updateOutputData', editor.storage.markdown.getMarkdown());
+		// outputData = JSON.stringify(json, null, 2);
+		outputData = editor.storage.markdown.getMarkdown();
+	}
 
 	onMount(() => {
 		editor = new Editor({
@@ -33,12 +39,11 @@
 					}
 				}).configure({ lowlight }),
 				TaskList,
-				TaskItem,
-
-				// .configure({
-				// 	nested: true
-				// })
-				Image
+				TaskItem.configure({
+					nested: true
+				}),
+				Image,
+				Markdown
 			],
 			editorProps: {
 				attributes: {
@@ -46,7 +51,18 @@
 					class: 'prose lg:prose-lg focus:outline-none'
 				}
 			},
-			content: `<p>Hello World! 🌍️ </p><pre><code class="language-javascript">for (var i=1; i <= 20; i++)
+			content: `# Hello World! 🌍️
+
+End of the code
+A list item
+And another one 
+
+## Hello World! 🌍️
+
+# foo bar
+
+\`\`\`javascript
+for (var i=1; i <= 20; i++)
 {
   if (i % 15 == 0)
     console.log("FizzBuzz");
@@ -56,14 +72,14 @@
     console.log("Buzz");
   else
     console.log(i);
-}</code></pre>
-<p>End of the code</p>
+}
+\`\`\`
 
-<ul data-type="taskList">
-		<li data-type="taskItem" data-checked="true">A list item</li>
-		<li data-type="taskItem" data-checked="false">And another one</li>
-</ul>
-`,
+End of the code
+
+- [x] A list item
+
+- [ ] And another one`,
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
@@ -79,62 +95,16 @@
 </script>
 
 <section class="px-4">
-	{#if editor}
-		<button
-			on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-			class:active={editor.isActive('heading', { level: 1 })}
-		>
-			H1
-		</button>
-		<button
-			on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-			class:active={editor.isActive('heading', { level: 2 })}
-		>
-			H2
-		</button>
-		<button
-			on:click={() => editor.chain().focus().setParagraph().run()}
-			class:active={editor.isActive('paragraph')}
-		>
-			P
-		</button>
-
-		<button
-			on:click={() => editor.chain().focus().toggleCode().run()}
-			class:is-active={editor.isActive('code')}
-		>
-			toggleCode
-		</button>
-		<button
-			on:click={() => editor.chain().focus().setCode().run()}
-			disabled={editor.isActive('code')}
-		>
-			setCode
-		</button>
-		<button
-			on:click={() => editor.chain().focus().unsetCode().run()}
-			disabled={!editor.isActive('code')}
-		>
-			unsetCode
-		</button>
-
-		<button
-			on:click={() => editor.chain().focus().toggleCodeBlock().run()}
-			class:is-active={editor.isActive('codeBlock')}
-		>
-			toggleCodeBlock
-		</button>
-		<button
-			on:click={() => editor.chain().focus().setCodeBlock().run()}
-			disabled={editor.isActive('codeBlock')}
-		>
-			setCodeBlock
-		</button>
-	{/if}
+	<button on:click={updateOutputData}>output data</button>
 
 	<div class="editor">
 		<div bind:this={element} />
 	</div>
+
+	<pre>
+{JSON.stringify(outputData).length}
+{outputData}
+	</pre>
 </section>
 
 <style lang="postcss">
@@ -155,7 +125,7 @@
 		@apply m-0;
 	}
 	.editor :global(ul[data-type='taskList'] li) {
-		@apply flex items-center leading-none;
+		@apply flex items-start leading-snug;
 	}
 
 	.editor :global(ul[data-type='taskList'] li > label) {
