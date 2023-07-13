@@ -82,7 +82,7 @@
 					class: 'prose lg:prose-lg focus:outline-none w-full max-w-[initial]'
 				}
 			},
-			// onUpdate: debounce(save, 3500),
+			onUpdate: debounce(save, 3500),
 			content: $note.content || ''
 		});
 	});
