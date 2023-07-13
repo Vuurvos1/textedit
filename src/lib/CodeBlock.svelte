@@ -5,13 +5,18 @@
 
 	export let node: NodeViewProps['node'];
 	export let updateAttributes: NodeViewProps['updateAttributes'];
-	// export let selected: NodeViewProps['selected'] = false;
+	export let selected: NodeViewProps['selected'] = false;
 	export let extension: NodeViewProps['extension'];
+	// export let editor;
+	// export let deleteNode;
+	// export let getPos;
+	// export let decorations;
 
 	let selectedLanguage: string = node.attrs.language;
 	let output = '';
 
-	$: selectedLanguage, selectedLanguage && updateAttributes({ language: selectedLanguage });
+	$: selectedLanguage, update();
+
 	$: executable =
 		$engineRuntimes.find((engine) => engine.aliases.includes(selectedLanguage)) ||
 		$engineRuntimes.find((engine) => engine.language === selectedLanguage);
@@ -23,6 +28,14 @@
 	// 		ev.stopPropagation();
 	// 	}
 	// }
+
+	function update() {
+		if (!extension.child) {
+			return;
+		}
+
+		updateAttributes({ language: selectedLanguage });
+	}
 
 	async function runCode() {
 		if (!executable) {
@@ -44,7 +57,7 @@
 		});
 
 		if (!res.ok) {
-			console.log(res);
+			console.error(res);
 			return;
 		}
 
@@ -62,7 +75,6 @@
 <NodeViewWrapper class="code-block relative leading-relaxed">
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="absolute right-2 top-2 flex flex-row items-center gap-4" contentEditable="false">
-		<!-- TODO: base this on api value -->
 		{#if executable}
 			<button
 				on:click={runCode}

@@ -24,7 +24,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^5.62.0",
 		"autoprefixer": "^10.4.14",
-		"drizzle-kit": "^0.19.4",
+		"drizzle-kit": "^0.19.5",
 		"eslint": "^8.44.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte": "^2.32.2",
@@ -65,7 +65,7 @@
 		"jszip": "^3.10.1",
 		"lowlight": "^2.9.0",
 		"postgres": "^3.3.5",
-		"svelte-tiptap": "^1.1.1",
+		"svelte-tiptap": "1.1.1",
 		"tiptap-markdown": "^0.8.1"
 	}
 }

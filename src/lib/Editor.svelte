@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { Editor } from '@tiptap/core';
-	import { SvelteNodeViewRenderer } from 'svelte-tiptap';
+	import { SvelteNodeViewRenderer, createEditor, Editor, EditorContent } from 'svelte-tiptap';
 	import StarterKit from '@tiptap/starter-kit';
-	import Code from '@tiptap/extension-code';
-	import Document from '@tiptap/extension-document';
 	import TaskItem from '@tiptap/extension-task-item';
 	import TaskList from '@tiptap/extension-task-list';
 	import Image from '@tiptap/extension-image';
@@ -13,21 +10,13 @@
 	import { lowlight } from 'lowlight';
 	import { Markdown } from 'tiptap-markdown';
 	import { note, noteDirty, notes, updateNote } from '$lib/stores';
+	import type { Readable } from 'svelte/store';
 
 	import { saveNote } from '$lib/utils';
 
 	import 'highlight.js/styles/github-dark.css';
 
-	let element: HTMLDivElement;
-	let editor: Editor;
-
-	let outputData: any = '';
-
-	function updateOutputData() {
-		console.info('updateOutputData', editor.storage.markdown.getMarkdown());
-		// outputData = JSON.stringify(json, null, 2);
-		outputData = editor.storage.markdown.getMarkdown();
-	}
+	let editor: Readable<Editor>;
 
 	// TODO: there might be a better way to do this
 	let noteChanged = true;
@@ -36,7 +25,7 @@
 		if (editor && $note !== undefined) {
 			// this shouldn't trigger a save
 			noteChanged = true;
-			editor.commands.setContent($note.content);
+			$editor.commands.setContent($note.content);
 		}
 	});
 
@@ -44,7 +33,7 @@
 		let timeout: NodeJS.Timeout;
 
 		return (...args: any) => {
-			$note.content = editor.storage.markdown.getMarkdown(); // always update store
+			$note.content = $editor.storage.markdown.getMarkdown(); // always update store
 
 			if (!noteChanged) {
 				$noteDirty = true;
@@ -70,12 +59,11 @@
 	}
 
 	onMount(async () => {
-		editor = new Editor({
-			element: element,
+		editor = createEditor({
 			extensions: [
-				StarterKit,
-				Document,
-				Code,
+				StarterKit.configure({
+					codeBlock: false
+				}),
 				CodeBlockLowlight.extend({
 					addNodeView() {
 						return SvelteNodeViewRenderer(CodeBlockComponent);
@@ -94,31 +82,24 @@
 					class: 'prose lg:prose-lg focus:outline-none w-full max-w-[initial]'
 				}
 			},
-			onUpdate: debounce(save, 3500),
-			content: $note.content || '',
-			onTransaction: () => {
-				editor = editor;
-			}
+			// onUpdate: debounce(save, 3500),
+			content: $note.content || ''
 		});
 	});
 
 	onDestroy(() => {
-		if (editor) {
-			editor.destroy();
+		if ($editor) {
+			$editor.destroy();
 		}
 		unsubscribe();
 	});
 </script>
 
 <div class="editor h-full overflow-y-auto bg-white p-4">
-	<div bind:this={element} />
+	<EditorContent editor={$editor} />
 </div>
 
 <style lang="postcss">
-	/* button.active {
-		@apply bg-gray-200 text-gray-900;
-	} */
-
 	/* Basic editor styles */
 	.editor :global(.ProseMirror > * + *) {
 		@apply mt-3;
@@ -143,13 +124,4 @@
 	.editor :global(ul[data-type='taskList'] li > div) {
 		@apply mb-0 flex-1;
 	}
-
-	/* .editor :global(.ProseMirror code) { */
-	/* background-color: rgba(#616161, 0.1);
-		border-radius: 0.25em;
-		box-decoration-break: clone;
-		color: #616161;
-		font-size: 0.9rem;
-		padding: 0.25em; */
-	/* } */
 </style>

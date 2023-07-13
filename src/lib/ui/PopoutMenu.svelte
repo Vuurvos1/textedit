@@ -12,7 +12,7 @@
 	const [popperRef, popperContent] = createPopperActions({
 		placement: placement
 	});
-	export const extraOpts = {
+	export let extraOpts = {
 		modifiers: [{ name: 'offset', options: { offset: [0, 8] } }]
 	};
 

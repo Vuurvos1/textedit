@@ -68,7 +68,7 @@ dependencies:
     specifier: ^3.3.5
     version: 3.3.5
   svelte-tiptap:
-    specifier: ^1.1.1
+    specifier: 1.1.1
     version: 1.1.1(@tiptap/core@2.0.3)(@tiptap/extension-bubble-menu@2.0.3)(@tiptap/extension-floating-menu@2.0.3)(@tiptap/pm@2.0.3)(svelte@4.0.5)
   tiptap-markdown:
     specifier: ^0.8.1
@@ -100,8 +100,8 @@ devDependencies:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.25)
   drizzle-kit:
-    specifier: ^0.19.4
-    version: 0.19.4
+    specifier: ^0.19.5
+    version: 0.19.5
   eslint:
     specifier: ^8.44.0
     version: 8.44.0
@@ -2368,8 +2368,8 @@ packages:
       wordwrap: 1.0.0
     dev: true
 
-  /drizzle-kit@0.19.4:
-    resolution: {integrity: sha512-mbWdaGcYGLGM+HLGhLv5gH3h4ZMD+dil6T2fS36IAt72XmCn3snw1mVxGVHJPDzSKIzz3W7vABe4PbIpRqLM2A==}
+  /drizzle-kit@0.19.5:
+    resolution: {integrity: sha512-eX+M4QpPLbbZwLUamCxRhS9Y98ppZLk3jew2FghKoAr7bGEC3omFIm+YPiwtrhe/alZZgrJCn/1TDTRHwo1r9w==}
     hasBin: true
     dependencies:
       '@drizzle-team/studio': 0.0.1
