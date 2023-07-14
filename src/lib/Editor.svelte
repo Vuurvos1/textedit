@@ -121,6 +121,10 @@
 		@apply m-0 mr-2 select-none;
 	}
 
+	.editor :global(ul[data-type='taskList'] input) {
+		@apply rounded bg-white accent-black;
+	}
+
 	.editor :global(ul[data-type='taskList'] li > div) {
 		@apply mb-0 flex-1;
 	}
