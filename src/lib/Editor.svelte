@@ -64,16 +64,16 @@
 				StarterKit.configure({
 					codeBlock: false
 				}),
-				CodeBlockLowlight.extend({
-					addNodeView() {
-						return SvelteNodeViewRenderer(CodeBlockComponent);
-					}
-				}).configure({ lowlight }),
 				TaskList,
 				TaskItem.configure({
 					nested: true
 				}),
 				Image,
+				CodeBlockLowlight.extend({
+					addNodeView() {
+						return SvelteNodeViewRenderer(CodeBlockComponent);
+					}
+				}).configure({ lowlight }),
 				Markdown
 			],
 			editorProps: {

@@ -5,13 +5,14 @@
 
 	export let node: NodeViewProps['node'];
 	export let updateAttributes: NodeViewProps['updateAttributes'];
-	export let selected: NodeViewProps['selected'] = false;
+	// export let selected: NodeViewProps['selected'] = false;
 	export let extension: NodeViewProps['extension'];
 	// export let editor;
 	// export let deleteNode;
 	// export let getPos;
 	// export let decorations;
 
+	// TODO: make this also trigger the save event
 	let selectedLanguage: string = node.attrs.language;
 	let output = '';
 
@@ -30,10 +31,7 @@
 	// }
 
 	function update() {
-		if (!extension.child) {
-			return;
-		}
-
+		console.log('updating attributes', selectedLanguage);
 		updateAttributes({ language: selectedLanguage });
 	}
 
@@ -111,6 +109,7 @@
 	</div>
 
 	<!-- elements need to be like this to prevent cursor grabbing jank -->
+	<!-- language-plaintext -->
 	<pre><NodeViewContent as="code" class="leading-relaxed language-{selectedLanguage}" /><div
 			contentEditable="false"
 			class:border-t={output}
