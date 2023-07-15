@@ -16,7 +16,7 @@
 		"drizzle": "drizzle-kit"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.36.0",
+		"@playwright/test": "^1.36.1",
 		"@sveltejs/adapter-auto": "1.0.2",
 		"@sveltejs/adapter-static": "1.0.5",
 		"@sveltejs/adapter-vercel": "1.0.4",
@@ -25,10 +25,10 @@
 		"@typescript-eslint/parser": "^5.62.0",
 		"autoprefixer": "^10.4.14",
 		"drizzle-kit": "^0.19.5",
-		"eslint": "^8.44.0",
+		"eslint": "^8.45.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte": "^2.32.2",
-		"postcss": "^8.4.25",
+		"postcss": "^8.4.26",
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prettier-plugin-tailwindcss": "^0.2.8",
@@ -39,7 +39,7 @@
 		"svelte-preprocess": "^5.0.4",
 		"tailwindcss": "^3.3.3",
 		"typescript": "^5.1.6",
-		"vite": "^4.4.3"
+		"vite": "^4.4.4"
 	},
 	"type": "module",
 	"dependencies": {
@@ -48,15 +48,11 @@
 		"@supabase/supabase-js": "^2.26.0",
 		"@tailwindcss/typography": "^0.5.9",
 		"@tiptap/core": "^2.0.3",
-		"@tiptap/extension-code": "^2.0.3",
 		"@tiptap/extension-code-block": "^2.0.3",
 		"@tiptap/extension-code-block-lowlight": "^2.0.3",
-		"@tiptap/extension-document": "^2.0.3",
 		"@tiptap/extension-image": "^2.0.3",
-		"@tiptap/extension-paragraph": "^2.0.3",
 		"@tiptap/extension-task-item": "^2.0.3",
 		"@tiptap/extension-task-list": "^2.0.3",
-		"@tiptap/extension-text": "^2.0.3",
 		"@tiptap/pm": "^2.0.3",
 		"@tiptap/starter-kit": "^2.0.3",
 		"dotenv": "^16.3.1",
