@@ -9,6 +9,7 @@
 	import CodeBlockComponent from '$lib/CodeBlock.svelte';
 	import { lowlight } from 'lowlight';
 	import { Markdown } from 'tiptap-markdown';
+	import CharacterCount from '@tiptap/extension-character-count';
 	import { note, noteDirty, notes, updateNote } from '$lib/stores';
 	import type { Readable } from 'svelte/store';
 
@@ -74,7 +75,8 @@
 						return SvelteNodeViewRenderer(CodeBlockComponent);
 					}
 				}).configure({ lowlight }),
-				Markdown
+				Markdown,
+				CharacterCount
 			],
 			editorProps: {
 				attributes: {
@@ -85,6 +87,8 @@
 			onUpdate: debounce(save, 3500),
 			content: $note.content || ''
 		});
+
+		console.log('Editor created', $editor);
 	});
 
 	onDestroy(() => {
@@ -97,6 +101,20 @@
 
 <div class="editor h-full overflow-y-auto bg-white p-4">
 	<EditorContent editor={$editor} />
+</div>
+
+<div class="flex justify-end gap-4 border-t px-4 py-1 text-gray-500">
+	<!-- <span>
+			 lines: {$editor?.storage?.characterCount?.lines() || 0} 
+		</span> -->
+
+	<span>
+		characters: {$editor?.storage?.characterCount?.characters() || 0}
+	</span>
+
+	<span>
+		words: {$editor?.storage?.characterCount?.words() || 0}
+	</span>
 </div>
 
 <style lang="postcss">
