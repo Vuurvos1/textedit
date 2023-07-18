@@ -82,7 +82,7 @@
 					<button aria-label="Filter notes" slot="icon">
 						<Filter size={24} />
 					</button>
-					<div class="flex w-max flex-col  py-4">
+					<div class="flex w-max flex-col py-4">
 						<h3 class="mb-1 px-2 font-bold">Sort by</h3>
 						<button
 							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
@@ -245,5 +245,5 @@
 	</div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>

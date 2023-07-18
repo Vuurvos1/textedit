@@ -96,3 +96,27 @@ export const tagFolders = writable(<TagFolder[]>[]);
 
 /** which part of the app to show on mobile, maybe change to an enum? */
 export const showWindow = writable(<'navigation' | 'notes' | 'editor'>'notes');
+
+type Runtime = {
+	language: string;
+	version: string;
+	aliases: string[];
+};
+
+function createExecutionEngines() {
+	const { subscribe, set, update } = writable<Runtime[]>([]);
+
+	fetch('https://emkc.org/api/v2/piston/runtimes')
+		.then((res) => res.json())
+		.then((data) => set(data as Runtime[]));
+
+	return {
+		subscribe,
+		set,
+		update
+	};
+}
+
+export const engineRuntimes = createExecutionEngines();
+
+// code execution engine

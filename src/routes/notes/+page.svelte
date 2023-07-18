@@ -70,7 +70,7 @@
 	<Footer />
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 	.app {
 		position: relative;
 	}
@@ -80,7 +80,7 @@
 		flex-direction: column;
 	}
 
-	// < tablet
+	/* < tablet */
 	@media (max-width: 768px) {
 		.navigation,
 		.items,
@@ -97,7 +97,7 @@
 		}
 	}
 
-	// tablet >
+	/* tablet > */
 	@media (min-width: 768px) {
 		.layout {
 			display: grid;
