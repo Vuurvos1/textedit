@@ -146,4 +146,8 @@
 	.editor :global(ul[data-type='taskList'] li > div) {
 		@apply mb-0 flex-1;
 	}
+
+	.editor :global(li > p) {
+		@apply my-0;
+	}
 </style>
