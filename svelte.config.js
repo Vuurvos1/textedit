@@ -1,8 +1,12 @@
 // import vercelAdapter from '@sveltejs/adapter-vercel';
 // import staticAdapter from '@sveltejs/adapter-static';
 import autoAdapter from '@sveltejs/adapter-auto';
+// import cloudflareAdapter from '@sveltejs/adapter-cloudflare-workers';
+import cloudflaireAdapter from '@sveltejs/adapter-cloudflare';
+
 import preprocess from 'svelte-preprocess';
 import dotenv from 'dotenv';
+import { auto } from '@popperjs/core';
 
 dotenv.config();
 
@@ -21,6 +25,7 @@ const config = {
 		// 			fallback: 'index.html'
 		// 	  })
 		// 	: vercelAdapter()
+		// adapter: cloudflaireAdapter()
 		adapter: autoAdapter()
 
 		// Only build the endpoints in web enviroment

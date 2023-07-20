@@ -1,9 +1,9 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+// import { drizzle } from 'drizzle-orm/postgres-js';
+// import postgres from 'postgres';
 
-import { users, notes, note_tags } from '../../schema';
+// import { users, notes, note_tags } from '../../schema';
 // import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from '../$types';
+// import type { PageServerLoad } from '../$types';
 
 // const connectionString = process.env.DATABASE_URL;
 
