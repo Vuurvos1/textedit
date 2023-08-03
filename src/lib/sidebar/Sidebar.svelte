@@ -23,10 +23,10 @@
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'github'
 			});
-			console.log(error);
+			console.error(error);
 			if (error) throw error;
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			loading = false;
 		}

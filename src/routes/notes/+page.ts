@@ -1,14 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-// import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
-export const load: PageLoad = async (event) => {
-	return {
-		notes: [],
-		tags: []
-	};
-
-	const { session, supabaseClient } = await getSupabase(event);
+export const load: PageLoad = async ({ parent }) => {
+	const { supabase, session } = await parent();
 
 	if (!session) {
 		// throw redirect(303, '/');
@@ -19,9 +13,9 @@ export const load: PageLoad = async (event) => {
 	}
 
 	const [notes, tags, noteTags] = await Promise.all([
-		supabaseClient.from('notes').select(), // get all notes
-		supabaseClient.from('tags').select('name, id'), // gets all the tags
-		supabaseClient.from('note_tags').select('note_id!inner(id), id, tag_id (name, id)') // all tags that are associated with a note
+		supabase.from('notes').select(), // get all notes
+		supabase.from('tags').select('name, id'), // gets all the tags
+		supabase.from('note_tags').select('note_id!inner(id), id, tag_id (name, id)') // all tags that are associated with a note
 	]);
 
 	if (tags.error) {

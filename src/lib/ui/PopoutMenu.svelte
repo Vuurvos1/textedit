@@ -37,6 +37,7 @@
 	</button>
 
 	{#if showTooltip}
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
 			class="z-10 rounded bg-white leading-normal shadow"
 			use:popperContent={extraOpts}

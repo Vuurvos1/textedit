@@ -6,6 +6,9 @@
 
 	import { tagFolders, user } from '$lib/stores';
 	import { tick } from 'svelte';
+	import { page } from '$app/stores';
+
+	$: ({ supabase } = $page.data);
 
 	// TODO: allow editing of existing tags
 
@@ -24,18 +27,18 @@
 		// TODO: make sure the user didn't already add this tag
 		if (tag !== '' && $user) {
 			// submit tag
-			// const { error } = await supabaseClient.from('tags').insert({
-			// 	user_id: $user.id,
-			// 	tag: tag
-			// });
-			// if (error) {
-			// 	console.error(error);
-			// 	return;
-			// }
-			// $tagFolders = insertTagBefore(
-			// 	$tagFolders,
-			// 	tag.split('/').filter((tag) => tag)
-			// );
+			const { error } = await supabase.from('tags').insert({
+				user_id: $user.id,
+				tag: tag
+			});
+			if (error) {
+				console.error(error);
+				return;
+			}
+			$tagFolders = insertTagBefore(
+				$tagFolders,
+				tag.split('/').filter((tag) => tag)
+			);
 		}
 
 		addingTag = false;

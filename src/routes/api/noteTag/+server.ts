@@ -1,31 +1,28 @@
-// import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-// import { error } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const POST = (async (event) => {
-	// TODO: move this logic into the patch method of a note?
+// TODO: move this logic into the patch method of a note?
+export const POST = (async ({ request, locals: { supabase, getSession } }) => {
+	const session = await getSession();
 
-	// const { session, supabaseClient } = await getSupabase(event);
-	// if (!session) {
-	// 	throw error(401, 'Unauthorized');
-	// }
-	// const { note_id, tag_id } = await event.request.json();
+	if (!session) {
+		throw error(401, 'Unauthorized');
+	}
 
-	// const { data, error: err } = await supabaseClient
-	// 	.from('note_tags')
-	// 	.insert({
-	// 		user_id: session.user.id,
-	// 		tag_id: tag_id,
-	// 		note_id: note_id
-	// 	})
-	// 	.select();
+	const { note_id, tag_id } = await request.json();
 
-	// if (err) {
-	// throw error(501, err.message);
-	// }
+	const { data, error: err } = await supabase
+		.from('note_tags')
+		.insert({
+			user_id: session.user.id,
+			tag_id: tag_id,
+			note_id: note_id
+		})
+		.select();
 
-	throw error(501, 'Not implemented');
+	if (err) {
+		throw error(501, err.message);
+	}
 
-	// return new Response(JSON.stringify(data[0]));
-	// return new Response(JSON.stringify({}));
+	return new Response(JSON.stringify(data[0]));
 }) satisfies RequestHandler;

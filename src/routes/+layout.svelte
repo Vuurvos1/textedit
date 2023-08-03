@@ -4,10 +4,9 @@
 	import type { LayoutData } from './$types';
 
 	import '../app.css';
+	import { user } from '$lib/stores';
 
 	export let data: LayoutData;
-
-	// console.log(data);
 
 	$: ({ supabase, session } = data);
 
@@ -15,6 +14,7 @@
 		const {
 			data: { subscription }
 		} = supabase.auth.onAuthStateChange((event, _session) => {
+			$user = _session?.user;
 			if (_session?.expires_at !== session?.expires_at) {
 				invalidate('supabase:auth');
 			}
