@@ -11,7 +11,6 @@
 		noteSort,
 		showWindow
 	} from '$lib/stores';
-	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
 	import PopoutMenu from './ui/PopoutMenu.svelte';
 
@@ -217,18 +216,19 @@
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
 								// this should be done in the intial query
-								const { data, error } = await supabaseClient
-									.from('note_tags')
-									.select('note_id!inner(id), id, tag_id (name, id)')
-									.eq('note_id.id', note.id);
 
-								if (error) {
-									console.error(error);
-								}
+								// const { data, error } = await supabaseClient
+								// 	.from('note_tags')
+								// 	.select('note_id!inner(id), id, tag_id (name, id)')
+								// 	.eq('note_id.id', note.id);
 
-								$noteStore.tags = data.map((dataTag) => {
-									return { name: dataTag.tag_id?.name, id: dataTag.id };
-								});
+								// if (error) {
+								// 	console.error(error);
+								// }
+
+								// $noteStore.tags = data.map((dataTag) => {
+								// 	return { name: dataTag.tag_id?.name, id: dataTag.id };
+								// });
 							}}
 						>
 							<NoteItem note={$noteStore.id === note.id ? $noteStore : note} />

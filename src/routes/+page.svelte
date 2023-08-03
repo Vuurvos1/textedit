@@ -1,24 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	// import { enhance, type SubmitFunction } from '$app/forms';
-	// import { supabaseClient } from '$lib/supabase';
-	// import type { PageData } from './$types';
-
-	// export let data: PageData;
-
-	// const submitLogout: SubmitFunction = async ({ cancel }) => {
-	// 	const { error } = await supabaseClient.auth.signOut();
-	// 	if (error) {
-	// 		console.log(error);
-	// 	}
-	// 	cancel();
-	// };
-
-	// onMount(() => {
-	// 	const iterations = 1_000;
-	// 	const arr = Array.from({ length: 10_000 }, () => ~~(Math.random() * 10_000));
-	// });
 </script>
 
 <main class="relative min-h-screen dark:bg-gray-900">

@@ -1,20 +1,26 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
-	import { supabaseClient } from '$lib/db';
+	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import type { LayoutData } from './$types';
 
 	import '../app.css';
+
+	export let data: LayoutData;
+
+	// console.log(data);
+
+	$: ({ supabase, session } = data);
 
 	onMount(() => {
 		const {
 			data: { subscription }
-		} = supabaseClient.auth.onAuthStateChange(() => {
-			invalidateAll();
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
 		});
 
-		return () => {
-			subscription.unsubscribe();
-		};
+		return () => subscription.unsubscribe();
 	});
 </script>
 

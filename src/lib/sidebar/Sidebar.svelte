@@ -12,16 +12,18 @@
 		filteredNotes,
 		showWindow
 	} from '$lib/stores';
-	import { supabaseClient } from '$lib/db';
+	import { page } from '$app/stores';
+
+	$: ({ supabase } = $page.data);
 
 	let loading = false;
 	async function handleLogin() {
 		try {
 			loading = true;
-			const { error } = await supabaseClient.auth.signInWithOAuth({
+			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'github'
 			});
-			// console.log(error, user, session);
+			console.log(error);
 			if (error) throw error;
 		} catch (err) {
 			console.log(err);
@@ -31,11 +33,10 @@
 	}
 
 	async function logout() {
-		const { error } = await supabaseClient.auth.signOut();
+		const { error } = await supabase.auth.signOut();
 		if (error) {
 			console.error(error);
 		}
-
 		// clear all values
 		$user = undefined;
 		$notes = [];
