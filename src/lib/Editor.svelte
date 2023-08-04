@@ -87,8 +87,6 @@
 			onUpdate: debounce(save, 3500),
 			content: $note.content || ''
 		});
-
-		console.log('Editor created', $editor);
 	});
 
 	onDestroy(() => {

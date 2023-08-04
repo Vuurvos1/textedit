@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 	import { MoreHorizontal } from '$lib/icons';
@@ -50,7 +50,7 @@
 			}}
 			on:keydown={(ev) => {
 				// TODO: add propper keyboard support
-				console.log(ev.key);
+				console.info(ev.key);
 			}}
 		>
 			<slot />
