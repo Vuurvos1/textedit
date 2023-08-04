@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { NodeViewWrapper, NodeViewContent } from 'svelte-tiptap';
-	import type { NodeViewProps } from '@tiptap/core';
 	import { engineRuntimes } from '$lib/stores';
+	import type { NodeViewProps } from '@tiptap/core';
 
 	export let node: NodeViewProps['node'];
 	export let updateAttributes: NodeViewProps['updateAttributes'];
@@ -12,7 +12,6 @@
 	// export let getPos;
 	// export let decorations;
 
-	// TODO: make this also trigger the save event
 	let selectedLanguage: string = node.attrs.language;
 	let output = '';
 
@@ -31,7 +30,10 @@
 	// }
 
 	function update() {
-		console.log('updating attributes', selectedLanguage);
+		if (!selectedLanguage || selectedLanguage === node.attrs.language) {
+			console.info('Skipping attributes update');
+			return;
+		}
 		updateAttributes({ language: selectedLanguage });
 	}
 
