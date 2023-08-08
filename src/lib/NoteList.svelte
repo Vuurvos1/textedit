@@ -11,9 +11,11 @@
 		noteSort,
 		showWindow
 	} from '$lib/stores';
-	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
 	import PopoutMenu from './ui/PopoutMenu.svelte';
+	import { page } from '$app/stores';
+
+	$: ({ supabase } = $page.data);
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -217,7 +219,8 @@
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
 								// this should be done in the intial query
-								const { data, error } = await supabaseClient
+
+								const { data, error } = await supabase
 									.from('note_tags')
 									.select('note_id!inner(id), id, tag_id (name, id)')
 									.eq('note_id.id', note.id);

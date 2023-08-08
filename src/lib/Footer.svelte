@@ -1,28 +1,32 @@
-<script>
+<script lang="ts">
+	// TODO: login should be turned into form events
 	import { Download, GitHub, Sliders, User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
 
 	import { note, notes, user } from '$lib/stores';
-	import { supabaseClient } from '$lib/db';
 	import JSZip from 'jszip';
+	import { page } from '$app/stores';
 
-	// let loading = false;
+	$: ({ supabase } = $page.data);
+
+	// TODO: turn into svelte async block?
+	let loading = false;
 	async function handleLogin() {
 		try {
-			// loading = true;
-			const { error } = await supabaseClient.auth.signInWithOAuth({
+			loading = true;
+			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'github'
 			});
 			if (error) throw error;
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
-			// loading = false;
+			loading = false;
 		}
 	}
 
 	async function logout() {
-		const { error } = await supabaseClient.auth.signOut();
+		const { error } = await supabase.auth.signOut();
 		if (error) {
 			console.error(error);
 		}

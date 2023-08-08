@@ -113,7 +113,7 @@
 		const tagName = searchResults[index].tag;
 
 		if ($note.tags.some((tag) => tag.name === tagName)) {
-			console.log('Tag already exists');
+			console.info('Tag already exists');
 			return;
 		}
 

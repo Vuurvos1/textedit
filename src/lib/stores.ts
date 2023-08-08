@@ -1,14 +1,9 @@
 import type { User } from '@supabase/supabase-js';
 import type { Note, NoteStatus } from './note/note';
 import type { Tag, TagFolder } from './sidebar/tags';
-
 import { writable, derived, get } from 'svelte/store';
-import { supabaseClient } from './db';
 
 export const user = writable<User | undefined>(undefined); // TODO: change to be read only?
-supabaseClient.auth.onAuthStateChange((event, session) => {
-	user.set(session?.user || undefined);
-});
 
 export const updateNote = writable(0);
 
