@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { note } from '$lib/stores';
-	import type EasyMDE from 'easymde';
-	import NoteBody from './NoteBody.svelte';
 	import NoteHeader from './NoteHeader.svelte';
-
-	let easymde: EasyMDE;
+	import Editor from '$lib/Editor.svelte';
 </script>
 
-<div class="h-full max-h-full w-full flex flex-col overflow-y-hidden bg-gray-100 note">
+<div class="note flex h-full max-h-full w-full flex-col overflow-y-hidden bg-gray-100">
 	{#if $note !== undefined}
-		<NoteHeader {easymde} />
+		<NoteHeader />
 
-		<NoteBody {easymde} />
+		<Editor />
 	{/if}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>

@@ -25,7 +25,7 @@ export async function saveNote() {
 	// TODO: add note as a param?
 	// TODO: move this into the note store component?
 
-	console.log('saving note...');
+	console.info('saving note...');
 	const n = get(note);
 
 	const res = await fetch('/api/note', {
@@ -41,7 +41,7 @@ export async function saveNote() {
 	});
 
 	if (res.ok) {
-		console.log('saving ok');
+		console.info('saving ok');
 		noteDirty.set(false);
 		return;
 	}

@@ -11,9 +11,11 @@
 		noteSort,
 		showWindow
 	} from '$lib/stores';
-	import { supabaseClient } from './db';
 	import { saveNote } from './utils';
 	import PopoutMenu from './ui/PopoutMenu.svelte';
+	import { page } from '$app/stores';
+
+	$: ({ supabase } = $page.data);
 
 	async function addNote() {
 		const res = await fetch('/api/note', {
@@ -82,7 +84,7 @@
 					<button aria-label="Filter notes" slot="icon">
 						<Filter size={24} />
 					</button>
-					<div class="flex w-max flex-col  py-4">
+					<div class="flex w-max flex-col py-4">
 						<h3 class="mb-1 px-2 font-bold">Sort by</h3>
 						<button
 							class="flex items-center justify-between gap-2 px-2 hover:bg-slate-200"
@@ -217,7 +219,8 @@
 								// this query is still a bit bad since I bascially only want an array
 								// of strings that are the tags related to a note
 								// this should be done in the intial query
-								const { data, error } = await supabaseClient
+
+								const { data, error } = await supabase
 									.from('note_tags')
 									.select('note_id!inner(id), id, tag_id (name, id)')
 									.eq('note_id.id', note.id);
@@ -245,5 +248,5 @@
 	</div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>

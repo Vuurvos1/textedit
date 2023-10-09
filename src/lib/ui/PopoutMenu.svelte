@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
 	import { clickOutside } from '$lib/clickOutside';
 	import { MoreHorizontal } from '$lib/icons';
@@ -12,7 +12,7 @@
 	const [popperRef, popperContent] = createPopperActions({
 		placement: placement
 	});
-	export const extraOpts = {
+	export let extraOpts = {
 		modifiers: [{ name: 'offset', options: { offset: [0, 8] } }]
 	};
 
@@ -37,8 +37,9 @@
 	</button>
 
 	{#if showTooltip}
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
-			class="z-10 leading-normal bg-white shadow rounded"
+			class="z-10 rounded bg-white leading-normal shadow"
 			use:popperContent={extraOpts}
 			use:clickOutside
 			on:outclick={() => {
@@ -49,7 +50,7 @@
 			}}
 			on:keydown={(ev) => {
 				// TODO: add propper keyboard support
-				console.log(ev.key);
+				console.info(ev.key);
 			}}
 		>
 			<slot />
@@ -57,5 +58,5 @@
 	{/if}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 </style>

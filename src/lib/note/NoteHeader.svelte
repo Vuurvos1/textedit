@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type EasyMDE from 'easymde';
 	import type { Tag } from '$lib/sidebar/tags';
 	import type { NoteStatus } from './note';
 
@@ -11,8 +10,6 @@
 	import { clickOutside } from '$lib/clickOutside';
 
 	import { filteredNotes, note, notes, showWindow, tags } from '$lib/stores';
-
-	export let easymde: EasyMDE;
 
 	// TODO: add some id thing so that only 1 can be open at a time, like a global store thing
 	const [popperRef, popperContent] = createPopperActions({
@@ -116,7 +113,7 @@
 		const tagName = searchResults[index].tag;
 
 		if ($note.tags.some((tag) => tag.name === tagName)) {
-			console.log('Tag already exists');
+			console.info('Tag already exists');
 			return;
 		}
 
@@ -233,7 +230,7 @@
 			id="title"
 			type="text"
 			placeholder="add tag"
-			class="border-b-2 border-transparent bg-transparent focus:border-blue-400 focus:outline-none "
+			class="border-b-2 border-transparent bg-transparent focus:border-blue-400 focus:outline-none"
 			use:popperRef
 			bind:value={searchString}
 			on:keyup={searchTags}
@@ -249,7 +246,7 @@
 				}}
 			>
 				{#each searchResults as option, i}
-					<li class="hover:bg-slate-100 " class:bg-slate-200={searchIndex === i}>
+					<li class="hover:bg-slate-100" class:bg-slate-200={searchIndex === i}>
 						<button
 							class="px-4 py-1"
 							on:click={async () => {

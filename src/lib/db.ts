@@ -1,6 +1,9 @@
-import { createClient } from '@supabase/auth-helpers-sveltekit';
+import { DATABASE_URL } from '$env/static/private';
 
-export const supabaseClient = createClient(
-	import.meta.env.VITE_SUPABASE_URL,
-	import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { neon, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
+
+neonConfig.fetchConnectionCache = true;
+
+const sql = neon(DATABASE_URL);
+export const db = drizzle(sql);

@@ -12,30 +12,31 @@
 		filteredNotes,
 		showWindow
 	} from '$lib/stores';
-	import { supabaseClient } from '$lib/db';
+	import { page } from '$app/stores';
+
+	$: ({ supabase } = $page.data);
 
 	let loading = false;
 	async function handleLogin() {
 		try {
 			loading = true;
-			const { error } = await supabaseClient.auth.signInWithOAuth({
+			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'github'
 			});
-			// console.log(error, user, session);
+			console.error(error);
 			if (error) throw error;
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			loading = false;
 		}
 	}
 
 	async function logout() {
-		const { error } = await supabaseClient.auth.signOut();
+		const { error } = await supabase.auth.signOut();
 		if (error) {
 			console.error(error);
 		}
-
 		// clear all values
 		$user = undefined;
 		$notes = [];
@@ -138,7 +139,7 @@
 			<span>back</span>
 		</button>
 
-		<div class="flex flex-row ">
+		<div class="flex flex-row">
 			<!-- profile -->
 			<PopoutMenu placement="top-start" extraOpts={{ modifiers: [] }}>
 				<UserIcon slot="icon" />
@@ -163,7 +164,7 @@
 	</div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 	ul {
 		margin-bottom: 1.25rem;
 	}
