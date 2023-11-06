@@ -1,0 +1,9 @@
+{
+  "eslint.workingDirectories": [
+    "apps/desktop",
+    "apps/site",
+    "apps/mobile",
+  ],
+
+  "svelte.enable-ts-plugin": true
+}
