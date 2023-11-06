@@ -21,7 +21,14 @@ const config = {
 		// 			fallback: 'index.html'
 		// 	  })
 		// 	: vercelAdapter()
-		adapter: autoAdapter()
+		adapter: autoAdapter(),
+		paths: {
+			base: ''
+		},
+
+		csrf: {
+			checkOrigin: false
+		}
 
 		// Only build the endpoints in web enviroment
 		// This seems removed for now?

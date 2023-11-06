@@ -18,18 +18,18 @@
 
 	let loading = false;
 	async function handleLogin() {
-		try {
-			loading = true;
-			const { error } = await supabase.auth.signInWithOAuth({
-				provider: 'github'
-			});
-			console.error(error);
-			if (error) throw error;
-		} catch (err) {
-			console.error(err);
-		} finally {
-			loading = false;
-		}
+		// try {
+		// 	loading = true;
+		// 	const { error } = await supabase.auth.signInWithOAuth({
+		// 		provider: 'github'
+		// 	});
+		// 	console.error(error);
+		// 	if (error) throw error;
+		// } catch (err) {
+		// 	console.error(err);
+		// } finally {
+		// 	loading = false;
+		// }
 	}
 
 	async function logout() {

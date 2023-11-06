@@ -3,6 +3,8 @@ import type { RequestHandler } from './$types';
 
 // TODO: move this logic into the patch method of a note?
 export const POST = (async ({ request, locals: { supabase, getSession } }) => {
+	throw error(501, err.message);
+
 	const session = await getSession();
 
 	if (!session) {

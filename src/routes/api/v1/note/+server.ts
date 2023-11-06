@@ -2,9 +2,9 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-
 export const POST = (async ({ request, locals: { supabase, getSession } }) => {
+	throw error(401, 'Unauthorized');
+
 	const session = await getSession();
 
 	if (!session) {
@@ -29,6 +29,8 @@ export const POST = (async ({ request, locals: { supabase, getSession } }) => {
 }) satisfies RequestHandler;
 
 export const PATCH = (async ({ request, locals: { supabase, getSession } }) => {
+	throw error(401, 'Unauthorized');
+
 	const session = await getSession();
 
 	if (!session) {
@@ -56,6 +58,8 @@ export const PATCH = (async ({ request, locals: { supabase, getSession } }) => {
 }) satisfies RequestHandler;
 
 export const DELETE = (async ({ request, locals: { supabase, getSession } }) => {
+	throw error(401, 'Unauthorized');
+
 	const session = await getSession();
 
 	if (!session) {

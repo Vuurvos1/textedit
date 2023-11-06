@@ -2,6 +2,7 @@
 	// TODO: login should be turned into form events
 	import { Download, GitHub, Sliders, User as UserIcon } from '$lib/icons';
 	import PopoutMenu from '$lib/ui/PopoutMenu.svelte';
+	import { signIn } from '@auth/sveltekit/client';
 
 	import { note, notes, user } from '$lib/stores';
 	import JSZip from 'jszip';
@@ -14,10 +15,11 @@
 	async function handleLogin() {
 		try {
 			loading = true;
-			const { error } = await supabase.auth.signInWithOAuth({
-				provider: 'github'
-			});
-			if (error) throw error;
+			signIn('github'); // TODO: move to be inline in component on the button?
+			// const { error } = await supabase.auth.signInWithOAuth({
+			// 	provider: 'github'
+			// });
+			// if (error) throw error;
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -71,11 +73,10 @@
 
 			<button class="hover:text-purple-600" on:click={logout}>Logout</button>
 		{:else}
-			<button class="flex flex-row items-center gap-2 px-2 py-1" on:click={handleLogin}>
-				<GitHub />
-
-				<span class="w-max">Login with Github</span>
-			</button>
+			<button
+				on:click={() => signIn('github', { redirect: false })}
+				class="inline-flex flex-row items-center gap-2 px-2 py-1">Sign In with GitHub</button
+			>
 		{/if}
 	</PopoutMenu>
 

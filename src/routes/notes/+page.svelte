@@ -16,6 +16,7 @@
 	import { insertTag } from '$lib/tags/tagUtils';
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -57,6 +58,8 @@
 			class:selected={$showWindow === 'navigation'}
 			class="navigation overflow-y-auto bg-slate-300"
 		>
+			<pre>{JSON.stringify($page.data.session, null, 2)}
+		</pre>
 			<Sidebar />
 		</div>
 		<div class:selected={$showWindow === 'notes'} class="items h-full">
