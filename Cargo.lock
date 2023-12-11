@@ -2876,7 +2876,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "textEdit"
+name = "text_edit"
 version = "0.0.0"
 dependencies = [
  "serde",

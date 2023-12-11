@@ -56,12 +56,12 @@
   </form>
   <p>{greetMsg}</p>
 
-  <button on:click={selectFolder}> Get file tree </button>
+  <!-- <button on:click={selectFolder}> Get file tree </button> -->
 
-  <h2>Markdown files:</h2>
+  <!-- <h2>Markdown files:</h2>
   <ul>
     {#each markdownFiles as file}
       <li>{file}</li>
     {/each}
-  </ul>
+  </ul> -->
 </div>
