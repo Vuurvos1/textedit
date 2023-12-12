@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Greet from './lib/Greet.svelte';
+  import Greet from '$lib/Greet.svelte';
+  import Folder from '$lib/Folder.svelte';
 
   import {
     readDir,
@@ -17,7 +18,6 @@
     sep as DS,
   } from '@tauri-apps/api/path';
   import { open } from '@tauri-apps/api/dialog';
-  import Folder from './lib/Folder.svelte';
 
   let loading = false;
   let fileTree: FileEntry[] = [];
@@ -30,28 +30,14 @@
 
     const files = await readDir(directory, { recursive: true });
     fileTree = files;
-    console.log(fileTree);
+    // console.log(fileTree);
 
     loading = false;
   }
 </script>
 
 <main class="container">
-  <h1>Welcome to Tauri!</h1>
-
-  <div class="row">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-
-  <p class="text-center">
+  <p class="text-center bg-pink-400">
     Click on the Tauri, Vite, and Svelte logos to learn more.
   </p>
 
@@ -59,27 +45,12 @@
     <Greet />
   </div>
 
-  <button on:click={openFolder}>Open Folder</button>
+  <button class="mb-4" on:click={openFolder}>Open Folder</button>
 
   <div class="">
     <Folder name="Home" files={fileTree} expanded />
   </div>
 </main>
 
-<style>
-  .text-center {
-    text-align: center;
-  }
-
-  button {
-    margin-bottom: 1rem;
-  }
-
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
-  }
-
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
-  }
+<style lang="postcss">
 </style>
