@@ -3,12 +3,11 @@
   $: type = name.slice(name.lastIndexOf('.') + 1);
 </script>
 
-<span style="background-image: url(/tutorial/icons/{type}.svg)">{name}</span>
+<!-- TODO add file icons / tags -->
+<button class="truncate pl-4 hover:bg-gray-300 py-1 px-4 mb-1">
+  <span class=" ">{name.slice(0, name.lastIndexOf('.'))}</span>
+  <!-- <span>{type}</span> -->
+</button>
 
 <style>
-  span {
-    padding: 0 0 0 1.5em;
-    background: 0 0.1em no-repeat;
-    background-size: 1em 1em;
-  }
 </style>

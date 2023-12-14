@@ -20,6 +20,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^1.5.2
         version: 1.5.2
+      lucide-svelte:
+        specifier: ^0.295.0
+        version: 0.295.0(svelte@4.2.8)
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: 1.0.5
@@ -2977,6 +2980,14 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
+  /lucide-svelte@0.295.0(svelte@4.2.8):
+    resolution: {integrity: sha512-nxjDTPPUurHAxkSE/WJFG7Oa6IOmnENrBcW5qm7XxcUJtl7VVN0129jBTa237pYh78qq8lFxP6mUmpsM2FJW/g==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      svelte: 4.2.8
+    dev: false
+
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -4249,7 +4260,6 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.5
       periscopic: 3.1.0
-    dev: true
 
   /tailwindcss@3.3.3:
     resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}

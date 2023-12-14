@@ -6,9 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
+node_modules/
+dist/
+dist-ssr/
 *.local
 
 # Editor directories and files
@@ -24,4 +24,5 @@ dist-ssr
 
 /target
 
-.svelte-kit
+.svelte-kit/
+build/
