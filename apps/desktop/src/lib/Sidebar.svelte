@@ -26,8 +26,6 @@
 	let fileTree: FileEntry[] = []; // TODO: keep this in sync with the file system
 	let filePath = '';
 
-	// console.log(BaseDirectory);
-
 	// TODO: move file tree stuff to a store
 	async function openFolder(directory?: string) {
 		loading = true;
@@ -39,7 +37,9 @@
 
 		localStorage.setItem('filePath', directory);
 
-		const files = await readDir(directory, { recursive: true });
+		const files = (await readDir(directory, { recursive: true })).sort(
+			(a, b) => (a.children ? -1 : b.children ? 1 : a.name.localeCompare(b.name)) // TODO: is localeCompare a good idea??
+		);
 		fileTree = files;
 
 		loading = false;

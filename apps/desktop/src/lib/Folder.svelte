@@ -6,6 +6,7 @@
 
 	export let expanded = true;
 	export let name;
+	export let path;
 	export let files: FileEntry[] = [];
 	export let depth = 0;
 
@@ -38,9 +39,9 @@
 		{#each files as file}
 			<li>
 				{#if file.children}
-					<svelte:self name={file.name} files={file.children} depth={depth + 1} />
+					<svelte:self name={file.name} files={file.children} depth={depth + 1} {...file} />
 				{:else}
-					<File name={file.name} />
+					<File name={file.name} {...file} />
 				{/if}
 			</li>
 		{/each}
