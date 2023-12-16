@@ -2,7 +2,9 @@
 	import File from './File.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
 	import { closeFolders } from './stores/events';
-	import type { FileEntry } from '@tauri-apps/api/fs';
+	import { draggable, dropzone } from '$lib/dragAndDrop';
+	import { renameFile, BaseDirectory, type FileEntry } from '@tauri-apps/api/fs';
+	import { fileTree } from './stores';
 
 	export let expanded = true;
 	export let name;
@@ -17,12 +19,40 @@
 	closeFolders.subscribe(() => {
 		expanded = false;
 	});
+
+	function handleDragDrop(event: DragEvent) {
+		event.preventDefault();
+		console.log('folder: drag drop');
+
+		const filePath = event.dataTransfer?.getData('text/plain');
+
+		if (filePath) {
+			console.log(filePath);
+		}
+	}
+
+	async function moveFile(data) {
+		const newPath = `${path}/${data.name}`;
+		await renameFile(data.path, newPath, { dir: BaseDirectory.Document });
+		expanded = true;
+		fileTree.reload();
+	}
 </script>
 
 <!-- TODO: make folder/file hovers always full width -->
 {#if depth > 0}
+	<!-- text-blue-500 -->
 	<button
 		class="flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm hover:bg-gray-300/50"
+		use:draggable={JSON.stringify({ name, path })}
+		use:dropzone={{
+			dragoverClass: 'bg-blue-300',
+			onDropzone: (data, ev) => {
+				const d = JSON.parse(data);
+				moveFile(d);
+				fileTree.reload();
+			}
+		}}
 		on:click={toggle}
 	>
 		<div class="transition" class:rotate-90={expanded}>

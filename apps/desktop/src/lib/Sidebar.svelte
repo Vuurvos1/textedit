@@ -1,13 +1,7 @@
 <script lang="ts">
 	import Folder from '$lib/Folder.svelte';
 	import { open } from '@tauri-apps/api/dialog';
-	import {
-		readDir,
-		createDir,
-		writeTextFile,
-		BaseDirectory,
-		type FileEntry
-	} from '@tauri-apps/api/fs';
+	import { readDir, createDir, writeTextFile, BaseDirectory } from '@tauri-apps/api/fs';
 	import {
 		ArrowUpNarrowWideIcon,
 		ChevronsDownUpIcon,
@@ -18,13 +12,11 @@
 		SettingsIcon,
 		TerminalIcon
 	} from 'lucide-svelte';
-	import { onMount } from 'svelte';
 	import IconButton from '$lib/IconButton.svelte';
 	import { closeFolders } from './stores/events';
+	import { fileTree } from '$lib/stores';
 
 	let loading = false;
-	let fileTree: FileEntry[] = []; // TODO: keep this in sync with the file system
-	let filePath = '';
 
 	// TODO: move file tree stuff to a store
 	async function openFolder(directory?: string) {
@@ -35,45 +27,50 @@
 			directory = Array.isArray(openRes) ? openRes[0] : openRes;
 		}
 
-		localStorage.setItem('filePath', directory);
-
-		const files = (await readDir(directory, { recursive: true })).sort(
-			(a, b) => (a.children ? -1 : b.children ? 1 : a.name.localeCompare(b.name)) // TODO: is localeCompare a good idea??
-		);
-		fileTree = files;
+		fileTree.load(directory);
 
 		loading = false;
 	}
 
 	async function createFolder() {
 		// TODO: should create new folder in edit mode
-		console.log('creating folder', BaseDirectory.Document);
-		await createDir('TextEdit/test', {
+		const directory = localStorage.getItem('filePath');
+		const files = await readDir(directory, { recursive: false });
+
+		const untitledFolders = files.filter((f) => f.children && f.name.match(/^Untitled(?: \d+)?/g));
+
+		const folderName = `Untitled${
+			untitledFolders.length > 0 ? ' ' + String(untitledFolders.length) : ''
+		}`;
+
+		await createDir(`TextEdit/${folderName}`, {
 			dir: BaseDirectory.Document
 		});
+
+		fileTree.reload();
 	}
 
 	async function createFile() {
 		// TODO: should create new file in edit mode
-		// TODO: default name of
-		console.log('writing file', BaseDirectory.Document);
-		await writeTextFile('TextEdit/test.md', 'Hello world!', {
+		const directory = localStorage.getItem('filePath');
+		const files = await readDir(directory, { recursive: false });
+
+		const untitledFiles = files.filter(
+			(f) => !f.children && f.name.match(/^Untitled(?: \d+)?.md/g)
+		);
+
+		const fileName = `Untitled${
+			untitledFiles.length > 0 ? ' ' + String(untitledFiles.length) : ''
+		}.md`;
+
+		await writeTextFile(`TextEdit/${fileName}`, 'Hello world!', {
 			dir: BaseDirectory.Document
 		});
+
+		fileTree.reload();
 	}
 
 	// TODO: when moving files, if 2 have the same name append (1) to the end of the name or more if needed
-
-	onMount(() => {
-		const path = localStorage.getItem('filePath');
-		if (path) {
-			filePath = path;
-		}
-
-		if (filePath) {
-			openFolder(filePath);
-		}
-	});
 </script>
 
 <div class="flex h-full flex-row">
@@ -125,9 +122,9 @@
 			</IconButton>
 		</div>
 
-		<div class="scrollbar-stable w-80 overflow-y-auto overflow-x-hidden">
+		<div class="scrollbar-stable min-h-full w-80 overflow-y-auto overflow-x-hidden">
 			<!-- notes -->
-			<Folder name="Home" files={fileTree} expanded />
+			<Folder name="Home" path="" files={$fileTree} expanded />
 		</div>
 	</div>
 </div>
