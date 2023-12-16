@@ -4,9 +4,6 @@
 
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
 
   color: #0f0f0f;
   background-color: #f6f6f6;
@@ -58,10 +55,10 @@ button {
 
   input,
   button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+    /* color: #ffffff; */
+    /* background-color: #0f0f0f98; */
   }
   button:active {
-    background-color: #0f0f0f69;
+    /* background-color: #0f0f0f69; */
   }
 }
