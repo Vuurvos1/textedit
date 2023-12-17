@@ -1,15 +1,15 @@
 <script lang="ts">
 	import File from './File.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
-	import { closeFolders } from './stores/events';
 	import { draggable, dropzone } from '$lib/dragAndDrop';
 	import { renameFile, BaseDirectory, type FileEntry } from '@tauri-apps/api/fs';
-	import { fileTree } from './stores';
+	import { fileTree, closeFolders } from '$lib/stores';
 
 	export let expanded = true;
-	export let name;
-	export let path;
+	export let name: string;
+	export let path: string;
 	export let files: FileEntry[] = [];
+	export const children: FileEntry[] = [];
 	export let depth = 0;
 
 	function toggle() {
@@ -19,17 +19,6 @@
 	closeFolders.subscribe(() => {
 		expanded = false;
 	});
-
-	function handleDragDrop(event: DragEvent) {
-		event.preventDefault();
-		console.log('folder: drag drop');
-
-		const filePath = event.dataTransfer?.getData('text/plain');
-
-		if (filePath) {
-			console.log(filePath);
-		}
-	}
 
 	async function moveFile(data) {
 		const newPath = `${path}/${data.name}`;

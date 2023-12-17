@@ -64,7 +64,7 @@
 			untitledFiles.length > 0 ? ' ' + String(untitledFiles.length) : ''
 		}.md`;
 
-		await writeTextFile(`TextEdit/${fileName}`, 'Hello world!', {
+		await writeTextFile(`TextEdit/${fileName}`, '', {
 			dir: BaseDirectory.Document
 		});
 

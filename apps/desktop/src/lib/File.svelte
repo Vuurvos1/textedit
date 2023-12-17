@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { readTextFile } from '@tauri-apps/api/fs';
 	import { note } from '$lib/stores';
 	import { draggable } from '$lib/dragAndDrop';
 
@@ -8,18 +7,7 @@
 	$: type = name.slice(name.lastIndexOf('.') + 1);
 
 	async function loadFile() {
-		const fileContents = await readTextFile(path);
-		$note = fileContents;
-	}
-
-	function handleDragStart(event: DragEvent) {
-		event.dataTransfer?.setData('text/plain', path);
-		console.info('drag start', path);
-	}
-
-	function handleDragEnd(event: DragEvent) {
-		event.dataTransfer?.clearData();
-		console.info('drag end');
+		note.load({ name, path });
 	}
 </script>
 
