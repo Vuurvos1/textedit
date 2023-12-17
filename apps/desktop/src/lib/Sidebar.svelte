@@ -52,6 +52,7 @@
 
 	async function createFile() {
 		// TODO: should create new file in edit mode
+		// TODO: fix when there are already untitled files
 		const directory = localStorage.getItem('filePath');
 		const files = await readDir(directory, { recursive: false });
 
@@ -122,7 +123,10 @@
 			</IconButton>
 		</div>
 
-		<div class="scrollbar-stable min-h-full w-80 overflow-y-auto overflow-x-hidden">
+		<!--  -->
+		<div
+			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent min-h-full w-80 overflow-y-auto overflow-x-hidden"
+		>
 			<!-- notes -->
 			<Folder name="Home" path="" files={$fileTree} expanded />
 		</div>

@@ -1,6 +1,6 @@
 
 	/** @type {import('svelte/action').Action}  */
-export function draggable(node: HTMLElement, data: any) {
+export function draggable(node: HTMLElement, data: Record<string, any>) {
   let state = data;
 
   node.draggable = true;
