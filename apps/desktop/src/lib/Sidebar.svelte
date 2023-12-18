@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Folder from '$lib/Folder.svelte';
 	import { open } from '@tauri-apps/api/dialog';
-	import { readDir, createDir, writeTextFile, BaseDirectory } from '@tauri-apps/api/fs';
+	import { readDir, createDir, writeTextFile } from '@tauri-apps/api/fs';
 	import {
 		ArrowUpNarrowWideIcon,
 		ChevronsDownUpIcon,
@@ -37,15 +37,26 @@
 		const directory = localStorage.getItem('filePath');
 		const files = await readDir(directory, { recursive: false });
 
-		const untitledFolders = files.filter((f) => f.children && f.name.match(/^Untitled(?: \d+)?/g));
+		// TODO: don't need a double filter with regex maybe?
+		// const untitledFolders = files.filter((f) => f.children && f.name.match(/^Untitled(?: \d+)?/g));
 
-		const folderName = `Untitled${
-			untitledFolders.length > 0 ? ' ' + String(untitledFolders.length) : ''
-		}`;
+		const existingIndices = files
+			.map((folder) => {
+				const match = folder.name.match(/^Untitled (\d+)$/);
+				return match ? parseInt(match[1]) : null;
+			})
+			.filter((index) => index !== null);
 
-		await createDir(`TextEdit/${folderName}`, {
-			dir: BaseDirectory.Document
-		});
+		let newIndex = 1;
+		while (existingIndices.includes(newIndex)) {
+			newIndex++;
+		}
+
+		const folderName = `Untitled${newIndex > 0 ? ' ' + String(newIndex) : ''}`;
+
+		console.info('Creating folder', folderName);
+
+		await createDir(`${directory.replaceAll('\\', '/')}/${folderName}`);
 
 		fileTree.reload();
 	}
@@ -56,17 +67,31 @@
 		const directory = localStorage.getItem('filePath');
 		const files = await readDir(directory, { recursive: false });
 
-		const untitledFiles = files.filter(
-			(f) => !f.children && f.name.match(/^Untitled(?: \d+)?.md/g)
-		);
+		// TODO: maybe change to a reduce?
+		const existingIndices = files
+			.map((file) => {
+				if (file.children) return null;
+				if (!file.name.match(/^Untitled(?: \d+)?.md/g)) return null;
 
-		const fileName = `Untitled${
-			untitledFiles.length > 0 ? ' ' + String(untitledFiles.length) : ''
-		}.md`;
+				const match = file.name.match(/\d+/);
 
-		await writeTextFile(`TextEdit/${fileName}`, '', {
-			dir: BaseDirectory.Document
-		});
+				return match ? Number(match) : null;
+			})
+			.filter((index) => index !== null);
+
+		// TODO: there must be a better way to do this
+		// Find the smallest available index
+		let newIndex = 1;
+		while (existingIndices.includes(newIndex)) {
+			newIndex++;
+		}
+
+		const fileName = `Untitled${newIndex > 0 ? ' ' + String(newIndex) : ''}.md`;
+		const path = `${directory.replaceAll('\\', '/')}/${fileName}`;
+
+		console.info('Creating file', path);
+
+		await writeTextFile(path, '');
 
 		fileTree.reload();
 	}
