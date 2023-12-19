@@ -13,7 +13,7 @@
 		TerminalIcon
 	} from 'lucide-svelte';
 	import IconButton from '$lib/IconButton.svelte';
-	import { closeFolders } from './stores/events';
+	import { closeFolders, toggleFileSearch } from './stores/events';
 	import { fileTree } from '$lib/stores';
 
 	let loading = false;
@@ -101,7 +101,12 @@
 
 <div class="flex h-full flex-row">
 	<div class="flex flex-col gap-1 border-r px-2 py-3">
-		<IconButton name="Search">
+		<IconButton
+			name="Search"
+			on:click={() => {
+				$toggleFileSearch = Symbol();
+			}}
+		>
 			<FileSearchIcon size="20" />
 		</IconButton>
 
@@ -115,10 +120,9 @@
 			<ImportIcon size="20" />
 		</IconButton>
 
-		<button class="rounded px-1 py-1 hover:bg-gray-200">
-			<span class="sr-only">Settings</span>
+		<IconButton name="Settings">
 			<SettingsIcon size="20" />
-		</button>
+		</IconButton>
 	</div>
 
 	<div class="flex flex-col overflow-hidden border-r py-2">

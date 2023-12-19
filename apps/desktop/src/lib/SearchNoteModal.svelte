@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fileTree, note } from '$lib/stores';
+	import { fileTree, note, toggleFileSearch } from '$lib/stores';
 	import type { FileEntry } from '@tauri-apps/api/fs';
 	import { onMount, tick } from 'svelte';
 
@@ -35,22 +35,17 @@
 		return results;
 	}
 
+	toggleFileSearch.subscribe(() => {
+		open = !open;
+	});
+
 	$: {
 		results = searchFileTree($fileTree, search);
 	}
 
-	async function openFileSearchBind(ev: KeyboardEvent) {
-		if (ev.key === 'o' && ev.ctrlKey) {
-			open = !open;
-			await tick();
-
-			if (open && searchInput) {
-				searchInput.focus();
-			}
-		}
-
-		if (ev.key === 'Escape') {
-			open = false;
+	$: {
+		if (open) {
+			searchInput?.focus();
 		}
 	}
 
@@ -58,14 +53,6 @@
 		note.load(file);
 		open = false;
 	}
-
-	onMount(() => {
-		window.addEventListener('keydown', openFileSearchBind);
-
-		return () => {
-			window.removeEventListener('keydown', openFileSearchBind);
-		};
-	});
 </script>
 
 {#if open}
