@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { fileTree, note, toggleFileSearch } from '$lib/stores';
+	import { fileTree, note, searchNoteOpen } from '$lib/stores';
 	import type { FileEntry } from '@tauri-apps/api/fs';
-	import { onMount, tick } from 'svelte';
 
 	// TODO: maybe debounce search
 	let search = '';
 	let results = [];
 	let searchInput: HTMLInputElement | null = null;
-
-	let open = false;
 
 	// TODO: implement fuzzy search based on full file path
 	function searchFileTree(fileTree, searchQuery) {
@@ -35,31 +32,29 @@
 		return results;
 	}
 
-	toggleFileSearch.subscribe(() => {
-		open = !open;
-	});
-
 	$: {
 		results = searchFileTree($fileTree, search);
 	}
 
 	$: {
-		if (open) {
+		if ($searchNoteOpen) {
 			searchInput?.focus();
 		}
 	}
 
 	function selectFile(file: FileEntry) {
 		note.load(file);
-		open = false;
+		searchNoteOpen.set(false);
 	}
 </script>
 
-{#if open}
+{#if $searchNoteOpen}
 	<div class="fixed inset-0 z-10">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
-			on:click={() => (open = false)}
+			on:click={() => {
+				$searchNoteOpen = false;
+			}}
 			role="button"
 			tabindex="-1"
 			aria-label="close modal"

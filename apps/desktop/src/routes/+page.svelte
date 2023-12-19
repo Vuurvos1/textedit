@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CommandPallete from '$lib/CommandPallete.svelte';
 	import SearchNoteModal from '$lib/SearchNoteModal.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
 	import WordCounter from '$lib/WordCounter.svelte';
@@ -27,5 +28,7 @@
 		</div>
 	</main>
 
+	<!-- TODO make it so only 1 modal can be open at a time -->
 	<SearchNoteModal></SearchNoteModal>
+	<CommandPallete></CommandPallete>
 </div>
