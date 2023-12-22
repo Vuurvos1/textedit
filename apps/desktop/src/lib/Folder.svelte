@@ -8,8 +8,7 @@
 	export let expanded = true;
 	export let name: string;
 	export let path: string;
-	export let files: FileEntry[] = [];
-	export const children: FileEntry[] = [];
+	export let children: FileEntry[] = [];
 	export let depth = 0;
 
 	function toggle() {
@@ -30,16 +29,14 @@
 
 <!-- TODO: make folder/file hovers always full width -->
 {#if depth > 0}
-	<!-- text-blue-500 -->
 	<button
-		class="flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm hover:bg-gray-300/50"
+		class="folder flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm hover:bg-gray-300/50"
 		use:draggable={JSON.stringify({ name, path })}
 		use:dropzone={{
-			dragoverClass: 'bg-blue-300',
+			dragoverClasses: ['droppable', 'bg-blue-300'],
 			onDropzone: (data, ev) => {
 				const d = JSON.parse(data);
 				moveFile(d);
-				fileTree.reload();
 			}
 		}}
 		on:click={toggle}
@@ -55,19 +52,19 @@
 
 <div class:open={expanded || depth === 0} class="files grid">
 	<ul class="overflow-hidden {depth > 0 && `ml-6 border-l border-gray-500/40 pl-2`}">
-		{#each files as file}
+		{#each children as file}
 			<li>
 				{#if file.children}
-					<svelte:self name={file.name} files={file.children} depth={depth + 1} {...file} />
+					<svelte:self depth={depth + 1} {...file} />
 				{:else}
-					<File name={file.name} {...file} />
+					<File {...file} />
 				{/if}
 			</li>
 		{/each}
 	</ul>
 </div>
 
-<style>
+<style lang="postcss">
 	.files {
 		grid-template-rows: 0fr;
 		transition: grid-template-rows 0.075s ease-out;
@@ -75,5 +72,12 @@
 
 	.files.open {
 		grid-template-rows: 1fr;
+	}
+
+	.folder:global(.droppable) {
+	}
+
+	.folder:global(.droppable) * {
+		pointer-events: none;
 	}
 </style>

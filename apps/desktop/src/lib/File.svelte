@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { note } from '$lib/stores';
 	import { draggable } from '$lib/dragAndDrop';
+	import type { FileEntry } from '@tauri-apps/api/fs';
 
-	export let name: string;
+	export let name = '';
 	export let path: string;
+	export const children: FileEntry[] = [];
 	$: type = name.slice(name.lastIndexOf('.') + 1);
 
 	async function loadFile() {

@@ -152,12 +152,11 @@
 			</IconButton>
 		</div>
 
-		<!--  -->
 		<div
 			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent min-h-full w-80 overflow-y-auto overflow-x-hidden"
 		>
 			<!-- notes -->
-			<Folder name="Home" path="" files={$fileTree} expanded />
+			<Folder name="Home" path="" children={$fileTree} expanded />
 		</div>
 	</div>
 </div>
