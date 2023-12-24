@@ -7,7 +7,8 @@
   "scripts": {
     "desktop": "pnpm --filter @edit/desktop --",
     "mobile": "pnpm --filter @edit/mobile --",
-    "site": "pnpm --filter @edit/site -- "
+    "site": "pnpm --filter @edit/site -- ",
+    "tauri": "pnpm desktop tauri"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
