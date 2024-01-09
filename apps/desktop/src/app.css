@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+button {
+	cursor: pointer;
+}
+
+input,
+button {
+	outline: none;
+}
+
+.scrollbar-stable {
+	scrollbar-gutter: stable;
+}
+
+.theme-dark {
+	--color-base-00: #000000;
+	--color-base-05: #0d0d0d;
+	--color-base-10: #1a1a1a;
+	--color-base-20: #333333;
+	/* 25 */
+	--color-base-30: #4d4d4d;
+	/* 35 */
+	--color-base-40: #666666;
+	--color-base-50: #808080;
+	--color-base-60: #999999;
+	--color-base-70: #b3b3b3;
+	/* --color-base-80: #cccccc; */
+	/* --color-base-90: #e6e6e6; */
+	/* --color-base-95: #f2f2f2; */
+	--color-base-100: #ffffff;
+
+	/* basic colors */
+	/* red, orange, yellow, green, cyan, blue, purple, pink */
+}
+
+.theme-light {
+}
