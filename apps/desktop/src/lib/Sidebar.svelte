@@ -125,7 +125,8 @@
 		</IconButton>
 	</div>
 
-	<div class="flex flex-col overflow-hidden border-r py-2">
+	<!-- no border-r needed because split pane -->
+	<div class="flex w-full flex-col overflow-hidden py-2">
 		<div class="mb-3 flex w-full flex-row justify-center gap-1 px-3">
 			<IconButton name="New note" on:click={createFile}>
 				<PenSquareIcon size="20" />
@@ -153,7 +154,7 @@
 		</div>
 
 		<div
-			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent min-h-full w-80 overflow-y-auto overflow-x-hidden"
+			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent min-h-full w-full overflow-y-auto overflow-x-hidden"
 		>
 			<!-- notes -->
 			<Folder name="Home" path="" children={$fileTree} expanded />

@@ -6,20 +6,35 @@
 	import WordCounter from '$lib/WordCounter.svelte';
 	import { note } from '$lib/stores';
 	import { debounce } from '$lib/utils';
+	import { SplitPane } from '@rich_harris/svelte-split-pane';
+	import colors from 'tailwindcss/colors';
 
 	function saveNote() {
 		note.save();
 	}
+
+	const dividerColor = colors.gray[200];
+	const dividerThickness = '20px';
 </script>
 
-<div class="flex h-full flex-col">
+<div class="app flex h-full flex-col">
 	<TitleBar />
 
-	<div class="flex h-full flex-grow flex-row">
-		<Sidebar></Sidebar>
+	<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->
+	<SplitPane
+		type="horizontal"
+		min="240px"
+		max="-240px"
+		pos="10%"
+		priority="min"
+		--thickness={dividerThickness}
+		--color={dividerColor}
+		id="split-pane"
+	>
+		<Sidebar slot="a" />
 
-		<main class="flex h-full w-full flex-col">
-			<div class="relative h-full overflow-hidden">
+		<main slot="b" class="flex h-full w-full flex-col">
+			<div class="relative h-full w-full overflow-hidden">
 				<textarea
 					on:keydown={debounce(saveNote, 2500)}
 					bind:value={$note.content}
@@ -31,9 +46,19 @@
 				</div>
 			</div>
 		</main>
+	</SplitPane>
 
-		<!-- TODO make it so only 1 modal can be open at a time -->
-		<SearchNoteModal></SearchNoteModal>
-		<CommandPallete></CommandPallete>
-	</div>
+	<!-- TODO make it so only 1 modal can be open at a time -->
+	<SearchNoteModal></SearchNoteModal>
+	<CommandPallete></CommandPallete>
 </div>
+
+<style lang="postcss">
+	.app :global([data-pane='split-pane']) {
+		@apply max-w-none;
+	}
+
+	.app :global([data-pane='split-pane'] .divider:hover) {
+		--sp-color: theme(colors.indigo.500);
+	}
+</style>

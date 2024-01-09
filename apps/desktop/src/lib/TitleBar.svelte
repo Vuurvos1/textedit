@@ -4,7 +4,6 @@
 </script>
 
 <div data-tauri-drag-region class="z-20 flex select-none flex-row justify-end border-b bg-white">
-	<!-- id="titlebar-minimize" -->
 	<button on:click={() => appWindow.minimize()} aria-label="minimize">
 		<MinusIcon size="14" />
 	</button>
