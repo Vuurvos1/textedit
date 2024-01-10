@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CommandPallete from '$lib/CommandPallete.svelte';
 	import SearchNoteModal from '$lib/SearchNoteModal.svelte';
+	import SettingsModal from '$lib/SettingsModal.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
 	import TitleBar from '$lib/TitleBar.svelte';
 	import WordCounter from '$lib/WordCounter.svelte';
@@ -49,8 +50,9 @@
 	</SplitPane>
 
 	<!-- TODO make it so only 1 modal can be open at a time -->
-	<SearchNoteModal></SearchNoteModal>
-	<CommandPallete></CommandPallete>
+	<SearchNoteModal />
+	<CommandPallete />
+	<SettingsModal />
 </div>
 
 <style lang="postcss">

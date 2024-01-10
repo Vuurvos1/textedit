@@ -15,6 +15,7 @@
 	import IconButton from '$lib/IconButton.svelte';
 	import { closeFolders, toggleFileSearch } from './stores/events';
 	import { fileTree } from '$lib/stores';
+	import { settingsModalOpen, searchNoteOpen, commandPalleteOpen } from '$lib/stores';
 
 	let loading = false;
 
@@ -105,12 +106,18 @@
 			name="Search"
 			on:click={() => {
 				$toggleFileSearch = Symbol();
+				$searchNoteOpen = true;
 			}}
 		>
 			<FileSearchIcon size="20" />
 		</IconButton>
 
-		<IconButton name="Command pallete">
+		<IconButton
+			name="Command pallete"
+			on:click={() => {
+				$commandPalleteOpen = true;
+			}}
+		>
 			<TerminalIcon size="20" />
 		</IconButton>
 
@@ -120,7 +127,12 @@
 			<ImportIcon size="20" />
 		</IconButton>
 
-		<IconButton name="Settings">
+		<IconButton
+			name="Settings"
+			on:click={() => {
+				$settingsModalOpen = true;
+			}}
+		>
 			<SettingsIcon size="20" />
 		</IconButton>
 	</div>

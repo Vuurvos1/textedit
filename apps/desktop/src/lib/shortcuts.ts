@@ -1,5 +1,5 @@
 import { toggleFileSearch } from '$lib/stores';
-import { commandPalleteOpen, searchNoteOpen } from '$lib/stores/state';
+import { commandPalleteOpen, searchNoteOpen, settingsModalOpen } from '$lib/stores/state';
 import { get } from 'svelte/store';
 
 export type KeyboardShortcut = {
@@ -44,6 +44,7 @@ export const shortcuts: KeyboardShortcut[] = [
 			// close all modals
 			commandPalleteOpen.set(false);
 			searchNoteOpen.set(false);
+			settingsModalOpen.set(false);
 		}
 	}
 ];
