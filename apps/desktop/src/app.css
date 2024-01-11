@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-} */
-
 html,
 body {
 	height: 100%;
@@ -43,7 +39,31 @@ button {
 
 	/* basic colors */
 	/* red, orange, yellow, green, cyan, blue, purple, pink */
+
+	--background-primary: var(--color-base-00);
+	--background-secondary: var(--color-base-05);
 }
 
 .theme-light {
+	--color-base-00: #ffffff;
+	--color-base-05: #f2f2f2;
+	--color-base-10: #e6e6e6;
+	--color-base-20: #cccccc;
+	/* 25 */
+	--color-base-30: #b3b3b3;
+	/* 35 */
+	--color-base-40: #999999;
+	--color-base-50: #808080;
+	--color-base-60: #666666;
+	--color-base-70: #4d4d4d;
+	/* --color-base-80: #333333; */
+	/* --color-base-90: #1a1a1a; */
+	/* --color-base-95: #0d0d0d; */
+	--color-base-100: #000000;
+
+	/* basic colors */
+	/* red, orange, yellow, green, cyan, blue, purple, pink */
+
+	--background-primary: var(--color-base-00);
+	--background-secondary: var(--color-base-05);
 }

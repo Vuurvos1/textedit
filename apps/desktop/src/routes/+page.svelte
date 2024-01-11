@@ -18,7 +18,7 @@
 	const dividerThickness = '20px';
 </script>
 
-<div class="app flex h-full flex-col">
+<div class="app theme-dark flex h-full flex-col">
 	<TitleBar />
 
 	<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->
@@ -34,7 +34,7 @@
 	>
 		<Sidebar slot="a" />
 
-		<main slot="b" class="flex h-full w-full flex-col">
+		<main slot="b" class="flex h-full w-full flex-col bg-[var(--background-primary)]">
 			<div class="relative h-full w-full overflow-hidden">
 				<textarea
 					on:keydown={debounce(saveNote, 2500)}

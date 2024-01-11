@@ -4,6 +4,7 @@
 
 {#if $settingsModalOpen}
 	<div class="fixed inset-0 z-10">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			on:click={() => {
 				$settingsModalOpen = false;
