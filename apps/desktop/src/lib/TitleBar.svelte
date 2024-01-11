@@ -3,7 +3,10 @@
 	import { MinusIcon, SquareIcon, XIcon } from 'lucide-svelte';
 </script>
 
-<div data-tauri-drag-region class="z-20 flex select-none flex-row justify-end border-b bg-white">
+<div
+	data-tauri-drag-region
+	class="flex select-none flex-row justify-end border-b border-[var(--border-color)] bg-[var(--color-base-10)]"
+>
 	<button on:click={() => appWindow.minimize()} aria-label="minimize">
 		<MinusIcon size="14" />
 	</button>
@@ -17,6 +20,6 @@
 
 <style lang="postcss">
 	button {
-		@apply p-2 transition-colors duration-75 hover:bg-gray-200;
+		@apply p-2 transition-colors duration-75 hover:bg-[var(--color-base-30)];
 	}
 </style>

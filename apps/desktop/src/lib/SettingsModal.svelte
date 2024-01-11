@@ -18,7 +18,7 @@
 		<div
 			class="container relative top-16 z-20 mx-auto flex h-[80vh] max-h-[70vh] max-w-[80vw] flex-row overflow-hidden rounded-lg border border-gray-200 bg-white"
 		>
-			<div class="border-r p-3">
+			<div class="border-r border-[var(--border-color)] p-3">
 				<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
 
 				<ul class="flex flex-col">

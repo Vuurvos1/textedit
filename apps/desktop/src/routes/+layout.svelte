@@ -1,6 +1,7 @@
 <script>
 	import { handleKeyboardShortcuts } from '$lib/shortcuts';
 	import '../app.css';
+	import '$lib/theme.postcss';
 
 	import { onMount } from 'svelte';
 

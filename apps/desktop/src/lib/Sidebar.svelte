@@ -100,8 +100,8 @@
 	// TODO: when moving files, if 2 have the same name append (1) to the end of the name or more if needed
 </script>
 
-<div class="flex h-full flex-row">
-	<div class="flex flex-col gap-1 border-r px-2 py-3">
+<div class="flex h-full flex-row bg-[var(--background-secondary)]">
+	<div class="flex flex-col gap-1 border-r border-[var(--border-color)] px-2 py-3">
 		<IconButton
 			name="Search"
 			on:click={() => {
@@ -137,7 +137,6 @@
 		</IconButton>
 	</div>
 
-	<!-- no border-r needed because split pane -->
 	<div class="flex w-full flex-col overflow-hidden py-2">
 		<div class="mb-3 flex w-full flex-row justify-center gap-1 px-3">
 			<IconButton name="New note" on:click={createFile}>

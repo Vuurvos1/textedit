@@ -14,7 +14,7 @@
 		note.save();
 	}
 
-	const dividerColor = colors.gray[200];
+	const dividerColor = 'var(--border-color)';
 	const dividerThickness = '20px';
 </script>
 
@@ -39,7 +39,7 @@
 				<textarea
 					on:keydown={debounce(saveNote, 2500)}
 					bind:value={$note.content}
-					class="h-full w-full resize-none border-none p-3 focus:outline-none"
+					class="h-full w-full resize-none border-none bg-transparent p-3 focus:outline-none"
 				></textarea>
 
 				<div class="absolute bottom-0 right-0">
