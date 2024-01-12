@@ -62,7 +62,7 @@
 		></div>
 
 		<div
-			class="container relative top-16 z-20 mx-auto flex max-h-[70vh] max-w-[80vw] flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+			class="container relative top-16 z-20 mx-auto flex max-h-[70vh] max-w-[80vw] flex-col overflow-hidden rounded-lg border border-gray-200 bg-[var(--background-primary)]"
 		>
 			<input
 				class="w-full border-b border-gray-200 bg-transparent px-7 py-3"

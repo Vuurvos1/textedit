@@ -8,7 +8,7 @@
 	import { note } from '$lib/stores';
 	import { debounce } from '$lib/utils';
 	import { SplitPane } from '@rich_harris/svelte-split-pane';
-	import colors from 'tailwindcss/colors';
+	import { onMount } from 'svelte';
 
 	function saveNote() {
 		note.save();
@@ -16,9 +16,30 @@
 
 	const dividerColor = 'var(--border-color)';
 	const dividerThickness = '20px';
+
+	let theme = 'dark';
+
+	function setTheme(theme: 'light' | 'dark') {
+		theme = theme;
+		document.cookie = `theme=${theme}; path=/; max-age=31536000`; // change to tauri options
+	}
+
+	onMount(() => {
+		const userPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+
+		if (userPrefersLight) {
+			setTheme('light');
+		} else {
+			setTheme('dark');
+		}
+	});
 </script>
 
-<div class="app theme-dark flex h-full flex-col">
+<div
+	class="app theme-dark flex h-full flex-col"
+	class:theme-light={theme === 'light'}
+	class:theme-dark={theme === 'dark'}
+>
 	<TitleBar />
 
 	<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->

@@ -39,7 +39,7 @@
 	{#if showTooltip}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
-			class="z-10 rounded bg-white leading-normal shadow"
+			class="z-10 rounded bg-[var(--background-primary)] leading-normal shadow"
 			use:popperContent={extraOpts}
 			use:clickOutside
 			on:outclick={() => {

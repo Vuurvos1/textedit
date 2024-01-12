@@ -78,7 +78,7 @@
 		{#if executable}
 			<button
 				on:click={runCode}
-				class="grid h-8 w-8 items-center rounded-full text-green-500 hover:bg-white/10"
+				class="grid h-8 w-8 items-center rounded-full text-green-500 hover:bg-[var(--background-primary)]/10"
 				aria-label="run code"
 			>
 				<!-- can't use svelte component here -->

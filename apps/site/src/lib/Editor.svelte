@@ -97,7 +97,7 @@
 	});
 </script>
 
-<div class="editor h-full overflow-y-auto bg-white p-4">
+<div class="editor h-full overflow-y-auto bg-[var(--background-primary)] p-4">
 	<EditorContent editor={$editor} />
 </div>
 
@@ -138,7 +138,7 @@
 	}
 
 	.editor :global(ul[data-type='taskList'] input) {
-		@apply rounded bg-white accent-black;
+		@apply rounded bg-[var(--background-primary)] accent-black;
 	}
 
 	.editor :global(ul[data-type='taskList'] li > div) {
