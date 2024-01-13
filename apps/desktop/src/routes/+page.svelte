@@ -36,39 +36,41 @@
 </script>
 
 <div
-	class="app theme-dark flex h-full flex-col"
+	class="app theme-dark flex h-full max-h-full flex-col overflow-hidden"
 	class:theme-light={theme === 'light'}
 	class:theme-dark={theme === 'dark'}
 >
 	<TitleBar />
 
-	<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->
-	<SplitPane
-		type="horizontal"
-		min="240px"
-		max="-240px"
-		pos="10%"
-		priority="min"
-		--thickness={dividerThickness}
-		--color={dividerColor}
-		id="split-pane"
-	>
-		<Sidebar slot="a" />
+	<div class="h-full max-h-full overflow-auto">
+		<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->
+		<SplitPane
+			type="horizontal"
+			min="240px"
+			max="-240px"
+			pos="10%"
+			priority="min"
+			--thickness={dividerThickness}
+			--color={dividerColor}
+			id="split-pane"
+		>
+			<Sidebar slot="a" />
 
-		<main slot="b" class="flex h-full w-full flex-col bg-[var(--background-primary)]">
-			<div class="relative h-full w-full overflow-hidden">
-				<textarea
-					on:keydown={debounce(saveNote, 2500)}
-					bind:value={$note.content}
-					class="h-full w-full resize-none border-none bg-transparent p-3 focus:outline-none"
-				></textarea>
+			<main slot="b" class="flex h-full w-full flex-col bg-[var(--background-primary)]">
+				<div class="relative h-full w-full overflow-hidden">
+					<textarea
+						on:keydown={debounce(saveNote, 2500)}
+						bind:value={$note.content}
+						class="h-full w-full resize-none border-none bg-transparent p-3 focus:outline-none"
+					></textarea>
 
-				<div class="absolute bottom-0 right-0">
-					<WordCounter></WordCounter>
+					<div class="absolute bottom-0 right-0">
+						<WordCounter></WordCounter>
+					</div>
 				</div>
-			</div>
-		</main>
-	</SplitPane>
+			</main>
+		</SplitPane>
+	</div>
 
 	<!-- TODO make it so only 1 modal can be open at a time -->
 	<SearchNoteModal />
