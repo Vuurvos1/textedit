@@ -1,62 +1,45 @@
 <script lang="ts">
 	import { settingsModalOpen } from '$lib/stores';
+	import Modal from '$lib/Modal.svelte';
 </script>
 
-{#if $settingsModalOpen}
-	<div class="fixed inset-0 z-10">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={() => {
-				$settingsModalOpen = false;
-			}}
-			role="button"
-			tabindex="-1"
-			aria-label="close modal"
-			class="absolute inset-0 bg-gray-900/10"
-		></div>
+<Modal bind:open={$settingsModalOpen}>
+	<div class="border-r border-[var(--border-color)] p-3">
+		<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
 
-		<div
-			class="container relative top-16 z-20 mx-auto flex h-[80vh] max-h-[70vh] max-w-[80vw] flex-row overflow-hidden rounded-lg border border-gray-200 bg-[var(--background-primary)]"
-		>
-			<div class="border-r border-[var(--border-color)] p-3">
-				<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
+		<ul class="flex flex-col">
+			<li>
+				<!-- TODO: create genric button style -->
+				<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
+					>Appearance</button
+				>
+			</li>
 
-				<ul class="flex flex-col">
-					<li>
-						<!-- TODO: create genric button style -->
-						<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-							>Appearance</button
-						>
-					</li>
+			<li>
+				<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
+					>Hotkeys</button
+				>
+			</li>
+		</ul>
+	</div>
 
-					<li>
-						<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-							>Hotkeys</button
-						>
-					</li>
-				</ul>
-			</div>
+	<div class="flex flex-col p-3">
+		<div class="text-lg">Settings</div>
 
-			<div class="flex flex-col p-3">
-				<div class="text-lg">Settings</div>
-
-				<h3 class="text-base">Theme</h3>
-				<!-- radio buttons, light, dark, system default -->
-				<div class="flex flex-row gap-2">
-					<label>
-						<input type="radio" name="theme" value="light" />
-						Light
-					</label>
-					<label>
-						<input type="radio" name="theme" value="dark" />
-						Dark
-					</label>
-					<label>
-						<input type="radio" name="theme" value="system" />
-						System
-					</label>
-				</div>
-			</div>
+		<h3 class="text-base">Theme</h3>
+		<div class="flex flex-row gap-2">
+			<label>
+				<input type="radio" name="theme" value="light" />
+				Light
+			</label>
+			<label>
+				<input type="radio" name="theme" value="dark" />
+				Dark
+			</label>
+			<label>
+				<input type="radio" name="theme" value="system" />
+				System
+			</label>
 		</div>
 	</div>
-{/if}
+</Modal>
