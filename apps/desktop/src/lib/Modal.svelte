@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { portal, clickOutside } from '$lib/actions';
+	import { portal, clickOutside, createFocusTrap } from '$lib/actions';
 
 	export let target = '.app';
 	export let open = false;
+
+	const { useFocusTrap } = createFocusTrap({ immediate: true });
 </script>
 
 <!-- TODO: turn into an action if possible -->
@@ -17,7 +19,7 @@
 />
 
 {#if open}
-	<div class="fixed inset-0 z-50" use:portal={target}>
+	<div class="fixed inset-0 z-50" use:portal={target} use:useFocusTrap>
 		<div tabindex="-1" aria-hidden="true" class="fixed inset-0 bg-gray-900/10" />
 
 		<div
