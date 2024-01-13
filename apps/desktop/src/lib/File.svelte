@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { note } from '$lib/stores';
-	import { draggable } from '$lib/dragAndDrop';
+	import { draggable } from '$lib/actions/dragAndDrop';
 	import type { FileEntry } from '@tauri-apps/api/fs';
 
 	export let name = '';

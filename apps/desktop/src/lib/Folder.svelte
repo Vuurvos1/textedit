@@ -1,7 +1,7 @@
 <script lang="ts">
 	import File from './File.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
-	import { draggable, dropzone } from '$lib/dragAndDrop';
+	import { draggable, dropzone } from '$lib/actions/dragAndDrop';
 	import { renameFile, BaseDirectory, type FileEntry } from '@tauri-apps/api/fs';
 	import { fileTree, closeFolders } from '$lib/stores';
 

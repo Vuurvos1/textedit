@@ -36,7 +36,7 @@
 </script>
 
 <div
-	class="app theme-dark flex h-full max-h-full flex-col overflow-hidden"
+	class="app flex h-full max-h-full flex-col overflow-hidden"
 	class:theme-light={theme === 'light'}
 	class:theme-dark={theme === 'dark'}
 >
@@ -72,17 +72,13 @@
 		</SplitPane>
 	</div>
 
-	<!-- TODO make it so only 1 modal can be open at a time -->
+	<!-- TODO make it so only 1 modal can be open at a time? -->
 	<SearchNoteModal />
 	<CommandPallete />
 	<SettingsModal />
 </div>
 
 <style lang="postcss">
-	.app :global([data-pane='split-pane']) {
-		@apply max-w-none;
-	}
-
 	.app :global([data-pane='split-pane'] .divider:hover) {
 		--sp-color: theme(colors.indigo.500);
 	}
