@@ -2,27 +2,25 @@
 	let opened: () => void;
 
 	function closeAll() {
-		console.log('close all', opened, this, opened);
-
 		if (opened) {
 			opened();
-			// opened.show = false;
-			// opened = null;
 		}
 	}
 </script>
 
 <script lang="ts">
 	import { computePosition, shift, flip, offset } from '@floating-ui/dom';
-	import { tick, onMount } from 'svelte';
-	import { clickOutside } from '$lib/actions';
+	import { tick } from 'svelte';
+	import { clickOutside, portal } from '$lib/actions';
 	import { ChevronRight } from 'lucide-svelte';
+
+	import { createIcons, createElement, icons } from 'lucide';
 
 	// | { type: 'divider' }
 	type MenuItem = {
 		type?: 'item' | 'divider';
 		label?: string;
-		icon?: string;
+		icon?: keyof typeof icons;
 		action?: () => void;
 		items?: MenuItem[];
 	};
@@ -31,16 +29,19 @@
 
 	export let menuItems: MenuItem[] = [
 		{
-			label: 'Item 1'
+			label: 'Item 1 that is longer',
+			icon: 'Delete'
 		},
 		{
 			label: 'Item 2',
+			icon: 'Delete',
 			items: [
 				{
 					label: 'Item 2.1'
 				},
 				{
-					label: 'Item 2.2'
+					label: 'Item 2.2',
+					icon: 'Bug'
 				}
 			]
 		},
@@ -48,7 +49,8 @@
 			type: 'divider'
 		},
 		{
-			label: 'Item 3'
+			label: 'Item 3',
+			icon: 'Edit2'
 		},
 		{
 			label: 'Item 4',
@@ -94,15 +96,10 @@
 	$: {
 		if (!reference) {
 			show = false;
-			console.log('refrence changed', reference);
-			if (!reference) {
-			}
 		}
 	}
 
 	async function handleContextMenu(ev: MouseEvent) {
-		console.log('context click');
-
 		show = false;
 		await tick();
 
@@ -111,13 +108,11 @@
 		}
 
 		closeAll();
-
 		opened = hide;
 
 		ev.preventDefault();
 		show = true;
 		await tick();
-		console.log('context menu');
 
 		const { clientX, clientY } = ev;
 
@@ -153,18 +148,16 @@
 			target.addEventListener('contextmenu', handleContextMenu);
 		}
 	}
-
-	onMount(() => {
-		console.log('mounted');
-	});
 </script>
 
+<!-- TODO: further cleanup logic -->
 {#if show}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<nav
 		on:click|stopPropagation
 		bind:this={floating}
+		use:portal={'.app'}
 		use:clickOutside={() => {
 			show = false;
 		}}
@@ -173,36 +166,21 @@
 		<ul>
 			{#each menuItems as item, i}
 				{#if item.type === 'divider'}
-					<li class="my-2 border-b"></li>
-				{:else if item.items}
+					<li class="-mx-1 my-2 border-b"></li>
+				{:else}
 					<li bind:this={children[i]}>
 						<button
-							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left hover:bg-gray-400"
+							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left text-sm hover:bg-gray-400"
 							on:click={() => {
 								// open child menu
 								item.action?.();
-								childrenOpen[i] = true;
 
-								console.log(childrenOpen);
+								// TODO: maybe also do this on hover, like the tooltip
+								if (item.items) childrenOpen[i] = true;
 							}}
 						>
-							<!-- {#if item.action}
-      <button on:click={item.action}>
-
-        <button>
-      {:else}
-      {/if}
-      </a> -->
-
-							{#if item.items}
-								<svelte:self
-									show={childrenOpen[i] ?? false}
-									menuItems={item.items}
-									reference={children[i]}
-								/>
-							{/if}
-
 							{#if item.icon}
+								{@html createElement(icons[item.icon]).outerHTML}
 								<!-- TODO -->
 								<!-- <i class="material-icons">{item.icon}</i> -->
 							{/if}
@@ -211,28 +189,25 @@
 								{item.label}
 							</span>
 
-							<ChevronRight size="14" />
-						</button>
-					</li>
-				{:else}
-					<li bind:this={children[i]}>
-						<button
-							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left hover:bg-gray-400"
-							on:click={() => {
-								item.action?.();
-							}}
-						>
-							{#if item.icon}
-								<!-- TODO -->
-								<!-- <i class="material-icons">{item.icon}</i> -->
-							{/if}
+							{#if item.items}
+								<ChevronRight class="ml-auto" />
 
-							{item.label}
+								<svelte:self
+									show={childrenOpen[i] ?? false}
+									menuItems={item.items}
+									reference={children[i]}
+								/>
+							{/if}
 						</button>
 					</li>
 				{/if}
-				<!-- content here -->
 			{/each}
 		</ul>
 	</nav>
 {/if}
+
+<style lang="postcss">
+	button :global(svg) {
+		@apply h-4 w-4;
+	}
+</style>

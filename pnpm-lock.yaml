@@ -29,6 +29,9 @@ importers:
       focus-trap:
         specifier: ^7.5.4
         version: 7.5.4
+      lucide:
+        specifier: ^0.309.0
+        version: 0.309.0
       lucide-svelte:
         specifier: ^0.295.0
         version: 0.295.0(svelte@4.2.8)
@@ -3943,6 +3946,10 @@ packages:
       svelte: '>=3 <5'
     dependencies:
       svelte: 4.2.8
+    dev: false
+
+  /lucide@0.309.0:
+    resolution: {integrity: sha512-e0G5Ld1f+wJeE/5DQII6KcWM+2fPcJoYI2DKPPGkeVoD6NbZSpA9vu7nA4F5JeBJMh+AMAWEoSJ5SQUDlh549Q==}
     dev: false
 
   /magic-string@0.27.0:
