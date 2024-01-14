@@ -1,7 +1,22 @@
+<script lang="ts" context="module">
+	let opened: () => void;
+
+	function closeAll() {
+		console.log('close all', opened, this, opened);
+
+		if (opened) {
+			opened();
+			// opened.show = false;
+			// opened = null;
+		}
+	}
+</script>
+
 <script lang="ts">
 	import { computePosition, shift, flip, offset } from '@floating-ui/dom';
 	import { tick, onMount } from 'svelte';
 	import { clickOutside } from '$lib/actions';
+	import { ChevronRight } from 'lucide-svelte';
 
 	// | { type: 'divider' }
 	type MenuItem = {
@@ -59,7 +74,7 @@
 		computePosition(reference, floating, {
 			placement: 'right-start',
 			strategy: 'fixed',
-			middleware: [offset(5), flip(), shift()]
+			middleware: [offset(8), flip(), shift()]
 		}).then(({ x, y }) => {
 			Object.assign(floating.style, {
 				top: `${y}px`,
@@ -72,11 +87,32 @@
 	const children = [];
 	const childrenOpen = [];
 
+	function hide() {
+		show = false;
+	}
+
+	$: {
+		if (!reference) {
+			show = false;
+			console.log('refrence changed', reference);
+			if (!reference) {
+			}
+		}
+	}
+
 	async function handleContextMenu(ev: MouseEvent) {
 		console.log('context click');
+
+		show = false;
+		await tick();
+
 		if (reference) {
 			return;
 		}
+
+		closeAll();
+
+		opened = hide;
 
 		ev.preventDefault();
 		show = true;
@@ -103,7 +139,7 @@
 		await computePosition(virtualEl, floating, {
 			placement: 'right-start',
 			strategy: 'fixed',
-			middleware: [offset(5), flip(), shift()]
+			middleware: [offset(8), flip(), shift()]
 		}).then(({ x, y }) => {
 			Object.assign(floating.style, {
 				top: `${y}px`,
@@ -124,12 +160,15 @@
 </script>
 
 {#if show}
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<nav
+		on:click|stopPropagation
 		bind:this={floating}
 		use:clickOutside={() => {
 			show = false;
 		}}
-		class="fixed left-0 top-0 z-50 rounded bg-gray-500 p-3"
+		class="fixed left-0 top-0 z-50 rounded border bg-gray-500 px-1 py-2"
 	>
 		<ul>
 			{#each menuItems as item, i}
@@ -138,6 +177,7 @@
 				{:else if item.items}
 					<li bind:this={children[i]}>
 						<button
+							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left hover:bg-gray-400"
 							on:click={() => {
 								// open child menu
 								item.action?.();
@@ -167,12 +207,17 @@
 								<!-- <i class="material-icons">{item.icon}</i> -->
 							{/if}
 
-							{item.label}
+							<span>
+								{item.label}
+							</span>
+
+							<ChevronRight size="14" />
 						</button>
 					</li>
 				{:else}
 					<li bind:this={children[i]}>
 						<button
+							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left hover:bg-gray-400"
 							on:click={() => {
 								item.action?.();
 							}}
