@@ -5,10 +5,9 @@
 	import Sidebar from '$lib/Sidebar.svelte';
 	import TitleBar from '$lib/TitleBar.svelte';
 	import WordCounter from '$lib/WordCounter.svelte';
-	import { note } from '$lib/stores';
+	import { note, theme } from '$lib/stores';
 	import { debounce } from '$lib/utils';
 	import { SplitPane } from '@rich_harris/svelte-split-pane';
-	import { onMount } from 'svelte';
 
 	function saveNote() {
 		note.save();
@@ -17,29 +16,13 @@
 	const dividerColor = 'var(--border-color)';
 	const dividerThickness = '20px';
 
-	let theme = 'dark';
-
-	function setTheme(theme: 'light' | 'dark') {
-		theme = theme;
-		document.cookie = `theme=${theme}; path=/; max-age=31536000`; // change to tauri options
-	}
-
-	onMount(() => {
-		const userPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-
-		if (userPrefersLight) {
-			setTheme('light');
-		} else {
-			setTheme('dark');
-		}
-	});
+	console.log($theme);
 </script>
 
-<div
-	class="app flex h-full max-h-full flex-col overflow-hidden"
-	class:theme-light={theme === 'light'}
-	class:theme-dark={theme === 'dark'}
->
+<!-- For some reason you can't do this -->
+<!-- <svelte:body class:theme-dark={$theme === 'dark'} class:theme-light={$theme === 'light'} /> -->
+
+<div class="app flex h-full max-h-full flex-col overflow-hidden">
 	<TitleBar />
 
 	<div class="h-full max-h-full overflow-auto">
