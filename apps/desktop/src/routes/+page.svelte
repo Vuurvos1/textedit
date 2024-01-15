@@ -15,8 +15,6 @@
 
 	const dividerColor = 'var(--border-color)';
 	const dividerThickness = '20px';
-
-	console.log($theme);
 </script>
 
 <!-- For some reason you can't do this -->

@@ -11,54 +11,14 @@
 <script lang="ts">
 	import { computePosition, shift, flip, offset } from '@floating-ui/dom';
 	import { tick } from 'svelte';
-	import { clickOutside, portal } from '$lib/actions';
+	import { clickOutside, portal, type MenuItem } from '$lib/actions';
 	import { ChevronRight } from 'lucide-svelte';
 
 	import { createElement, icons } from 'lucide';
 
-	// | { type: 'divider' }
-	type MenuItem = {
-		type?: 'item' | 'divider';
-		label?: string;
-		icon?: keyof typeof icons;
-		action?: () => void;
-		items?: MenuItem[];
-	};
-
 	export let show = false;
 
-	export let menuItems: MenuItem[] = [
-		{
-			label: 'Item 1 that is longer',
-			icon: 'Delete'
-		},
-		{
-			label: 'Item 2',
-			icon: 'Delete',
-			items: [
-				{
-					label: 'Item 2.1'
-				},
-				{
-					label: 'Item 2.2',
-					icon: 'Bug'
-				}
-			]
-		},
-		{
-			type: 'divider'
-		},
-		{
-			label: 'Item 3',
-			icon: 'Edit2'
-		},
-		{
-			label: 'Item 4',
-			action: () => {
-				console.log('item 4');
-			}
-		}
-	];
+	export let menuItems: MenuItem[] = [];
 
 	export let reference: HTMLElement = null;
 	export let target: HTMLElement;
@@ -173,7 +133,10 @@
 							class="hover:bg-hover my-1 flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left text-sm"
 							on:click={() => {
 								// open child menu
-								item.action?.();
+								if (item.action) {
+									item.action();
+									show = false;
+								}
 
 								// TODO: maybe also do this on hover, like the tooltip
 								if (item.items) childrenOpen[i] = true;
@@ -181,8 +144,6 @@
 						>
 							{#if item.icon}
 								{@html createElement(icons[item.icon]).outerHTML}
-								<!-- TODO -->
-								<!-- <i class="material-icons">{item.icon}</i> -->
 							{/if}
 
 							<span>

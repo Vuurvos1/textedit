@@ -1,8 +1,8 @@
 <script lang="ts">
 	import File from './File.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
-	import { draggable, dropzone } from '$lib/actions/dragAndDrop';
-	import { renameFile, BaseDirectory, type FileEntry } from '@tauri-apps/api/fs';
+	import { draggable, dropzone, contextMenu } from '$lib/actions';
+	import { renameFile, BaseDirectory, removeDir, type FileEntry } from '@tauri-apps/api/fs';
 	import { fileTree, closeFolders } from '$lib/stores';
 
 	export let expanded = true;
@@ -40,6 +40,26 @@
 			}
 		}}
 		on:click={toggle}
+		use:contextMenu={{
+			menuItems: [
+				{
+					icon: 'PenLine',
+					label: 'Rename',
+					action: () => {
+						// TODO
+					}
+				},
+				{
+					icon: 'Trash2',
+					label: 'Delete',
+					action: () => {
+						// TODO: confirm modal
+						removeDir(path);
+						fileTree.reload();
+					}
+				}
+			]
+		}}
 	>
 		<div class="transition" class:rotate-90={expanded}>
 			<ChevronRightIcon size="16" />
@@ -52,7 +72,7 @@
 
 <div class:open={expanded || depth === 0} class="files grid">
 	<ul class="overflow-y-hidden {depth > 0 && `ml-6 border-l border-gray-500/40 pl-2`}">
-		{#each children as file}
+		{#each children as file (file.path)}
 			<li>
 				{#if file.children}
 					<svelte:self depth={depth + 1} {...file} />
