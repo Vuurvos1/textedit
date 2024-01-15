@@ -8,7 +8,7 @@ export type MenuItem = {
 	label?: string;
 	icon?: keyof typeof icons;
 	action?: () => void;
-	items?: MenuItem[];
+	items?: MenuItem[]; // TODO: rename to menuItems or rename prop
 };
 
 // ContextMenuOptions

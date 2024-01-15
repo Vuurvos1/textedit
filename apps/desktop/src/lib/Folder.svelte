@@ -1,15 +1,37 @@
 <script lang="ts">
 	import File from './File.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
-	import { draggable, dropzone, contextMenu } from '$lib/actions';
+	import { draggable, dropzone, contextMenu, clickOutside } from '$lib/actions';
 	import { renameFile, BaseDirectory, removeDir, type FileEntry } from '@tauri-apps/api/fs';
 	import { fileTree, closeFolders } from '$lib/stores';
+	import { tick } from 'svelte';
 
 	export let expanded = true;
 	export let name: string;
 	export let path: string;
 	export let children: FileEntry[] = [];
 	export let depth = 0;
+
+	let editing = false;
+	let editedName = name;
+	let nameInput: HTMLInputElement;
+
+	async function handleInput(ev: KeyboardEvent) {
+		if (ev.key === 'Enter') {
+			editing = false;
+
+			const lastIndex = path.lastIndexOf(name);
+			const newPath = path.slice(0, lastIndex) + editedName;
+
+			name = editedName;
+			await renameFile(path, newPath.trim());
+			fileTree.reload();
+		}
+
+		if (ev.key === 'Escape') {
+			editing = false;
+		}
+	}
 
 	function toggle() {
 		expanded = !expanded;
@@ -30,7 +52,9 @@
 <!-- TODO: make folder/file hovers always full width -->
 {#if depth > 0}
 	<button
-		class="folder hover:bg-hover flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm"
+		class:border-purple-500={editing}
+		class:border-transparent={!editing}
+		class="folder hover:bg-hover flex w-full flex-row items-center gap-2 rounded border-2 px-4 py-1 text-sm"
 		use:draggable={JSON.stringify({ name, path })}
 		use:dropzone={{
 			dragoverClasses: ['droppable', 'bg-blue-300'],
@@ -45,8 +69,11 @@
 				{
 					icon: 'PenLine',
 					label: 'Rename',
-					action: () => {
-						// TODO
+					action: async () => {
+						editing = true;
+						editedName = name;
+						await tick();
+						nameInput.focus();
 					}
 				},
 				{
@@ -64,9 +91,23 @@
 		<div class="transition" class:rotate-90={expanded}>
 			<ChevronRightIcon size="16" />
 		</div>
-		<span class="truncate">
-			{name}
-		</span>
+
+		{#if editing}
+			<input
+				bind:this={nameInput}
+				class="w-full bg-transparent"
+				bind:value={editedName}
+				use:clickOutside={() => {
+					editing = false;
+				}}
+				on:keyup|stopPropagation|preventDefault
+				on:keydown|stopPropagation={handleInput}
+			/>
+		{:else}
+			<span class="truncate">
+				{name}
+			</span>
+		{/if}
 	</button>
 {/if}
 
