@@ -238,7 +238,7 @@
 
 		{#if searchResults.length > 0}
 			<ul
-				class="z-10 rounded bg-white shadow"
+				class="z-10 rounded bg-[var(--background-primary)] shadow"
 				use:popperContent={extraOpts}
 				use:clickOutside
 				on:outclick={(ev) => {

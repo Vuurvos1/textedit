@@ -181,7 +181,7 @@
 			</div>
 		</div>
 
-		<div class="flex rounded-full border bg-white px-2 py-1">
+		<div class="flex rounded-full border bg-[var(--background-primary)] px-2 py-1">
 			<label for="search" class="mr-2">
 				<Search />
 			</label>

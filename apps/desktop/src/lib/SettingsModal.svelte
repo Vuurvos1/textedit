@@ -1,42 +1,66 @@
 <script lang="ts">
-	import { settingsModalOpen } from '$lib/stores';
+	import { settingsModalOpen, theme, type Theme } from '$lib/stores';
+	import Modal from '$lib/Modal.svelte';
+
+	const themeOptions = [
+		{
+			name: 'Light',
+			value: 'light'
+		},
+		{
+			name: 'Dark',
+			value: 'dark'
+		},
+		{
+			name: 'System',
+			value: 'system'
+		}
+	];
+
+	let selectedTheme: Theme | 'system' = 'dark';
+
+	$: {
+		if (selectedTheme === 'system') {
+			theme.set(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		} else {
+			theme.set(selectedTheme);
+		}
+	}
 </script>
 
-{#if $settingsModalOpen}
-	<div class="fixed inset-0 z-10">
-		<div
-			on:click={() => {
-				$settingsModalOpen = false;
-			}}
-			role="button"
-			tabindex="-1"
-			aria-label="close modal"
-			class="absolute inset-0 bg-gray-900/10"
-		></div>
+<Modal bind:open={$settingsModalOpen}>
+	<div class="flex min-h-[60vh] flex-row">
+		<div class="border-r border-[var(--border-color)] p-3">
+			<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
 
-		<div
-			class="container relative top-16 z-20 mx-auto flex h-[80vh] max-h-[70vh] max-w-[80vw] flex-row overflow-hidden rounded-lg border border-gray-200 bg-white"
-		>
-			<div class="border-r p-3">
-				<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
+			<ul class="flex flex-col">
+				<li>
+					<!-- TODO: create genric button style -->
+					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
+						>Appearance</button
+					>
+				</li>
 
-				<ul class="flex flex-col">
-					<li>
-						<!-- TODO: create genric button style -->
-						<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-							>Appearance</button
-						>
-					</li>
+				<li>
+					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
+						>Hotkeys</button
+					>
+				</li>
+			</ul>
+		</div>
 
-					<li>
-						<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-							>Hotkeys</button
-						>
-					</li>
-				</ul>
+		<div class="flex flex-col p-3">
+			<div class="text-lg">Settings</div>
+
+			<h3 class="text-base font-medium">Theme</h3>
+			<div class="flex flex-row gap-2">
+				{#each themeOptions as theme}
+					<label>
+						<input type="radio" name="theme" value={theme.value} bind:group={selectedTheme} />
+						{theme.name}
+					</label>
+				{/each}
 			</div>
-
-			<div class="p-3">Settings</div>
 		</div>
 	</div>
-{/if}
+</Modal>

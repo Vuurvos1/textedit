@@ -1,5 +1,4 @@
 import { readDir, type FileEntry } from '@tauri-apps/api/fs';
-import { tick } from 'svelte';
 import { writable } from 'svelte/store';
 
 function sortFileTree(fileTree: FileEntry[]) {
