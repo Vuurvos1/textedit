@@ -1,32 +1,31 @@
 .theme-dark {
-	--color-base-00: theme(colors.neutral[900]);
-	--color-base-05: theme(colors.neutral[800]);
-	--color-base-10: theme(colors.neutral[700]);
-	--color-base-20: theme(colors.neutral[600]);
+	--color-base-50: theme(colors.neutral[950]);
+	--color-base-100: theme(colors.neutral[900]);
+	--color-base-200: theme(colors.neutral[800]);
 	/* 25 */
-	--color-base-30: theme(colors.neutral[500]);
+	--color-base-300: theme(colors.neutral[700]);
 	/* 35 */
-	--color-base-40: theme(colors.neutral[400]);
-	--color-base-50: #808080;
-	--color-base-60: #999999;
-	--color-base-70: #b3b3b3;
-	/* --color-base-80: #cccccc; */
-	/* --color-base-90: #e6e6e6; */
-	/* --color-base-95: #f2f2f2; */
-	--color-base-100: #ffffff;
+	--color-base-400: theme(colors.neutral[600]);
+	--color-base-500: theme(colors.neutral[500]);
+	--color-base-600: theme(colors.neutral[400]);
+	--color-base-700: theme(colors.neutral[300]);
+	--color-base-800: theme(colors.neutral[200]);
+	--color-base-900: theme(colors.neutral[100]);
+	--color-base-950: theme(colors.neutral[50]);
 
 	/* basic colors */
-	/* red, orange, yellow, green, cyan, blue, purple, pink */
+	--color-red: theme(colors.red[500]);
+	--color-orange: theme(colors.orange[500]);
+	--color-yellow: theme(colors.yellow[500]);
+	--color-green: theme(colors.green[500]);
+	--color-cyan: theme(colors.cyan[500]);
+	--color-blue: theme(colors.blue[500]);
+	--color-purple: theme(colors.purple[500]);
 
-	--background-primary: var(--color-base-00);
-	--background-secondary: var(--color-base-05);
-
-	--text-base: var(--color-base-100);
-	--text-secondary: var(--color-base-50);
-
-	color: var(--text-base);
-
-	--border-color: var(--color-base-20);
+	/* normal/base, light/muted, lighter/faint */
+	--text-base: var(--color-base-95);
+	--text-ligth: var(--color-base-90);
+	--text-lighter: var(--color-base-80);
 
 	/* --radius-sm: 0.125rem;
 	--radius: 0.25rem;
@@ -36,32 +35,47 @@
 }
 
 .theme-light {
-	--color-base-00: theme(colors.neutral[100]);
-	--color-base-05: theme(colors.neutral[200]);
-	--color-base-10: theme(colors.neutral[300]);
-	--color-base-20: theme(colors.neutral[400]);
+	--color-base-50: theme(colors.neutral[50]);
+	--color-base-100: theme(colors.neutral[100]);
+	--color-base-200: theme(colors.neutral[200]);
 	/* 25 */
-	--color-base-30: theme(colors.neutral[500]);
+	--color-base-300: theme(colors.neutral[300]);
 	/* 35 */
-	--color-base-40: theme(colors.neutral[600]);
-	--color-base-50: #808080;
-	--color-base-60: #666666;
-	--color-base-70: #4d4d4d;
-	/* --color-base-80: #333333; */
-	/* --color-base-90: #1a1a1a; */
-	/* --color-base-95: #0d0d0d; */
-	--color-base-100: #000000;
+	--color-base-400: theme(colors.neutral[400]);
+	--color-base-500: theme(colors.neutral[500]);
+	--color-base-600: theme(colors.neutral[600]);
+	--color-base-700: theme(colors.neutral[700]);
+	--color-base-800: theme(colors.neutral[800]);
+	--color-base-900: theme(colors.neutral[900]);
+	--color-base-950: theme(colors.neutral[950]);
 
 	/* basic colors */
-	/* red, orange, yellow, green, cyan, blue, purple, pink */
+	--color-red: theme(colors.red[500]);
+	--color-orange: theme(colors.orange[500]);
+	--color-yellow: theme(colors.yellow[500]);
+	--color-green: theme(colors.green[500]);
+	--color-cyan: theme(colors.cyan[500]);
+	--color-blue: theme(colors.blue[500]);
+	--color-purple: theme(colors.purple[500]);
 
-	--background-primary: var(--color-base-00);
-	--background-secondary: var(--color-base-05);
+	/* text */
+	--text-base: var(--color-base-95);
+	--text-ligth: var(--color-base-90);
+	--text-lighter: var(--color-base-80);
+}
 
-	--text-base: var(--color-base-100);
-	--text-secondary: var(--color-base-50);
+body {
+	--background-primary: var(--color-base-50);
+	--background-primary-alt: var(--color-base-100);
+	--background-secondary: var(--color-base-100);
+	--background-secondary-alt: var(--color-base-200);
+
+	/* text muted, text normal text faint */
+	--text-error: var(--color-red);
+	--text-warning: var(--color-orange);
+	--text-success: var(--color-green);
+
+	--border-color: var(--color-base-200);
 
 	color: var(--text-base);
-
-	--border-color: var(--color-base-20);
 }
