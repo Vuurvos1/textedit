@@ -7,7 +7,7 @@
 <button
 	on:click
 	use:tooltip={{ text: name }}
-	class="inline-flex items-center justify-center rounded px-1.5 py-1 transition hover:bg-gray-200"
+	class="hover:bg-hover-icon inline-flex items-center justify-center rounded px-1.5 py-1 transition"
 	type="button"
 >
 	<span class="sr-only">{name}</span>

@@ -161,7 +161,7 @@
 		use:clickOutside={() => {
 			show = false;
 		}}
-		class="fixed left-0 top-0 z-50 rounded border bg-gray-500 px-1 py-2"
+		class="bg-bg-primary-alt fixed left-0 top-0 z-50 rounded-md border px-1 py-2"
 	>
 		<ul>
 			{#each menuItems as item, i}
@@ -170,7 +170,7 @@
 				{:else}
 					<li bind:this={children[i]}>
 						<button
-							class="flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left text-sm hover:bg-gray-400"
+							class="hover:bg-hover my-1 flex w-full flex-row items-center gap-2 rounded px-3 py-1 text-left text-sm"
 							on:click={() => {
 								// open child menu
 								item.action?.();

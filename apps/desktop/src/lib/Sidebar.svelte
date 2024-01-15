@@ -165,7 +165,7 @@
 		</div>
 
 		<div
-			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-full min-h-full w-full overflow-y-auto overflow-x-hidden"
+			class="scrollbar-stable scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-full min-h-full w-full overflow-y-auto overflow-x-hidden pl-2"
 		>
 			<!-- notes -->
 			<Folder name="Home" path="" children={$fileTree} expanded />

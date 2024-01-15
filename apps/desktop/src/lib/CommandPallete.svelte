@@ -16,7 +16,7 @@
 <Modal bind:open={$commandPalleteOpen}>
 	<div class="flex w-full flex-col overflow-hidden">
 		<input
-			class="w-full border-b border-gray-200 bg-transparent px-7 py-3"
+			class="w-full border-b bg-transparent px-7 py-3"
 			type="text"
 			placeholder="Search commands"
 			bind:this={searchInput}
@@ -31,7 +31,7 @@
 					<li>
 						<button
 							tabindex="0"
-							class="flex w-full flex-row items-center rounded px-3 py-2 transition duration-100 hover:bg-gray-200 focus:bg-pink-100"
+							class="hover:bg-hover focus:bg-hover flex w-full flex-row items-center rounded px-3 py-2 transition duration-100"
 							on:click={() => {
 								shortcut.action();
 								commandPalleteOpen.set(false);
@@ -43,7 +43,7 @@
 								{#each [shortcut.meta && (navigator.platform === 'MacIntel' ? '⌘' : 'Ctrl'), shortcut.shift && 'Shift', ...shortcut.keys] as key}
 									{#if key}
 										<kbd
-											class="rounded-lg border border-gray-200 bg-gray-100 px-2 py-1.5 text-xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100"
+											class="bg-bg-primary-alt text-text-base rounded-lg border px-2 py-1.5 text-xs font-semibold"
 											>{key}</kbd
 										>
 									{/if}

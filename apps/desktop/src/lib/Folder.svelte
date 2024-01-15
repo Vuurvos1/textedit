@@ -30,7 +30,7 @@
 <!-- TODO: make folder/file hovers always full width -->
 {#if depth > 0}
 	<button
-		class="folder flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm hover:bg-gray-300/50"
+		class="folder hover:bg-hover flex w-full flex-row items-center gap-2 rounded px-4 py-1 text-sm"
 		use:draggable={JSON.stringify({ name, path })}
 		use:dropzone={{
 			dragoverClasses: ['droppable', 'bg-blue-300'],
@@ -51,7 +51,7 @@
 {/if}
 
 <div class:open={expanded || depth === 0} class="files grid">
-	<ul class="overflow-hidden {depth > 0 && `ml-6 border-l border-gray-500/40 pl-2`}">
+	<ul class="overflow-y-hidden {depth > 0 && `ml-6 border-l border-gray-500/40 pl-2`}">
 		{#each children as file}
 			<li>
 				{#if file.children}

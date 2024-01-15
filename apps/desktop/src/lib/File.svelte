@@ -17,8 +17,8 @@
 
 <!-- TODO add file icons / tags -->
 <button
-	class:bg-gray-200={$note.path === path}
-	class="mb-1 w-full truncate rounded px-4 py-1 pl-4 text-left text-sm outline-gray-500 transition duration-100 hover:bg-gray-300/50 focus:outline"
+	class:bg-hover={$note.path === path}
+	class="hover:bg-hover focus:bg-hover mb-1 w-full truncate rounded px-4 py-1 pl-4 text-left text-sm transition duration-100"
 	use:draggable={JSON.stringify({ name, path })}
 	use:contextMenu={{ options: { target: button } }}
 	bind:this={button}

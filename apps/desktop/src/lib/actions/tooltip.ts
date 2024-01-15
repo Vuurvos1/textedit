@@ -14,23 +14,18 @@ export function tooltip(targetEl: HTMLElement, options: TooltipOptions) {
 		const tooltipEl = Object.assign(document.createElement('div'), {
 			role: 'tooltip',
 			innerHTML: options?.text ?? 'Tooltip',
-			// top: 0;
-			// left: 0;
 			style: `
-          display: none;
+					display: none;
           width: max-content;
           position: absolute;
           font-weight: 600;
-          background: #fefefe;
-          color: black;
+          background: var(--background-secondary-alt);
+          color: var(--text-base);
           padding: 0.25rem 0.5rem;
           border-radius: 0.25rem;
           font-size: .75rem;
+					z-index: 100;
           `
-			// background: var(--tooltip-bg);
-			// color: var(--tooltip-clr);
-			// padding: var(--tooltip-padding);
-			// border-radius: var(--tooltip-rounded);
 		});
 
 		targetEl.after(tooltipEl);

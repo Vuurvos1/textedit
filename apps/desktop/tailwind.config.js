@@ -12,6 +12,9 @@ export default {
 		},
 
 		extend: {
+			borderColor: {
+				DEFAULT: 'var(--border-color)'
+			},
 			colors: {
 				base: {
 					50: 'var(--color-base-50)',
@@ -25,6 +28,24 @@ export default {
 					800: 'var(--color-base-800)',
 					900: 'var(--color-base-900)',
 					950: 'var(--color-base-950)'
+				},
+				bg: {
+					primary: 'var(--background-primary)',
+					'primary-alt': 'var(--background-primary-alt)',
+					secondary: 'var(--background-secondary)',
+					'secondary-alt': 'var(--background-secondary-alt)'
+				},
+				text: {
+					base: 'var(--text-base)',
+					light: 'var(--text-light)',
+					lighter: 'var(--text-lighter)'
+				},
+				border: {
+					divider: 'var(--border-color)'
+				},
+				hover: {
+					icon: 'var(--hover-icon-color)',
+					DEFAULT: 'var(--hover-color)'
 				}
 			}
 		}
