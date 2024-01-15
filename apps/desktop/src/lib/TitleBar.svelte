@@ -5,7 +5,7 @@
 
 <div
 	data-tauri-drag-region
-	class="flex select-none flex-row justify-end border-b border-[var(--border-color)] bg-[var(--color-base-10)]"
+	class="bg-base-100 flex select-none flex-row justify-end border-b border-[var(--border-color)]"
 >
 	<button on:click={() => appWindow.minimize()} aria-label="minimize">
 		<MinusIcon size="14" />

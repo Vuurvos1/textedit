@@ -14,7 +14,7 @@
 	import { clickOutside, portal } from '$lib/actions';
 	import { ChevronRight } from 'lucide-svelte';
 
-	import { createIcons, createElement, icons } from 'lucide';
+	import { createElement, icons } from 'lucide';
 
 	// | { type: 'divider' }
 	type MenuItem = {
@@ -60,7 +60,7 @@
 		}
 	];
 
-	export let reference: HTMLElement;
+	export let reference: HTMLElement = null;
 	export let target: HTMLElement;
 
 	let floating: HTMLElement;

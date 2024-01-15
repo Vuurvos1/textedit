@@ -10,7 +10,6 @@ type ContextMenuOptions = {
 
 // ContextMenuOptions
 export function contextMenu(node: HTMLElement, options: any) {
-	console.log(node, options);
 	const menu = new ContextMenu({
 		target: node,
 		props: {
