@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CommandPallete from '$lib/CommandPallete.svelte';
+	import Editor from '$lib/Editor.svelte';
 	import SearchNoteModal from '$lib/SearchNoteModal.svelte';
 	import SettingsModal from '$lib/SettingsModal.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
@@ -39,11 +40,13 @@
 
 			<main slot="b" class="flex h-full w-full flex-col bg-[var(--background-primary)]">
 				<div class="relative h-full w-full overflow-hidden">
-					<textarea
+					<!-- <textarea
 						on:keydown={debounce(saveNote, 2500)}
 						bind:value={$note.content}
 						class="h-full w-full resize-none border-none bg-transparent p-3 focus:outline-none"
-					></textarea>
+					></textarea> -->
+
+					<Editor />
 
 					<div class="absolute bottom-0 right-0">
 						<WordCounter></WordCounter>
