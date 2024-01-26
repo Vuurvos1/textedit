@@ -20,22 +20,13 @@
 		"@floating-ui/dom": "^1.5.4",
 		"@rich_harris/svelte-split-pane": "^1.1.1",
 		"@tauri-apps/api": "^1.5.3",
-		"@tiptap/core": "^2.0.4",
-		"@tiptap/extension-character-count": "^2.0.4",
-		"@tiptap/extension-code-block-lowlight": "^2.0.4",
-		"@tiptap/extension-image": "^2.0.4",
-		"@tiptap/extension-task-item": "^2.0.4",
-		"@tiptap/extension-task-list": "^2.0.4",
-		"@tiptap/starter-kit": "^2.0.4",
 		"codemirror": "^5.65.16",
 		"focus-trap": "^7.5.4",
 		"highlight.js": "^11.8.0",
 		"hypermd": "^0.3.11",
 		"lowlight": "^2.9.0",
 		"lucide": "^0.309.0",
-		"lucide-svelte": "^0.295.0",
-		"svelte-tiptap": "1.1.1",
-		"tiptap-markdown": "^0.8.2"
+		"lucide-svelte": "^0.295.0"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.40.1",
