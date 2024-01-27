@@ -4,9 +4,12 @@
 	import { debounce } from './utils';
 	import { note, noteChange } from './stores';
 
-	// import 'highlight.js/styles/github-dark.css';
+	import 'highlight.js/styles/github-dark.css';
+	import './editor.postcss';
 
-	// TODO: don't use fromTextArea
+	import CodeMirror from 'codemirror';
+
+	// TODO: don't use fromTextArea after codemirror v6 upgrade
 	let myTextarea: HTMLTextAreaElement;
 	let editor: any; // TODO: get better type
 
@@ -17,12 +20,16 @@
 	});
 
 	onMount(() => {
+		// @ts-ignore needed to get code highlighting working
+		window.CodeMirror = CodeMirror;
+
 		editor = HyperMD.fromTextArea(myTextarea, {
 			lineNumbers: false,
-			gutters: ['CodeMirror-foldgutter', 'HyperMD-goback']
+			gutters: ['CodeMirror-foldgutter', 'HyperMD-goback'],
+			theme: 'textedit'
 		});
 
-		console.log(myTextarea, HyperMD, editor);
+		console.log(myTextarea, HyperMD, editor, CodeMirror);
 
 		editor.on('change', () => {
 			note.updateContent(editor.getValue());
@@ -42,12 +49,7 @@
 	});
 </script>
 
-<!-- <div class="editor h-full overflow-y-auto bg-[var(--background-primary)] p-4">
-</div> -->
-
-<!-- <div class="flex justify-end gap-4 border-t px-4 py-1 text-gray-500"> -->
-
-<div class="editor h-full">
+<div class="editor h-full p-4">
 	<textarea class="h-full" bind:this={myTextarea}></textarea>
 </div>
 
@@ -55,37 +57,4 @@
 	.editor :global(.CodeMirror) {
 		@apply h-full;
 	}
-
-	/* Basic editor styles */
-	/* .editor :global(.ProseMirror > * + *) {
-		@apply mt-3;
-	}
-
-	.editor :global(ul[data-type='taskList']) {
-		@apply list-none p-0;
-	}
-
-	.editor :global(ul[data-type='taskList'] p) {
-		@apply m-0;
-	}
-	.editor :global(ul[data-type='taskList'] li) {
-		@apply flex items-start leading-snug;
-	}
-
-	.editor :global(ul[data-type='taskList'] li > label) {
-		flex: 0 0 auto;
-		@apply m-0 mr-2 select-none;
-	}
-
-	.editor :global(ul[data-type='taskList'] input) {
-		@apply rounded bg-[var(--background-primary)] accent-black;
-	}
-
-	.editor :global(ul[data-type='taskList'] li > div) {
-		@apply mb-0 flex-1;
-	}
-
-	.editor :global(li > p) {
-		@apply my-0;
-	} */
 </style>
