@@ -38,7 +38,7 @@
 		>
 			<Sidebar slot="a" />
 
-			<main slot="b" class="flex h-full w-full flex-col bg-[var(--background-primary)]">
+			<main slot="b" class="bg-bg-primary flex h-full w-full flex-col">
 				<div class="relative h-full w-full overflow-hidden">
 					<!-- <textarea
 						on:keydown={debounce(saveNote, 2500)}

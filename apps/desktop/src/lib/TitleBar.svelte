@@ -5,7 +5,7 @@
 
 <div
 	data-tauri-drag-region
-	class="bg-base-100 flex select-none flex-row justify-end border-b border-[var(--border-color)]"
+	class="bg-base-100 border-border-divider flex select-none flex-row justify-end border-b"
 >
 	<button on:click={() => appWindow.minimize()} aria-label="minimize">
 		<MinusIcon size="14" />
@@ -20,6 +20,6 @@
 
 <style lang="postcss">
 	button {
-		@apply p-2 transition-colors duration-75 hover:bg-[var(--color-base-30)];
+		@apply hover:bg-base-300 p-2 transition-colors duration-75;
 	}
 </style>
