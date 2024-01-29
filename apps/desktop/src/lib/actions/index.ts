@@ -4,3 +4,4 @@ export * from './focusTrap';
 export * from './tooltip';
 export * from './contextMenu';
 export * from './dragAndDrop';
+export * from './escapeKeydown';

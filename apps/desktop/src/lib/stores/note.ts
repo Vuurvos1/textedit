@@ -1,4 +1,4 @@
-import { get, writable, readable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { readTextFile, writeTextFile, type FileEntry } from '@tauri-apps/api/fs';
 
 // TODO, change to readable only store?
@@ -56,3 +56,5 @@ function createNote() {
 }
 
 export const note = createNote();
+
+// TODO: keep track of last opened note and try to open on startup, else grab first note in list?
