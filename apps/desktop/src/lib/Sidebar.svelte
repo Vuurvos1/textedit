@@ -100,8 +100,8 @@
 	// TODO: when moving files, if 2 have the same name append (1) to the end of the name or more if needed
 </script>
 
-<div class="flex h-full flex-row bg-[var(--background-secondary)]">
-	<div class="flex flex-col gap-1 border-r border-[var(--border-color)] px-2 py-3">
+<div class="bg-bg-secondary flex h-full flex-row">
+	<div class="border-border-divider flex flex-col gap-1 border-r px-2 py-3">
 		<IconButton
 			name="Search"
 			on:click={() => {

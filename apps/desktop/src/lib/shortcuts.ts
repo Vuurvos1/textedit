@@ -32,15 +32,6 @@ export const shortcuts: KeyboardShortcut[] = [
 			commandPalleteOpen.set(!get(commandPalleteOpen));
 			console.log('Open command palette');
 		}
-	},
-	{
-		name: 'Cancel',
-		keys: ['Escape'],
-		meta: false,
-		description: 'Cancel current action',
-		action: () => {
-			console.log('Cancel action');
-		}
 	}
 ];
 

@@ -23,6 +23,7 @@
 	--color-cyan: theme(colors.cyan[500]);
 	--color-blue: theme(colors.blue[500]);
 	--color-purple: theme(colors.purple[500]);
+	--color-pink: theme(colors.pink[500]);
 }
 
 .theme-light {
@@ -50,6 +51,7 @@
 	--color-cyan: theme(colors.cyan[500]);
 	--color-blue: theme(colors.blue[500]);
 	--color-purple: theme(colors.purple[500]);
+	--color-pink: theme(colors.pink[500]);
 }
 
 body {
@@ -67,6 +69,18 @@ body {
 	--text-warning: var(--color-orange);
 	--text-success: var(--color-green);
 
+	--code-noraml: var(text-light);
+	--code-comment: var(--text-lighter);
+	--code-function: var(--color-yellow);
+	--code-important: var(--color-orange);
+	--code-keyword: var(--color-pink);
+	--code-operator: var(--color-red);
+	--code-property: var(--color-cyan);
+	--code-punctuation: var(--text-light);
+	--code-string: var(--color-green);
+	--code-tag: var(--color-red);
+	--code-value: var(--color-purple);
+
 	--border-color: var(--color-base-300);
 
 	--radius-sm: 0.125rem;
@@ -79,6 +93,11 @@ body {
 	--hover-color: var(--text-light);
 
 	--divider-color: var(--color-base-300);
+
+	--font-default: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter',
+		'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Microsoft YaHei Light', sans-serif;
+
+	--font-text: var(--font-text-override, '??'), var(--font-text-theme, '??'), var(--font-default);
 
 	color: var(--text-base);
 }

@@ -30,7 +30,7 @@
 
 <Modal bind:open={$settingsModalOpen}>
 	<div class="flex min-h-[60vh] flex-row">
-		<div class="border-r border-[var(--border-color)] p-3">
+		<div class="border-border-divider border-r p-3">
 			<h2 class="mb-1 px-3 text-sm font-semibold text-gray-500">Settings</h2>
 
 			<ul class="flex flex-col">

@@ -1,6 +1,9 @@
 import { get, writable } from 'svelte/store';
 import { readTextFile, writeTextFile, type FileEntry } from '@tauri-apps/api/fs';
 
+// TODO, change to readable only store?
+export const noteChange = writable(Symbol());
+
 function createNote() {
 	const store = writable({
 		path: '',
@@ -11,6 +14,7 @@ function createNote() {
 
 	async function save() {
 		const note = get(store);
+		console.info('Saving note...', note);
 
 		if (!note.path || !note.content) return;
 
@@ -27,6 +31,12 @@ function createNote() {
 			name: file.name,
 			content: fileContents
 		});
+
+		noteChange.set(Symbol());
+	}
+
+	async function updateContent(content: string) {
+		update((note) => ({ ...note, content }));
 	}
 
 	return {
@@ -35,6 +45,7 @@ function createNote() {
 		set,
 		load,
 		save,
+		updateContent,
 		reset: () =>
 			set({
 				path: '',
@@ -45,3 +56,5 @@ function createNote() {
 }
 
 export const note = createNote();
+
+// TODO: keep track of last opened note and try to open on startup, else grab first note in list?
