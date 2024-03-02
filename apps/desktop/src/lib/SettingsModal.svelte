@@ -36,15 +36,15 @@
 			<ul class="flex flex-col">
 				<li>
 					<!-- TODO: create genric button style -->
-					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-						>Appearance</button
-					>
+					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400">
+						Appearance
+					</button>
 				</li>
 
 				<li>
-					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400"
-						>Hotkeys</button
-					>
+					<button class="w-full rounded px-3 py-0.5 text-left transition hover:bg-blue-400">
+						Hotkeys
+					</button>
 				</li>
 			</ul>
 		</div>
@@ -61,6 +61,8 @@
 					</label>
 				{/each}
 			</div>
+
+			<p class="mt-full mt-auto text-gray-400">Version: 0.0.1-beta2</p>
 		</div>
 	</div>
 </Modal>
