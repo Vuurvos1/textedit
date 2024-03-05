@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { settingsModalOpen, theme, type Theme } from '$lib/stores';
 	import Modal from '$lib/Modal.svelte';
+	import { getVersion } from '@tauri-apps/api/app';
+
+	const appVersion = getVersion();
 
 	const themeOptions = [
 		{
@@ -62,7 +65,9 @@
 				{/each}
 			</div>
 
-			<p class="mt-full mt-auto text-gray-400">Version: 0.0.1-beta2</p>
+			{#await appVersion then number}
+				<p class="mt-full mt-auto text-gray-400">Version: is {number}</p>
+			{/await}
 		</div>
 	</div>
 </Modal>

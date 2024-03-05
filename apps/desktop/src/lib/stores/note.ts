@@ -46,12 +46,15 @@ function createNote() {
 		load,
 		save,
 		updateContent,
-		reset: () =>
+		reset: () => {
 			set({
 				path: '',
 				name: '',
 				content: ''
-			})
+			});
+
+			noteChange.set(Symbol());
+		}
 	};
 }
 

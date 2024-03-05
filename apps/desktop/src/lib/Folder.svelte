@@ -1,10 +1,13 @@
 <script lang="ts">
 	import File from './File.svelte';
+	import DeleteDialog from './DeleteDialog.svelte';
 	import { ChevronRightIcon } from 'lucide-svelte';
 	import { draggable, dropzone, contextMenu, clickOutside } from '$lib/actions';
 	import { renameFile, BaseDirectory, removeDir, type FileEntry } from '@tauri-apps/api/fs';
 	import { fileTree, closeFolders } from '$lib/stores';
 	import { tick } from 'svelte';
+
+	import { note } from '$lib/stores';
 
 	export let expanded = true;
 	export let name: string;
@@ -15,6 +18,8 @@
 	let editing = false;
 	let editedName = name;
 	let nameInput: HTMLInputElement;
+
+	let showConfirmDialog = false;
 
 	async function handleInput(ev: KeyboardEvent) {
 		if (ev.key === 'Enter') {
@@ -79,10 +84,8 @@
 				{
 					icon: 'Trash2',
 					label: 'Delete',
-					action: () => {
-						// TODO: confirm modal
-						removeDir(path);
-						fileTree.reload();
+					action: async () => {
+						showConfirmDialog = true;
 					}
 				}
 			]
@@ -109,6 +112,23 @@
 			</span>
 		{/if}
 	</button>
+
+	{#if showConfirmDialog}
+		<DeleteDialog
+			bind:open={showConfirmDialog}
+			path={name}
+			onConfirm={async () => {
+				await removeDir(path, { recursive: true });
+				fileTree.reload();
+				showConfirmDialog = false;
+
+				// only reset note if it's open
+				if ($note.path.startsWith(path)) {
+					note.reset();
+				}
+			}}
+		/>
+	{/if}
 {/if}
 
 <div class:open={expanded || depth === 0} class="files grid">

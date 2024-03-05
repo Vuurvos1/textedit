@@ -1,5 +1,12 @@
-/** @type {import('svelte/action').Action}  */
-export function draggable(node: HTMLElement, data: Record<string, any>) {
+export type DropEffect = 'move' | 'none' | 'link' | 'copy';
+
+export type DropZoneOptions = {
+	dropEffect?: DropEffect;
+	dragoverClasses?: string[];
+	onDropzone?: (data: string, ev: DragEvent) => void;
+};
+
+export function draggable(node: HTMLElement, data: string) {
 	let state = data;
 
 	node.draggable = true;
@@ -22,19 +29,12 @@ export function draggable(node: HTMLElement, data: Record<string, any>) {
 	};
 }
 
-/** @type {import('svelte/action').Action}  */
-export function dropzone(
-	node: HTMLElement,
-	options: {
-		dropEffect?: 'move' | 'none' | 'link' | 'copy';
-		dragoverClasses?: string[];
-		onDropzone?: (data: any, ev: DragEvent) => void;
-	}
-) {
-	let state = {
+// /** @type {import('svelte/action').Action}  */
+export function dropzone(node: HTMLElement, options: DropZoneOptions) {
+	let state: Record<string, any> & DropZoneOptions = {
 		dropEffect: 'move',
 		dragoverClasses: ['dragover'],
-		onDropzone: () => {},
+		onDropzone: (data: string, ev: DragEvent) => {},
 		...options
 	};
 
@@ -57,12 +57,10 @@ export function dropzone(
 
 	function handleDrop(ev: DragEvent) {
 		ev.preventDefault();
+		// ev.target.classList.remove(state.dragoverClass);
 		const data = ev.dataTransfer.getData('text/plain');
 		node.classList.remove(...state.dragoverClasses);
 		state.onDropzone(data, ev);
-
-		// ev.target.classList.remove(state.dragoverClass);
-		// const data = ev.dataTransfer.getData('text/plain');
 		// node.dispatchEvent(new CustomEvent('drop', {detail: data}));
 	}
 

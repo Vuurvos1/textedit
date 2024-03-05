@@ -11,10 +11,9 @@
 
 	// TODO: don't use fromTextArea after codemirror v6 upgrade
 	let myTextarea: HTMLTextAreaElement;
-	let editor: any; // TODO: get better type
+	let editor: CodeMirror;
 
 	const unsubscribe = noteChange.subscribe(() => {
-		console.log('note changed', $note.path);
 		if (!editor) return;
 		editor.setValue($note.content);
 	});
@@ -29,8 +28,6 @@
 			theme: 'textedit'
 		});
 
-		console.log(myTextarea, HyperMD, editor, CodeMirror);
-
 		editor.on('change', () => {
 			note.updateContent(editor.getValue());
 		});
@@ -43,12 +40,13 @@
 		);
 
 		return () => {
-			// editor.destroy();
+			// cleanup
 			unsubscribe();
 		};
 	});
 </script>
 
+<!-- TODO: add empty state -->
 <div class="editor h-full p-4">
 	<textarea class="h-full" bind:this={myTextarea}></textarea>
 </div>

@@ -3,10 +3,14 @@
 	import { draggable, contextMenu, clickOutside } from '$lib/actions';
 	import { removeFile, renameFile, type FileEntry } from '@tauri-apps/api/fs';
 	import { tick } from 'svelte';
+	import DeleteDialog from '$lib/DeleteDialog.svelte';
 
 	export let name = '';
 	export let path: string;
 	export const children: FileEntry[] = [];
+
+	let showConfirmDialog = false;
+
 	$: type = name.slice(name.lastIndexOf('.') + 1);
 	$: splitName = name.slice(0, name.lastIndexOf('.'));
 
@@ -58,9 +62,7 @@
 				icon: 'Trash2',
 				label: 'Delete',
 				action: () => {
-					// TODO: confirm modal
-					removeFile(path);
-					fileTree.reload();
+					showConfirmDialog = true;
 				}
 			}
 		]
@@ -86,5 +88,18 @@
 	<!-- <span>{type}</span> -->
 </button>
 
-<style>
-</style>
+{#if showConfirmDialog}
+	<DeleteDialog
+		bind:open={showConfirmDialog}
+		title="Delete file"
+		path={name}
+		onConfirm={async () => {
+			await removeFile(path);
+			fileTree.reload();
+			showConfirmDialog = false;
+
+			// only reset if the deleted file is the current note
+			if ($note.path === path) note.reset();
+		}}
+	/>
+{/if}
