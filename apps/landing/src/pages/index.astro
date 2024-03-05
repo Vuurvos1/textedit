@@ -1,12 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+export const prerender = true;
 ---
 
 <Layout title="Welcome to Astro.">
 
 
 	<main class="relative min-h-screen dark:bg-gray-900">
-		<section class="landing relative z-10 flex min-h-screen flex-col justify-center border-b px-4">
+		<section class="landing relative z-10 flex min-h-[90vh] flex-col justify-center border-b px-4">
 			<div
 				class="background absolute inset-0 bottom-0 -z-10 bg-slate-50 bg-bottom bg-no-repeat dark:bg-[#0B1120]"
 			/>
@@ -15,7 +17,7 @@ import Layout from '../layouts/Layout.astro';
 				<h1
 					class="mb-12 text-center text-4xl font-extrabold text-slate-900 dark:text-white sm:text-5xl lg:text-6xl"
 				>
-					A quicker way to take notes
+					A faster way to take notes
 				</h1>
 	
 				<a
@@ -28,11 +30,20 @@ import Layout from '../layouts/Layout.astro';
 		</section>
 	
 		<section
-			class="mx-auto flex max-w-7xl flex-col px-4 pb-4 pt-24 sm:px-6 sm:pb-8 md:pb-12 lg:px-8 lg:pb-20"
+			class="mx-auto text-white flex max-w-7xl flex-col px-4 pb-4 pt-24 sm:px-6 sm:pb-8 md:pb-12 lg:px-8 lg:pb-20"
 		>
 			<h2 class="pb-6 text-4xl font-bold dark:text-white">Features</h2>
 	
-			<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+			<ul class="list-disc list-inside">
+				<li>
+					You can edit text with it
+				</li>
+				<li>
+					Markdown support
+				</li>
+			</ul>
+
+			<!-- <ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				<li
 					class="rounded-xl border border-gray-500 px-4 py-6 transition-colors duration-300 hover:bg-slate-200 dark:text-white dark:hover:bg-slate-800"
 				>
@@ -56,9 +67,9 @@ import Layout from '../layouts/Layout.astro';
 					<p>
 						Enhance the visual appeal and readability of your notes with effortless markdown
 						formatting. Say goodbye to plain text and hello to professional-looking, eye-catching
-						notes.
+						notes. -->
 						<!-- links to docs? -->
-					</p>
+					<!-- </p>
 				</li>
 				<li
 					class="rounded-xl border border-gray-500 px-4 py-6 transition-colors duration-300 hover:bg-slate-200 dark:text-white dark:hover:bg-slate-800"
@@ -119,7 +130,7 @@ import Layout from '../layouts/Layout.astro';
 						accessible directly from your browser.
 					</p>
 				</li>
-			</ul>
+			</ul> -->
 		</section>
 	</main>
 
