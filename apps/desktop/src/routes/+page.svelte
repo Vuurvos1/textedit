@@ -1,21 +1,14 @@
 <script lang="ts">
 	import CommandPallete from '$lib/CommandPallete.svelte';
 	import Editor from '$lib/Editor.svelte';
+	import Ribbon from '$lib/Ribbon.svelte';
 	import SearchNoteModal from '$lib/SearchNoteModal.svelte';
 	import SettingsModal from '$lib/SettingsModal.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
 	import TitleBar from '$lib/TitleBar.svelte';
 	import WordCounter from '$lib/WordCounter.svelte';
-	import { note, theme } from '$lib/stores';
-	import { debounce } from '$lib/utils';
-	import { SplitPane } from '@rich_harris/svelte-split-pane';
 
-	function saveNote() {
-		note.save();
-	}
-
-	const dividerColor = 'var(--border-color)';
-	const dividerThickness = '20px';
+	import { PaneGroup, Pane, PaneResizer } from 'paneforge';
 </script>
 
 <!-- For some reason you can't do this -->
@@ -24,36 +17,38 @@
 <div class="app flex h-full max-h-full flex-col overflow-hidden">
 	<TitleBar />
 
-	<div class="h-full max-h-full overflow-auto">
-		<!-- TODO: maybe do own implementation since this one can feel a bit laggy -->
-		<SplitPane
-			type="horizontal"
-			min="240px"
-			max="-240px"
-			pos="10%"
-			priority="min"
-			--thickness={dividerThickness}
-			--color={dividerColor}
-			id="split-pane"
-		>
-			<Sidebar slot="a" />
+	<div class="bg-bg-secondary flex h-full max-h-full flex-row overflow-auto">
+		<!-- Ribbon -->
+		<!-- Sidebar/Tabs -->
+		<!-- Editor -->
 
-			<main slot="b" class="bg-bg-primary flex h-full w-full flex-col">
-				<div class="relative h-full w-full overflow-hidden">
-					<!-- <textarea
-						on:keydown={debounce(saveNote, 2500)}
-						bind:value={$note.content}
-						class="h-full w-full resize-none border-none bg-transparent p-3 focus:outline-none"
-					></textarea> -->
+		<Ribbon />
 
-					<Editor />
+		<PaneGroup direction="horizontal" class="flex h-full w-full ">
+			<Pane defaultSize={20} class="flex flex-col">
+				<Sidebar />
+			</Pane>
 
-					<div class="absolute bottom-0 right-0">
-						<WordCounter></WordCounter>
+			<!-- bg-background -->
+			<!-- bg-muted -->
+			<!-- bg-border -->
+
+			<!-- after:bg-pink-400/10 -->
+			<PaneResizer
+				class="bg-border focus-visible:ring-ring relative flex w-px items-center justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-3 after:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1"
+			></PaneResizer>
+			<Pane defaultSize={50} class="">
+				<main class="bg-bg-primary flex h-full w-full flex-col">
+					<div class="relative flex h-full w-full overflow-hidden">
+						<Editor />
+
+						<div class="absolute bottom-0 right-0">
+							<WordCounter></WordCounter>
+						</div>
 					</div>
-				</div>
-			</main>
-		</SplitPane>
+				</main>
+			</Pane>
+		</PaneGroup>
 	</div>
 
 	<!-- TODO make it so only 1 modal can be open at a time? -->
@@ -61,9 +56,3 @@
 	<CommandPallete />
 	<SettingsModal />
 </div>
-
-<style lang="postcss">
-	.app :global([data-pane='split-pane'] .divider:hover) {
-		--sp-color: theme(colors.indigo.500);
-	}
-</style>
