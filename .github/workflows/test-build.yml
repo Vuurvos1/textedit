@@ -61,4 +61,4 @@ jobs:
         run: pnpm install
 
       - name: Build the app
-        uses: pnpm tauri build
+        run: pnpm tauri build
