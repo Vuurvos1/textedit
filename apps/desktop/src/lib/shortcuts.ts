@@ -2,6 +2,8 @@ import { toggleFileSearch } from '$lib/stores';
 import { commandPalleteOpen, searchNoteOpen } from '$lib/stores/state';
 import { get } from 'svelte/store';
 
+// TODO: rename to commands
+
 export type KeyboardShortcut = {
 	name: string;
 	keys: string[];

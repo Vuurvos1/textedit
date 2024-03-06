@@ -78,7 +78,7 @@
 	// TODO: when moving files, if 2 have the same name append (1) to the end of the name or more if needed
 </script>
 
-<div class="grid max-h-full w-full overflow-hidden py-2">
+<div class="grid h-full w-full grid-cols-1 grid-rows-[auto_1fr] overflow-hidden py-2">
 	<div class="mb-3 flex w-full flex-row justify-center gap-1 px-3">
 		<IconButton name="New note" on:click={createFile}>
 			<PenSquareIcon size="20" />
